@@ -1,0 +1,26 @@
+@attribute attrib1 numeric
+@attribute attrib2 numeric
+@attribute class {groupA,groupB}
+
+@data
+
+0., 0., groupA
+1., 0., groupA
+2., 0., groupA
+3., 0., groupA
+4., 0., groupA
+0., 6., groupB
+1., 6., groupB
+2., 6., groupB
+3., 6., groupB
+4., 6., groupB
+0., 0., groupA
+1., 0., groupA
+2., 0., groupA
+3., 0., groupA
+4., 0., groupA
+4., 6., groupB
+2., 4., groupB
+2., 5., groupB
+2., 7., groupB
+2., 8., groupB

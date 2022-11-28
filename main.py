@@ -1,16 +1,17 @@
 # This is a sample Python script.
 from matplotlib import pyplot as plt
 from sklearn.neighbors import NearestNeighbors
+from sklearn.cluster import KMeans
 from scipy.io import arff
 import pandas as pd
 import numpy as np
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-dataset_paths = {'sea_abrupt': 'datasets/sea_1_abrupt_drift_0_noise_balanced.arff',
-                 'agraw1_abrupt': 'datasets/agraw1_1_abrupt_drift_0_noise_balanced.arff',
-                 'agraw2_abrupt': 'datasets/agraw2_1_abrupt_drift_0_noise_balanced.arff'}
+dataset_paths = {
+    '2d_testing': 'datasets/test_2d.arff',
+    'sea_abrupt': 'datasets/sea_1_abrupt_drift_0_noise_balanced.arff',
+    'agraw1_abrupt': 'datasets/agraw1_1_abrupt_drift_0_noise_balanced.arff',
+    'agraw2_abrupt': 'datasets/agraw2_1_abrupt_drift_0_noise_balanced.arff'
+}
 
 
 def accept_data(file_path):
@@ -40,17 +41,69 @@ def divide_to_batches(df_reference, num_ref_batches, df_test, num_test_batches):
     return reference_batch_list, test_batch_list
 
 
-def detect_cd(ref_window, test_window):
-    """Detect whether a concept drift occurred based on a reference and a testing window"""
+def join_predict_split(df_ref_window, df_test_window):
+    """Join points from two windows, predict their labels through kmeans, then separate them again"""
+    df_ref_window.insert(df_ref_window.shape[1], 'window', 'ref')
+    df_test_window.insert(df_test_window.shape[1], 'window', 'test')
+    print(df_ref_window)
+    df_union = pd.concat([df_ref_window, df_test_window])
+    print(df_union)
+    df_class_window = df_union[['class', 'window']]
+    df_no_labels = df_union.drop(columns=['class', 'window'])
+    print(df_no_labels.head())
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(df_no_labels)
+    labels = KMeans(n_clusters=2, random_state=0).fit_predict(df_no_labels)
+    print(kmeans.cluster_centers_)
+    print('labels', labels)
+    df_predicted_labels = df_no_labels
+    df_predicted_labels['labelprediction'] = labels
+    df_predicted_labels = df_predicted_labels.join(df_class_window)
+    print('df_predicted_labels\n', df_predicted_labels)
 
+    ref_mask = df_predicted_labels['window'] == 'ref'
+    plus_mask = df_predicted_labels['labelprediction'] == 1
+
+    ref_plus_mask = ref_mask & plus_mask
+    ref_minus_mask = ref_mask & (~plus_mask)
+    test_plus_mask = (~ref_mask) & plus_mask
+    test_minus_mask = (~ref_mask) & (~plus_mask)
+
+    df_ref_plus = df_predicted_labels[ref_plus_mask]
+    df_ref_minus = df_predicted_labels[ref_minus_mask]
+    df_test_plus = df_predicted_labels[test_plus_mask]
+    df_test_minus = df_predicted_labels[test_minus_mask]
+
+    print('df_ref_plus', df_ref_plus)
+    print('df_test_minus', df_test_minus)
+
+    return df_ref_plus, df_ref_minus, df_test_plus, df_test_minus
+
+
+def get_u_v0_v1(df_u, df_v0, df_v1):
+    columns_to_drop = ['labelprediction', 'class', 'window']
+    u = df_u.drop(columns=columns_to_drop)
+    v0 = df_v0.drop(columns=columns_to_drop)
+    v1 = df_v1.drop(columns=columns_to_drop)
+
+    return u, v0, v1
+
+
+def compute_beta(df_u, df_v0, df_v1):
+    u, v0, v1 = get_u_v0_v1(df_u, df_v0, df_v1)
+    neigh = NearestNeighbors(n_neighbors=1)
+    neigh.fit(u)
+    neighbors_v0 = neigh.kneighbors(v0)
+    print('neighbors_v0', neighbors_v0)
+
+
+def detect_cd(df_ref_window, df_test_window):
+    """Detect whether a concept drift occurred based on a reference and a testing window"""
+    df_ref_plus, df_ref_minus, df_test_plus, df_test_minus = join_predict_split(df_ref_window, df_test_window)
+    beta_minus = compute_beta(df_ref_plus, df_ref_minus, df_test_minus)
+    beta_plus = compute_beta(df_ref_minus, df_ref_plus, df_test_plus)
 
 def drift_occurrences_list(reference_batch_list, test_batch_list):
-    """Give a list of all batches where the algorithm detected drift"""
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    """Return a list of all batches where the algorithm detected drift"""
 
 
 def kneighbors_test():
@@ -73,10 +126,8 @@ def print_batch_info(batch_list, msg):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    df_reference, df_test = get_pandas_reference_testing(dataset_paths['sea_abrupt'], 0.3)
-    ref_batch_list, test_batch_list = divide_to_batches(df_reference, 3, df_test, 7)
+    df_reference, df_test = get_pandas_reference_testing(dataset_paths['2d_testing'], 0.5)
+    ref_batch_list, test_batch_list = divide_to_batches(df_reference, 1, df_test, 1)
     print_batch_info(ref_batch_list, 'reference batches')
     print_batch_info(test_batch_list, 'testing batches')
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    detect_cd(ref_batch_list[0], test_batch_list[0])
