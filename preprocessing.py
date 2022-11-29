@@ -15,7 +15,7 @@ def accept_data(file_path):
     return df
 
 
-def get_pandas_reference_testing(file_path, test_fraction=0.7):
+def get_pandas_reference_testing(file_path, test_fraction):
     """Convert an arff file to reference and testing pandas dataframes"""
     df = accept_data(file_path)
     print('accepted df\n', df)
@@ -32,6 +32,12 @@ def divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test,
     X_test_batches = np.array_split(df_X_test, num_test_batches)
     y_test_batches = np.array_split(df_y_test, num_test_batches)
     return X_ref_batches, y_ref_batches, X_test_batches, y_test_batches
+
+
+def get_batches(file_path, test_fraction, num_ref_batches, num_test_batches):
+    df_X_ref, df_X_test, df_y_ref, df_y_test = \
+        get_pandas_reference_testing(file_path, test_fraction)
+    return divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test, num_test_batches)
 
 
 def print_batch_info(batch_list, msg):

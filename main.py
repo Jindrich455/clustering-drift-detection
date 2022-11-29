@@ -12,12 +12,10 @@ dataset_paths = {
 
 
 if __name__ == '__main__':
-    df_X_ref, df_X_test, df_y_ref, df_y_test =\
-        preprocessing.get_pandas_reference_testing(dataset_paths['drift_2d'], 0.5)
     X_ref_batches, y_ref_batches, X_test_batches, y_test_batches =\
-        preprocessing.divide_to_batches(df_X_ref, df_y_ref, 1, df_X_test, df_y_test, 1)
+        preprocessing.get_batches(dataset_paths['drift_2d'], test_fraction=0.5, num_ref_batches=1, num_test_batches=1)
     preprocessing.print_batches([X_ref_batches, y_ref_batches, X_test_batches, y_test_batches],
                                 ['reference data', 'reference labels', 'testing data', 'testing labels'])
-    drift_happening = ucdd.detect_cd(df_X_ref, df_X_test)
+    drift_happening = ucdd.detect_cd(X_ref_batches[0], X_test_batches[0])
     if drift_happening:
         print('DRIFT!!!!')
