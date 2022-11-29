@@ -15,8 +15,8 @@ dataset_paths = {
 
 if __name__ == '__main__':
     X_ref_batches, y_ref_batches, X_test_batches, y_test_batches =\
-        preprocessing.get_batches(dataset_paths['drift_2d'], test_fraction=0.5, num_ref_batches=1, num_test_batches=1,
+        preprocessing.get_batches(dataset_paths['sea_abrupt'], test_fraction=0.7, num_ref_batches=1, num_test_batches=7,
                                   scaling=True, scaler=MinMaxScaler())
-    preprocessing.print_batches([X_ref_batches, y_ref_batches, X_test_batches, y_test_batches],
-                                ['reference data', 'reference labels', 'testing data', 'testing labels'])
+    # preprocessing.print_batches([X_ref_batches, y_ref_batches, X_test_batches, y_test_batches],
+    #                             ['reference data', 'reference labels', 'testing data', 'testing labels'])
     print('drift detected in testing batches:', ucdd.drift_occurrences_list(X_ref_batches, X_test_batches))
