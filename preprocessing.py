@@ -21,23 +21,30 @@ def get_pandas_reference_testing(file_path, test_fraction=0.7):
     print('accepted df\n', df)
     df_x = df.drop(columns='class')
     df_y = df[['class']]
-    reference, testing, ref_labels, test_labels =\
+    df_X_ref, df_X_test, df_y_ref, df_y_test =\
         sklearn.model_selection.train_test_split(df_x, df_y, test_size=test_fraction, shuffle=False)
-    print('reference', reference)
-    print('ref_labels', ref_labels)
-    print('testing', testing)
-    print('test_labels', test_labels)
-    return reference, testing
+    return df_X_ref, df_X_test, df_y_ref, df_y_test
 
 
-def divide_to_batches(df_reference, num_ref_batches, df_test, num_test_batches):
-    reference_batch_list = np.array_split(df_reference, num_ref_batches)
-    test_batch_list = np.array_split(df_test, num_test_batches)
-    return reference_batch_list, test_batch_list
+def divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test, num_test_batches):
+    X_ref_batches = np.array_split(df_X_ref, num_ref_batches)
+    y_ref_batches = np.array_split(df_y_ref, num_ref_batches)
+    X_test_batches = np.array_split(df_X_test, num_test_batches)
+    y_test_batches = np.array_split(df_y_test, num_test_batches)
+    return X_ref_batches, y_ref_batches, X_test_batches, y_test_batches
 
 
 def print_batch_info(batch_list, msg):
-    print('Number of ' + msg, len(batch_list))
+    print('Number of batches with ' + msg + ':', len(batch_list))
     print('# rows per batch')
     for batch in batch_list:
         print(batch.shape[0])
+        print('First 10 entries:')
+        print(batch.head())
+
+
+def print_batches(batches, batch_msgs):
+    zipped = zip(batches, batch_msgs)
+    for batch, msg in zipped:
+        print_batch_info(batch, msg)
+
