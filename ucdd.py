@@ -63,5 +63,12 @@ def detect_cd(df_X_ref, df_X_test, threshold=0.05):
         return False
 
 
-def drift_occurrences_list(reference_batch_list, test_batch_list):
+def drift_occurrences_list(X_ref_batches, X_test_batches):
     """Return a list of all batches where the algorithm detected drift"""
+    # there should always be exactly one reference batch
+    df_X_ref = X_ref_batches[0]
+    drift_signal_locations = []
+    for i, df_X_test in enumerate(X_test_batches):
+        if detect_cd(df_X_ref, df_X_test):
+            drift_signal_locations.append(i)
+    return drift_signal_locations

@@ -1,4 +1,6 @@
 # This is a sample Python script.
+from sklearn.preprocessing import MinMaxScaler
+
 import preprocessing
 import ucdd
 
@@ -13,9 +15,8 @@ dataset_paths = {
 
 if __name__ == '__main__':
     X_ref_batches, y_ref_batches, X_test_batches, y_test_batches =\
-        preprocessing.get_batches(dataset_paths['drift_2d'], test_fraction=0.5, num_ref_batches=1, num_test_batches=1)
+        preprocessing.get_batches(dataset_paths['drift_2d'], test_fraction=0.5, num_ref_batches=1, num_test_batches=1,
+                                  scaling=True, scaler=MinMaxScaler())
     preprocessing.print_batches([X_ref_batches, y_ref_batches, X_test_batches, y_test_batches],
                                 ['reference data', 'reference labels', 'testing data', 'testing labels'])
-    drift_happening = ucdd.detect_cd(X_ref_batches[0], X_test_batches[0])
-    if drift_happening:
-        print('DRIFT!!!!')
+    print('drift detected in testing batches:', ucdd.drift_occurrences_list(X_ref_batches, X_test_batches))

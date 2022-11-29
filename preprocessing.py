@@ -6,6 +6,7 @@ import numpy as np
 # LABELENCODER!!!
 # LABELENCODER!!!
 # LABELENCODER!!!
+from sklearn.preprocessing import MinMaxScaler
 
 
 def accept_data(file_path):
@@ -15,11 +16,12 @@ def accept_data(file_path):
     return df
 
 
-def get_pandas_reference_testing(file_path, test_fraction):
+def get_pandas_reference_testing(file_path, test_fraction, scaling, scaler):
     """Convert an arff file to reference and testing pandas dataframes"""
     df = accept_data(file_path)
-    print('accepted df\n', df)
     df_x = df.drop(columns='class')
+    if scaling:
+        df_x[df_x.columns] = scaler.fit_transform(df_x[df_x.columns])
     df_y = df[['class']]
     df_X_ref, df_X_test, df_y_ref, df_y_test =\
         sklearn.model_selection.train_test_split(df_x, df_y, test_size=test_fraction, shuffle=False)
@@ -34,9 +36,9 @@ def divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test,
     return X_ref_batches, y_ref_batches, X_test_batches, y_test_batches
 
 
-def get_batches(file_path, test_fraction, num_ref_batches, num_test_batches):
+def get_batches(file_path, test_fraction, num_ref_batches, num_test_batches, scaling, scaler):
     df_X_ref, df_X_test, df_y_ref, df_y_test = \
-        get_pandas_reference_testing(file_path, test_fraction)
+        get_pandas_reference_testing(file_path, test_fraction, scaling, scaler)
     return divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test, num_test_batches)
 
 
