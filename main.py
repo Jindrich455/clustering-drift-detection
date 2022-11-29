@@ -1,4 +1,5 @@
 # This is a sample Python script.
+import scipy
 from matplotlib import pyplot as plt
 from sklearn.neighbors import NearestNeighbors
 from sklearn.cluster import KMeans
@@ -88,19 +89,37 @@ def get_u_v0_v1(df_u, df_v0, df_v1):
     return u, v0, v1
 
 
-def compute_beta(df_u, df_v0, df_v1):
+def compute_neighbors(neigh, v, debug_string='v'):
+    neigh_dist_v, neigh_ind_v = neigh.kneighbors(v)
+    print('neigh_ind_' + debug_string, neigh_ind_v)
+    unique_v_neighbor_indices = np.unique(neigh_ind_v)
+    w = v.iloc[unique_v_neighbor_indices]
+    return w
+
+
+def compute_beta(df_u, df_v0, df_v1, beta_x=0.5):
     u, v0, v1 = get_u_v0_v1(df_u, df_v0, df_v1)
+    print('v0\n', v0)
     neigh = NearestNeighbors(n_neighbors=1)
     neigh.fit(u)
-    neighbors_v0 = neigh.kneighbors(v0)
-    print('neighbors_v0', neighbors_v0)
+    w0 = compute_neighbors(neigh, v0, 'v0')
+    w1 = compute_neighbors(neigh, v1, 'v1')
+    print('w0', w0)
+    print('w1', w1)
+    beta = scipy.stats.beta.cdf(beta_x, len(w0), len(w1))
+    print('beta', beta)
+    return beta
 
 
-def detect_cd(df_ref_window, df_test_window):
+def detect_cd(df_ref_window, df_test_window, threshold=0.05):
     """Detect whether a concept drift occurred based on a reference and a testing window"""
     df_ref_plus, df_ref_minus, df_test_plus, df_test_minus = join_predict_split(df_ref_window, df_test_window)
     beta_minus = compute_beta(df_ref_plus, df_ref_minus, df_test_minus)
     beta_plus = compute_beta(df_ref_minus, df_ref_plus, df_test_plus)
+    if beta_plus < threshold or beta_minus < threshold:
+        return True
+    else:
+        return False
 
 def drift_occurrences_list(reference_batch_list, test_batch_list):
     """Return a list of all batches where the algorithm detected drift"""
@@ -130,4 +149,6 @@ if __name__ == '__main__':
     ref_batch_list, test_batch_list = divide_to_batches(df_reference, 1, df_test, 1)
     print_batch_info(ref_batch_list, 'reference batches')
     print_batch_info(test_batch_list, 'testing batches')
-    detect_cd(ref_batch_list[0], test_batch_list[0])
+    drift_happening = detect_cd(ref_batch_list[0], test_batch_list[0])
+    if drift_happening:
+        print('DRIFT!!!!')
