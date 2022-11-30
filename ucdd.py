@@ -6,36 +6,12 @@ import pandas as pd
 import scipy
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
-import preprocessing
 
 
 def split_back_to_windows(df_union, labels, len_ref_window, len_test_window):
     """Separate predicted points back to original reference and testing windows (through boolean masks)"""
     ref_mask = pd.Series(np.concatenate([np.repeat(True, len_ref_window), np.repeat(False, len_test_window)]))
     plus_mask = pd.Series(labels, dtype=bool)
-    # print('len_ref_window', len_ref_window)
-    # print('len_test_window', len_test_window)
-    # print('plus_mask', plus_mask)
-
-    # print('\n\n\n')
-    # print('\nref_mask len=', len(ref_mask), ', head:\n', ref_mask.head())
-    # print('\nplus_mask len=', len(plus_mask), ', head:\n', plus_mask.head())
-    # print('\ndf_union len=', len(df_union), ', head:\n', df_union.head())
-    #
-    # ref_plus_mask = ref_mask & plus_mask
-    # print('\nref_plus_mask len=', len(ref_plus_mask), ', head:\n', ref_plus_mask.head())
-    #
-    # print('\nref_mask index', ref_mask.index)
-    # print('\ndf_union index', df_union.index)
-
-    # df_ref = df_union.loc[ref_mask]
-    # print('\ndf_ref len=', len(df_ref), ', head:\n', df_ref.head())
-
-    # df_plus = df_union.loc[plus_mask]
-    # print('\ndf_plus len=', len(df_plus), ', head:\n', df_plus.head())
-    #
-    # df_ref_plus2 = df_union.loc[ref_plus_mask]
-    # print('\ndf_ref_plus2 len=', len(df_ref_plus2), ', head:\n', df_ref_plus2.head())
 
     df_ref_plus = df_union[ref_mask & plus_mask]
     df_ref_minus = df_union[ref_mask & (~plus_mask)]

@@ -1,7 +1,6 @@
-import sklearn.model_selection
-from scipy.io import arff
 import pandas as pd
-import numpy as np
+from scipy.io import arff
+
 import preprocessing
 
 
@@ -34,13 +33,3 @@ def get_clean_df(file_path):
 
     return df_x, df_y
 
-
-# def get_pandas_reference_testing(file_path, test_fraction):
-#     """Convert an arff file to reference and testing pandas dataframes, numerical values scaled"""
-#     df = accept_data(file_path)
-#     df_x, df_y = prepare_df_data(df)
-#
-#     df_X_ref, df_X_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
-#         df_x, df_y, test_size=test_fraction, shuffle=False)
-#
-#     return df_X_ref, df_X_test, df_y_ref, df_y_test
