@@ -36,10 +36,15 @@ def divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test,
     return X_ref_batches, y_ref_batches, X_test_batches, y_test_batches
 
 
-def get_batches(file_path, test_fraction, num_ref_batches, num_test_batches, scaling, scaler):
+def get_batches(file_path, test_fraction, num_ref_batches, num_test_batches, scaling, scaler, debug=False):
     df_X_ref, df_X_test, df_y_ref, df_y_test = \
         get_pandas_reference_testing(file_path, test_fraction, scaling, scaler)
-    return divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test, num_test_batches)
+    X_ref_batches, y_ref_batches, X_test_batches, y_test_batches =\
+        divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test, num_test_batches)
+    if debug:
+        print_batches([X_ref_batches, y_ref_batches, X_test_batches, y_test_batches],
+                     ['reference data', 'reference labels', 'testing data', 'testing labels'])
+    return X_ref_batches, y_ref_batches, X_test_batches, y_test_batches
 
 
 def print_batch_info(batch_list, msg):

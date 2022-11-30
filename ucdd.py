@@ -49,7 +49,7 @@ def split_back_to_windows(df_union, labels, len_ref_window, len_test_window):
     return df_ref_plus, df_ref_minus, df_test_plus, df_test_minus
 
 
-def join_predict_split(df_ref_window, df_test_window):
+def join_predict_split(df_ref_window, df_test_window, random_state):
     """Join points from two windows, predict their labels through kmeans, then separate them again"""
     # print('df_ref_window index', df_ref_window.index)
     # print('df_test_window index', df_test_window.index)
@@ -61,7 +61,7 @@ def join_predict_split(df_ref_window, df_test_window):
     # print('df_union NEW index', df_union_new_index.index)
 
     # predict their label values
-    predicted_labels = KMeans(n_clusters=2, random_state=0).fit_predict(df_union_new_index)
+    predicted_labels = KMeans(n_clusters=2, random_state=random_state).fit_predict(df_union_new_index)
     # print('predicted labels', predicted_labels)
 
     # split values by predicted label and window
@@ -92,10 +92,10 @@ def compute_beta(df_u, df_v0, df_v1, beta_x=0.5):
     return beta
 
 
-def detect_cd(df_X_ref, df_X_test, threshold=0.05):
+def detect_cd(df_X_ref, df_X_test, random_state, threshold=0.05):
     """Detect whether a concept drift occurred based on a reference and a testing window"""
     df_ref_plus, df_ref_minus, df_test_plus, df_test_minus = \
-        join_predict_split(df_X_ref, df_X_test)
+        join_predict_split(df_X_ref, df_X_test, random_state)
     print('BETA MINUS (ref+, ref-, test-)')
     beta_minus = compute_beta(df_ref_plus, df_ref_minus, df_test_minus)
     print('BETA PLUS (ref-, ref+, test+)')
@@ -106,14 +106,14 @@ def detect_cd(df_X_ref, df_X_test, threshold=0.05):
         return False
 
 
-def drift_occurrences_list(X_ref_batches, X_test_batches):
+def drift_occurrences_list(X_ref_batches, X_test_batches, random_state):
     """Return a list of all batches where the algorithm detected drift"""
     # I am trying to use only one testing batch
     df_X_ref = X_ref_batches[-1]
     drift_signal_locations = []
     for i, df_X_test in enumerate(X_test_batches):
         print('#### BATCH', i, '####')
-        if detect_cd(df_X_ref, df_X_test):
+        if detect_cd(df_X_ref, df_X_test, random_state):
             drift_signal_locations.append(i)
         print('\n\n')
     return drift_signal_locations
