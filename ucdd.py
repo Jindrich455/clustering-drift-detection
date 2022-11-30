@@ -100,6 +100,10 @@ def detect_cd(df_X_ref, df_X_test, random_state, threshold=0.05):
     beta_minus = compute_beta(df_ref_plus, df_ref_minus, df_test_minus)
     print('BETA PLUS (ref-, ref+, test+)')
     beta_plus = compute_beta(df_ref_minus, df_ref_plus, df_test_plus)
+    # if beta_plus < threshold or beta_minus < threshold:
+    #     return True
+    # else:
+    #     return False
     if beta_plus < threshold or (1-beta_plus) < threshold or beta_minus < threshold or (1-beta_minus) < threshold:
         return True
     else:
@@ -109,11 +113,16 @@ def detect_cd(df_X_ref, df_X_test, random_state, threshold=0.05):
 def drift_occurrences_list(X_ref_batches, X_test_batches, random_state):
     """Return a list of all batches where the algorithm detected drift"""
     # I am trying to use only one testing batch
-    df_X_ref = X_ref_batches[-1]
+    # df_X_ref = X_ref_batches[-1]
     drift_signal_locations = []
     for i, df_X_test in enumerate(X_test_batches):
-        print('#### BATCH', i, '####')
-        if detect_cd(df_X_ref, df_X_test, random_state):
+        print('#### TEST BATCH', i, '####')
+        any_drift = False
+        for j, df_X_ref in enumerate(X_ref_batches):
+            print('--- training batch', j, '---')
+            drift_here = detect_cd(df_X_ref, df_X_test, random_state)
+            any_drift = any_drift | drift_here
+        if any_drift:
             drift_signal_locations.append(i)
         print('\n\n')
     return drift_signal_locations
