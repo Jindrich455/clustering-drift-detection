@@ -1,63 +1,42 @@
+import accepting
 import sklearn.model_selection
 from scipy.io import arff
 import pandas as pd
 import numpy as np
-
-# LABELENCODER!!!
-# LABELENCODER!!!
-# LABELENCODER!!!
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 
 
-def accept_data(file_path):
-    """Accept an arff file and return its contents in a pandas dataframe"""
-    data = arff.loadarff(file_path)
-    df = pd.DataFrame(data[0])
-    return df
+def divide_numeric_categorical(df_x):
+    df_x_numeric = df_x.select_dtypes(include=[np.number])
+    df_x_categorical = df_x.select_dtypes(exclude=[np.number])
+    return df_x_numeric, df_x_categorical
 
 
-def get_pandas_reference_testing(file_path, test_fraction, scaling, scaler):
-    """Convert an arff file to reference and testing pandas dataframes"""
-    df = accept_data(file_path)
-    df_x = df.drop(columns='class')
+def prepare_data(df_X_ref, df_X_test, scaling, scaler, use_categorical, encoding=False, encoder=None):
+    df_x_ref_num, df_x_ref_cat = divide_numeric_categorical(df_X_ref)
+    df_x_test_num, df_x_test_cat = divide_numeric_categorical(df_X_test)
+
     if scaling:
-        df_x[df_x.columns] = scaler.fit_transform(df_x[df_x.columns])
-    df_y = df[['class']]
-    df_X_ref, df_X_test, df_y_ref, df_y_test =\
-        sklearn.model_selection.train_test_split(df_x, df_y, test_size=test_fraction, shuffle=False)
-    return df_X_ref, df_X_test, df_y_ref, df_y_test
+        df_x_ref_num[df_x_ref_num.columns] = scaler.fit_transform(df_x_ref_num[df_x_ref_num.columns])
+        df_x_test_num[df_x_test_num.columns] = scaler.fit_transform(df_x_test_num[df_x_test_num.columns])
+
+    if use_categorical:
+        if encoding:
+            df_x_ref_cat[df_x_ref_cat.columns] = encoder.fit_transform(df_x_ref_cat[df_x_ref_cat.columns])
+            df_x_test_cat[df_x_test_cat.columns] = encoder.fit_transform(df_x_test_cat[df_x_test_cat.columns])
+        df_X_ref = df_x_ref_num.join(df_x_ref_cat)
+        df_X_test = df_x_test_num.join(df_x_test_cat)
+    else:
+        df_X_ref = df_x_ref_num
+        df_X_test = df_x_test_num
+
+    return df_X_ref, df_X_test
 
 
-def divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test, num_test_batches):
+def get_batches(df_X_ref, df_X_test, df_y_ref, df_y_test, num_ref_batches, num_test_batches):
     X_ref_batches = np.array_split(df_X_ref, num_ref_batches)
     y_ref_batches = np.array_split(df_y_ref, num_ref_batches)
     X_test_batches = np.array_split(df_X_test, num_test_batches)
     y_test_batches = np.array_split(df_y_test, num_test_batches)
     return X_ref_batches, y_ref_batches, X_test_batches, y_test_batches
-
-
-def get_batches(file_path, test_fraction, num_ref_batches, num_test_batches, scaling, scaler, debug=False):
-    df_X_ref, df_X_test, df_y_ref, df_y_test = \
-        get_pandas_reference_testing(file_path, test_fraction, scaling, scaler)
-    X_ref_batches, y_ref_batches, X_test_batches, y_test_batches =\
-        divide_to_batches(df_X_ref, df_y_ref, num_ref_batches, df_X_test, df_y_test, num_test_batches)
-    if debug:
-        print_batches([X_ref_batches, y_ref_batches, X_test_batches, y_test_batches],
-                     ['reference data', 'reference labels', 'testing data', 'testing labels'])
-    return X_ref_batches, y_ref_batches, X_test_batches, y_test_batches
-
-
-def print_batch_info(batch_list, msg):
-    print('Number of batches with ' + msg + ':', len(batch_list))
-    print('# rows per batch')
-    for batch in batch_list:
-        print(batch.shape[0])
-        print('First 10 entries:')
-        print(batch.head())
-
-
-def print_batches(batches, batch_msgs):
-    zipped = zip(batches, batch_msgs)
-    for batch, msg in zipped:
-        print_batch_info(batch, msg)
 

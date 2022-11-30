@@ -1,5 +1,5 @@
 import unittest
-import preprocessing
+import preprocessing_old
 import ucdd
 from sklearn.preprocessing import MinMaxScaler
 
@@ -16,7 +16,7 @@ class TestUCDD(unittest.TestCase):
 
     def drift_occurrences_shortcut(self, dataset_path, test_fraction, num_ref_batches, num_test_batches, scaling,
                                    scaler, debug=False, random_state=0):
-        X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = preprocessing.get_batches(
+        X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = preprocessing_old.get_batches(
             dataset_path, test_fraction,
             num_ref_batches, num_test_batches, scaling, scaler, debug)
         return ucdd.drift_occurrences_list(X_ref_batches, X_test_batches, random_state)
