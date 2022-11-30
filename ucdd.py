@@ -100,7 +100,7 @@ def detect_cd(df_X_ref, df_X_test, random_state, threshold=0.05):
     beta_minus = compute_beta(df_ref_plus, df_ref_minus, df_test_minus)
     print('BETA PLUS (ref-, ref+, test+)')
     beta_plus = compute_beta(df_ref_minus, df_ref_plus, df_test_plus)
-    if beta_plus < threshold or beta_minus < threshold:
+    if beta_plus < threshold or (1-beta_plus) < threshold or beta_minus < threshold or (1-beta_minus) < threshold:
         return True
     else:
         return False
