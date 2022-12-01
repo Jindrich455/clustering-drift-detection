@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from scipy.io import arff
 
@@ -18,18 +19,24 @@ def column_values_to_string(df, columns):
     return df
 
 
+def divide_numeric_categorical(df_x):
+    df_x_numeric = df_x.select_dtypes(include=[np.number])
+    df_x_categorical = df_x.select_dtypes(exclude=[np.number])
+    return df_x_numeric, df_x_categorical
+
+
 def prepare_df_data(df):
     df_y = column_values_to_string(df[['class']], ['class'])
     df_x = df.drop(columns='class')
-    df_x_numeric, df_x_categorical = my_preprocessing.divide_numeric_categorical(df_x)
+    df_x_numeric, df_x_categorical = divide_numeric_categorical(df_x)
     df_x_categorical = column_values_to_string(df_x_categorical, list(df_x_categorical.columns))
-    df_x = df_x_numeric.join(df_x_categorical)
-    return df_x, df_y
+    return df_x_numeric, df_x_categorical, df_y
 
 
 def get_clean_df(file_path):
     df = accept_data(file_path)
-    df_x, df_y = prepare_df_data(df)
+    df_x_numeric, df_x_categorical, df_y = prepare_df_data(df)
 
-    return df_x, df_y
+    return df_x_numeric, df_x_categorical, df_y
+    # return df_x_numeric.join(df_x_categorical), df_y
 
