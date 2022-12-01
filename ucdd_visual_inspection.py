@@ -8,6 +8,7 @@ import accepting
 from sklearn.compose import make_column_selector as selector
 
 import my_preprocessing
+import ucdd
 
 
 def show_ucdd():
@@ -22,6 +23,9 @@ def show_ucdd():
     )
 
     show_initial_data(X_ref_batches, y_ref_batches, X_test_batches, y_test_batches)
+
+    drift_occurrences = ucdd.drift_occurrences_list(X_ref_batches, X_test_batches, random_state=0, show_2d_plots=True)
+
 
 
 def divide_to_positive_negative(df_X, df_y):
@@ -47,7 +51,9 @@ def show_initial_data(X_ref_batches, y_ref_batches, X_test_batches, y_test_batch
     plt.scatter(positive_test.iloc[:, 0], positive_test.iloc[:, 1], marker=',', c=c_test)
     plt.scatter(negative_test.iloc[:, 0], negative_test.iloc[:, 1], marker='v', c=c_test)
 
+    plt.title("Initial data")
     plt.show()
+    # pass
 
 
 show_ucdd()
