@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import sklearn.model_selection
+from sklearn import preprocessing
 
 
 def divide_numeric_categorical(df_x):
@@ -67,6 +68,9 @@ def transform_data_and_get_batches(df_x, df_y, test_fraction, num_ref_batches, n
     df_x = pd.DataFrame(transformer.fit_transform(df_x))
     print('df_x')
     print(df_x)
+    df_y = pd.DataFrame(preprocessing.LabelEncoder().fit_transform(df_y))
+    print('df y')
+    print(df_y)
 
     df_X_ref, df_X_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
         df_x, df_y, test_size=test_fraction, shuffle=False)

@@ -3,7 +3,7 @@ from sklearn.compose import make_column_selector as selector
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
 import accepting
-import preprocessing
+import my_preprocessing
 import ucdd
 
 if __name__ == '__main__':
@@ -18,7 +18,7 @@ if __name__ == '__main__':
     #     ('num', MinMaxScaler(), selector(dtype_include='number')),
     # ])
 
-    X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = preprocessing.transform_data_and_get_batches(
+    X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = my_preprocessing.transform_data_and_get_batches(
         df_x, df_y, test_fraction=0.7, num_ref_batches=3, num_test_batches=7, transformer=transformer
     )
 

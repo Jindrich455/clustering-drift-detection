@@ -3,7 +3,7 @@ import unittest
 from sklearn.compose import ColumnTransformer
 
 import accepting
-import preprocessing
+import my_preprocessing
 import ucdd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.compose import make_column_selector as selector
@@ -15,7 +15,7 @@ only_numeric_scaler = ColumnTransformer([('num', MinMaxScaler(), selector(dtype_
 def drift_occurrences_shortcut(dataset_path, test_fraction, num_ref_batches, num_test_batches, transformer,
                                debug=False, random_state=0):
     df_x, df_y = accepting.get_clean_df(dataset_path)
-    X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = preprocessing.transform_data_and_get_batches(
+    X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = my_preprocessing.transform_data_and_get_batches(
         df_x, df_y, test_fraction, num_ref_batches, num_test_batches, transformer
     )
 

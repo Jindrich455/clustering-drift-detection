@@ -1,7 +1,7 @@
 import pandas as pd
 from scipy.io import arff
 
-import preprocessing
+import my_preprocessing
 
 
 def accept_data(file_path):
@@ -21,7 +21,7 @@ def column_values_to_string(df, columns):
 def prepare_df_data(df):
     df_y = column_values_to_string(df[['class']], ['class'])
     df_x = df.drop(columns='class')
-    df_x_numeric, df_x_categorical = preprocessing.divide_numeric_categorical(df_x)
+    df_x_numeric, df_x_categorical = my_preprocessing.divide_numeric_categorical(df_x)
     df_x_categorical = column_values_to_string(df_x_categorical, list(df_x_categorical.columns))
     df_x = df_x_numeric.join(df_x_categorical)
     return df_x, df_y
