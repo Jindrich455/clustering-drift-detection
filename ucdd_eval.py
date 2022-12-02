@@ -59,25 +59,26 @@ def preprocess_df_x(df_x_num, df_x_cat, df_y, scaling, encoding):
     return df_x
 
 
-def evaluate_ucdd():
-    df_x_num, df_x_cat, df_y = accepting.get_clean_df(
-            'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff')
+def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
+                  random_state, additional_check):
+    df_x_num, df_x_cat, df_y = accepting.get_clean_df(file_path)
 
     # do all the necessary data transformations (e.g. scaling, one-hot encoding)
     # --> might be different for each dataset
     df_y = pd.DataFrame(preprocessing.LabelEncoder().fit_transform(df_y))
-    df_x = preprocess_df_x(df_x_num, df_x_cat, df_y, scaling="minmax", encoding="onehot")
+    df_x = preprocess_df_x(df_x_num, df_x_cat, df_y, scaling=scaling, encoding=encoding)
 
     # split data to training and testing (with a joint dataframe)
     df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
-        df_x, df_y, test_size=0.7, shuffle=False)
+        df_x, df_y, test_size=test_size, shuffle=False)
 
     # divide the data in batches
     x_ref_batches, y_ref_batches, x_test_batches, y_test_batches = get_batches(
-        df_x_ref, df_x_test, df_y_ref, df_y_test, num_ref_batches=3, num_test_batches=7
+        df_x_ref, df_x_test, df_y_ref, df_y_test, num_ref_batches=num_ref_batches, num_test_batches=num_test_batches
     )
 
     # use ucdd on the batched data and find drift locations
-    drift_locations = ucdd.drift_occurrences_list(x_ref_batches, x_test_batches, random_state=2, additional_check=True)
+    drift_locations = ucdd.drift_occurrences_list(
+        x_ref_batches, x_test_batches, random_state=random_state, additional_check=additional_check)
     print('drift locations', drift_locations)
     pass

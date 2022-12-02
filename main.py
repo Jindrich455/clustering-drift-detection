@@ -9,7 +9,16 @@ import ucdd
 import ucdd_eval
 
 if __name__ == '__main__':
-    ucdd_eval.evaluate_ucdd()
+    ucdd_eval.evaluate_ucdd(
+        file_path='Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff',
+        scaling="minmax",
+        encoding="onehot",
+        test_size=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        random_state=2,
+        additional_check=False
+    )
 
 
     # transformer = ColumnTransformer([
