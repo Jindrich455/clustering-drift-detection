@@ -60,7 +60,7 @@ def preprocess_df_x(df_x_num, df_x_cat, df_y, scaling, encoding):
 
 
 def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
-                  random_state, additional_check):
+                  random_state, additional_check, debug=False):
     df_x_num, df_x_cat, df_y = accepting.get_clean_df(file_path)
 
     # do all the necessary data transformations (e.g. scaling, one-hot encoding)
@@ -79,6 +79,6 @@ def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_
 
     # use ucdd on the batched data and find drift locations
     drift_locations = ucdd.drift_occurrences_list(
-        x_ref_batches, x_test_batches, random_state=random_state, additional_check=additional_check)
+        x_ref_batches, x_test_batches, random_state=random_state, additional_check=additional_check, debug=debug)
     print('drift locations', drift_locations)
     return drift_locations
