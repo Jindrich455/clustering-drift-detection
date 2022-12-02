@@ -59,9 +59,6 @@ def compute_neighbors(u, v, debug_string='v'):
 
 
 def compute_beta(df_u, df_v0, df_v1, show_2d_plots, beta_x=0.5):
-    # print('df_u index', df_u.index)
-    # print('dv_v0 index', df_v0.index)
-    # print('dv_v1 index', df_v1.index)
     w0 = compute_neighbors(df_u, df_v0, 'v0')
     w1 = compute_neighbors(df_u, df_v1, 'v1')
     print('neighbors in W0', len(w0))
@@ -73,7 +70,7 @@ def compute_beta(df_u, df_v0, df_v1, show_2d_plots, beta_x=0.5):
     return beta
 
 
-def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, threshold=0.05):
+def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check, threshold=0.05):
     """Detect whether a concept drift occurred based on a reference and a testing window"""
     df_ref_plus, df_ref_minus, df_test_plus, df_test_minus = \
         join_predict_split(df_X_ref, df_X_test, random_state)
@@ -85,29 +82,24 @@ def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, threshold=0.05):
     beta_minus = compute_beta(df_ref_plus, df_ref_minus, df_test_minus, show_2d_plots)
     print('BETA PLUS (ref-, ref+, test+)')
     beta_plus = compute_beta(df_ref_minus, df_ref_plus, df_test_plus, show_2d_plots)
-    # if beta_plus < threshold or beta_minus < threshold:
-    #     return True
-    # else:
-    #     return False
-    if beta_plus < threshold or (1-beta_plus) < threshold or beta_minus < threshold or (1-beta_minus) < threshold:
-        return True
-    else:
-        return False
+
+    drift = False
+    if beta_plus < threshold or beta_minus < threshold:
+        drift = True
+    if additional_check and ((1-beta_plus) < threshold or (1-beta_minus) < threshold):
+        drift = True
+    return drift
 
 
-def drift_occurrences_list(X_ref_batches, X_test_batches, random_state, show_2d_plots=False):
+def drift_occurrences_list(X_ref_batches, X_test_batches, random_state, additional_check=False, show_2d_plots=False):
     """Return a list of all batches where the algorithm detected drift"""
-    # I am trying to use only one testing batch
-    # df_X_ref = X_ref_batches[-1]
-    # print('show 2d plots:', show_2d_plots)
-    # show_2d_plots_accepted = show_2d_plots
     drift_signal_locations = []
     for i, df_X_test in enumerate(X_test_batches):
         print('#### TEST BATCH', i, '####')
         any_drift = False
         for j, df_X_ref in enumerate(X_ref_batches):
             print('--- training batch', j, '---')
-            drift_here = detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots)
+            drift_here = detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check)
             any_drift = any_drift | drift_here
         if any_drift:
             drift_signal_locations.append(i)

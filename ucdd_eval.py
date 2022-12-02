@@ -61,12 +61,12 @@ def preprocess_df_x(df_x_num, df_x_cat, df_y, scaling, encoding):
 
 def evaluate_ucdd():
     df_x_num, df_x_cat, df_y = accepting.get_clean_df(
-            'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_5.arff')
+            'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff')
 
     # do all the necessary data transformations (e.g. scaling, one-hot encoding)
     # --> might be different for each dataset
     df_y = pd.DataFrame(preprocessing.LabelEncoder().fit_transform(df_y))
-    df_x = preprocess_df_x(df_x_num, df_x_cat, df_y, scaling="minmax", encoding="ordinal")
+    df_x = preprocess_df_x(df_x_num, df_x_cat, df_y, scaling="minmax", encoding="onehot")
 
     # split data to training and testing (with a joint dataframe)
     df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
@@ -78,6 +78,6 @@ def evaluate_ucdd():
     )
 
     # use ucdd on the batched data and find drift locations
-    drift_locations = ucdd.drift_occurrences_list(x_ref_batches, x_test_batches, random_state=2)
+    drift_locations = ucdd.drift_occurrences_list(x_ref_batches, x_test_batches, random_state=2, additional_check=True)
     print('drift locations', drift_locations)
     pass
