@@ -12,9 +12,9 @@ import supported_parameters as spms
 
 if __name__ == '__main__':
     ucdd_eval.evaluate_ucdd(
-        file_path='Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_5.arff',
+        file_path='Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff',
         scaling=spms.Scalers.MINMAX,
-        encoding=spms.Encoders.TARGET,
+        encoding=spms.Encoders.EXCLUDE,
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
