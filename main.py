@@ -20,6 +20,7 @@ if __name__ == '__main__':
         num_test_batches=7,
         random_state=2,
         additional_check=True,
+        detect_all_training_batches=False,
         use_pyclustering=True,
         metric_id=spms.Distances.EUCLIDEAN
     )

@@ -4,6 +4,7 @@ Implementation of the UCDD algorithm by Dan Shang, Guangquan Zhang and Jie Lu
 import numpy as np
 import pandas as pd
 import scipy
+import supported_parameters as spms
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
 
@@ -81,17 +82,23 @@ def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check
 
 
 def drift_occurrences_list(
-        X_ref_batches, X_test_batches, random_state, additional_check, show_2d_plots=False, debug=False):
+        X_ref_batches, X_test_batches, random_state, additional_check, detect_all_training_batches,
+        show_2d_plots=False, debug=False):
     """Return a list of all batches where the algorithm detected drift"""
     drift_signal_locations = []
     for i, df_X_test in enumerate(X_test_batches):
         print('#### TEST BATCH', i, 'of', len(X_test_batches), '####')
-        any_drift = False
+        drift = False
+        if detect_all_training_batches:
+            drift = True
         for j, df_X_ref in enumerate(X_ref_batches):
             if debug: print('--- training batch', j, '---')
             drift_here = detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check, debug)
-            any_drift = any_drift | drift_here
-        if any_drift:
+            if detect_all_training_batches:
+                drift = drift & drift_here
+            else:
+                drift = drift | drift_here
+        if drift:
             drift_signal_locations.append(i)
         if debug: print('\n\n')
     return drift_signal_locations
