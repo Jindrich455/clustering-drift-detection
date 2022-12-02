@@ -8,18 +8,34 @@ import my_preprocessing
 import ucdd
 import ucdd_eval
 import ucdd_visual_inspection
+import supported_parameters as spms
 
 if __name__ == '__main__':
     ucdd_eval.evaluate_ucdd(
-        file_path='Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_10.arff',
+        file_path='Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff',
         scaling="minmax",
         encoding="onehot",
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
-        random_state=2,
-        additional_check=True
+        random_state=13,
+        additional_check=True,
+        use_pyclustering=True,
+        metric_id=spms.Distances.CANBERRA
     )
+
+    # ucdd_eval.evaluate_ucdd(
+    #     file_path='tests/test_datasets/drift_2d.arff',
+    #     scaling="minmax",
+    #     encoding="none",
+    #     test_size=0.5,
+    #     num_ref_batches=1,
+    #     num_test_batches=1,
+    #     random_state=0,
+    #     additional_check=True,
+    #     use_pyclustering=True,
+    #     debug=True
+    # )
 
     # ucdd_visual_inspection.show_ucdd()
 

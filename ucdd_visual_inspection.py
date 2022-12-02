@@ -5,7 +5,6 @@ from pandas import Series
 from sklearn import preprocessing
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import MinMaxScaler
-import seaborn as sns
 
 import accepting
 from sklearn.compose import make_column_selector as selector
