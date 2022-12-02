@@ -1,5 +1,8 @@
+import pandas as pd
+import sklearn
 from matplotlib import pyplot as plt
 from pandas import Series
+from sklearn import preprocessing
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import MinMaxScaler
 import seaborn as sns
@@ -9,23 +12,54 @@ from sklearn.compose import make_column_selector as selector
 
 import my_preprocessing
 import ucdd
+import ucdd_eval
 
 
-def show_ucdd():
-    df_x, df_y = accepting.get_clean_df('tests/test_datasets/drift_2d.arff')
+def show_ucdd(
+        file_path='tests/test_datasets/drift_2d.arff',
+        scaling="minmax",
+        encoding="onehot",
+        test_size=0.5,
+        num_ref_batches=1,
+        num_test_batches=1,
+        random_state=0,
+        additional_check=False):
+    # for some reason, the values must be default arguments; not regular variables
 
-    transformer = ColumnTransformer([
-        ('num', MinMaxScaler(), selector(dtype_include='number')),
-    ])
+    df_x_num, df_x_cat, df_y = accepting.get_clean_df(file_path)
 
-    X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = my_preprocessing.transform_data_and_get_batches(
-        df_x, df_y, test_fraction=0.5, num_ref_batches=1, num_test_batches=1, transformer=transformer
+    # do all the necessary data transformations (e.g. scaling, one-hot encoding)
+    # --> might be different for each dataset
+    df_y = pd.DataFrame(preprocessing.LabelEncoder().fit_transform(df_y))
+    df_x = ucdd_eval.preprocess_df_x(df_x_num, df_x_cat, df_y, scaling=scaling, encoding=encoding)
+
+    # split data to training and testing (with a joint dataframe)
+    df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
+        df_x, df_y, test_size=test_size, shuffle=False)
+
+    # divide the data in batches
+    x_ref_batches, y_ref_batches, x_test_batches, y_test_batches = ucdd_eval.get_batches(
+        df_x_ref, df_x_test, df_y_ref, df_y_test, num_ref_batches=num_ref_batches, num_test_batches=num_test_batches
     )
 
-    show_initial_data(X_ref_batches, y_ref_batches, X_test_batches, y_test_batches)
+    show_initial_data(x_ref_batches, y_ref_batches, x_test_batches, y_test_batches)
 
-    drift_occurrences = ucdd.drift_occurrences_list(X_ref_batches, X_test_batches, random_state=0, show_2d_plots=True)
+    # use ucdd on the batched data and find drift locations
+    drift_locations = ucdd.drift_occurrences_list(
+        x_ref_batches, x_test_batches, random_state=random_state, additional_check=additional_check, show_2d_plots=True)
 
+    # df_x, df_y = accepting.get_clean_df('tests/test_datasets/drift_2d.arff')
+    #
+    # transformer = ColumnTransformer([
+    #     ('num', MinMaxScaler(), selector(dtype_include='number')),
+    # ])
+    #
+    # X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = my_preprocessing.transform_data_and_get_batches(
+    #     df_x, df_y, test_fraction=0.5, num_ref_batches=1, num_test_batches=1, transformer=transformer
+    # )
+    #
+    #
+    # drift_occurrences = ucdd.drift_occurrences_list(X_ref_batches, X_test_batches, random_state=0, show_2d_plots=True)
 
 
 def divide_to_positive_negative(df_X, df_y):
@@ -54,6 +88,3 @@ def show_initial_data(X_ref_batches, y_ref_batches, X_test_batches, y_test_batch
     plt.title("Initial data")
     plt.show()
     # pass
-
-
-show_ucdd()
