@@ -81,3 +81,4 @@ def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_
     drift_locations = ucdd.drift_occurrences_list(
         x_ref_batches, x_test_batches, random_state=random_state, additional_check=additional_check)
     print('drift locations', drift_locations)
+    return drift_locations

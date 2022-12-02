@@ -8,58 +8,98 @@ import ucdd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.compose import make_column_selector as selector
 
+import ucdd_eval
 
-only_numeric_scaler = ColumnTransformer([('num', MinMaxScaler(), selector(dtype_include='number')),])
-
-
-def drift_occurrences_shortcut(dataset_path, test_fraction, num_ref_batches, num_test_batches, transformer,
-                               debug=False, random_state=0):
-    df_x, df_y = accepting.get_clean_df(dataset_path)
-    X_ref_batches, y_ref_batches, X_test_batches, y_test_batches = my_preprocessing.transform_data_and_get_batches(
-        df_x, df_y, test_fraction, num_ref_batches, num_test_batches, transformer
-    )
-
-    return ucdd.drift_occurrences_list(X_ref_batches, X_test_batches, random_state)
+random_state = 0
+use_additional_check = True
 
 
 class TestUCDD(unittest.TestCase):
-    def test_something(self):
-        self.assertEqual(True, True)  # add assertion here
-
     def test_failing_on_purpose(self):
         self.assertEqual(True, False)  # add assertion here
 
-    def test_something_else(self):
-        self.assertEqual(10, 10)  # add assertion here
-
     def test_drift_one_testing_batch(self):
-        drift_occurrences = drift_occurrences_shortcut(
-            'test_datasets/drift_2d.arff', test_fraction=0.5,
-            num_ref_batches=1, num_test_batches=1, transformer=only_numeric_scaler)
+        drift_occurrences = ucdd_eval.evaluate_ucdd(
+            file_path='test_datasets/drift_2d.arff',
+            scaling="minmax",
+            encoding="none",
+            test_size=0.5,
+            num_ref_batches=1,
+            num_test_batches=1,
+            random_state=random_state,
+            additional_check=False
+        )
+
         self.assertEqual([0], drift_occurrences)
 
     def test_no_drift_one_testing_batch(self):
-        drift_occurrences = drift_occurrences_shortcut(
-            'test_datasets/no_drift_2d.arff', test_fraction=0.5,
-            num_ref_batches=1, num_test_batches=1, transformer=only_numeric_scaler)
+        drift_occurrences = ucdd_eval.evaluate_ucdd(
+            file_path='test_datasets/no_drift_2d.arff',
+            scaling="minmax",
+            encoding="none",
+            test_size=0.5,
+            num_ref_batches=1,
+            num_test_batches=1,
+            random_state=random_state,
+            additional_check=False
+        )
+
         self.assertEqual([], drift_occurrences)
 
     def test_drift_three_testing_batches(self):
-        drift_occurrences = drift_occurrences_shortcut(
-            'test_datasets/drift_from_p21_2d.arff', test_fraction=0.75,
-            num_ref_batches=1, num_test_batches=3, transformer=only_numeric_scaler)
+        drift_occurrences = ucdd_eval.evaluate_ucdd(
+            file_path='test_datasets/drift_from_p21_2d.arff',
+            scaling="minmax",
+            encoding="none",
+            test_size=0.75,
+            num_ref_batches=1,
+            num_test_batches=3,
+            random_state=random_state,
+            additional_check=False
+        )
+
         self.assertEqual([1, 2], drift_occurrences)
 
     def test_drift_three_testing_batches_other_class(self):
-        drift_occurrences = drift_occurrences_shortcut(
-            'test_datasets/drift_from_p21_2d_other_class.arff', test_fraction=0.75,
-            num_ref_batches=1, num_test_batches=3, transformer=only_numeric_scaler)
+        drift_occurrences = ucdd_eval.evaluate_ucdd(
+            file_path='test_datasets/drift_from_p21_2d_other_class.arff',
+            scaling="minmax",
+            encoding="none",
+            test_size=0.75,
+            num_ref_batches=1,
+            num_test_batches=3,
+            random_state=random_state,
+            additional_check=False
+        )
+
         self.assertEqual([1, 2], drift_occurrences)
 
-    def test_drift_three_testing_batches_more_neighbours(self):
-        drift_occurrences = drift_occurrences_shortcut(
-            'test_datasets/drift_from_p21_2d_more_neighbours.arff', test_fraction=0.75,
-            num_ref_batches=1, num_test_batches=3, transformer=only_numeric_scaler)
+    def test_drift_three_testing_batches_more_neighbours_no_check(self):
+        drift_occurrences = ucdd_eval.evaluate_ucdd(
+            file_path='test_datasets/drift_from_p21_2d_more_neighbours.arff',
+            scaling="minmax",
+            encoding="none",
+            test_size=0.75,
+            num_ref_batches=1,
+            num_test_batches=3,
+            random_state=random_state,
+            additional_check=False
+        )
+
+        self.assertEqual([], drift_occurrences)
+
+    def test_drift_three_testing_batches_more_neighbours_with_check(self):
+        drift_occurrences = ucdd_eval.evaluate_ucdd(
+            file_path='test_datasets/drift_from_p21_2d_more_neighbours.arff',
+            scaling="minmax",
+            encoding="none",
+            test_size=0.75,
+            num_ref_batches=1,
+            num_test_batches=3,
+            random_state=random_state,
+            additional_check=True
+        )
+
         self.assertEqual([1, 2], drift_occurrences)
 
 
