@@ -17,24 +17,27 @@ accepted_encoders = ["onehot", "ordinal", "target"]
 accepted_distance_measures = [""]
 
 
-def scale_with(df_x_num, scaler_name):
-    if scaler_name == "minmax":
+def scale_with(df_x_num, scaler_id):
+    if scaler_id == spms.Scalers.MINMAX:
         scaler = MinMaxScaler()
         df_x_num = pd.DataFrame(scaler.fit_transform(df_x_num))
     # else assume no scaling should be done
     return df_x_num
 
 
-def encode_with(df_x_cat, df_y, encoder_name):
-    if encoder_name == "onehot":
+def encode_with(df_x_cat, df_y, encoder_id):
+    if encoder_id == spms.Encoders.ONEHOT:
         encoder = OneHotEncoder(sparse=False)
         df_x_cat = pd.DataFrame(encoder.fit_transform(df_x_cat))
-    elif encoder_name == "ordinal":
+    elif encoder_id == spms.Encoders.ORDINAL:
         encoder = OrdinalEncoder()
         df_x_cat = pd.DataFrame(encoder.fit_transform(df_x_cat))
-    elif encoder_name == "target":
+    elif encoder_id == spms.Encoders.TARGET:
         encoder = TargetEncoder(df_x_cat)
         df_x_cat = encoder.fit_transform(df_x_cat, df_y)
+    elif encoder_id == spms.Encoders.EXCLUDE:
+        # exclude categorical data from drift detection
+        df_x_cat = pd.DataFrame(None)
     # else assume no encoding should be done
     return df_x_cat
 

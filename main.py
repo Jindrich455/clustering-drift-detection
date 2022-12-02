@@ -12,17 +12,19 @@ import supported_parameters as spms
 
 if __name__ == '__main__':
     ucdd_eval.evaluate_ucdd(
-        file_path='Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff',
-        scaling="minmax",
-        encoding="onehot",
+        file_path='Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_5.arff',
+        scaling=spms.Scalers.MINMAX,
+        encoding=spms.Encoders.TARGET,
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
-        random_state=13,
+        random_state=2,
         additional_check=True,
         use_pyclustering=True,
-        metric_id=spms.Distances.CANBERRA
+        metric_id=spms.Distances.EUCLIDEAN
     )
+
+
 
     # ucdd_eval.evaluate_ucdd(
     #     file_path='tests/test_datasets/drift_2d.arff',
