@@ -35,7 +35,7 @@ def scale_with(df_x_ref_num_new, df_x_test_num_new, scaler_id):
         df_x_ref = df_x_ref_num_new
         df_x_test = df_x_test_num_new
     else:
-        raise NameError('Unsupported scaling!!')
+        raise NameError('The scaling', scaler_id, 'is not supported')
     return df_x_ref, df_x_test
 
 
@@ -84,7 +84,7 @@ def encode_with(df_x_ref_cat, df_x_test_cat, df_y_ref, encoder_id):
             encoder = OrdinalEncoder()
             encoder.fit(df_x_ref_cat)
         else:
-            raise NameError('Unsupported encoding!!')
+            raise NameError('The encoding', encoder_id, 'is not supported')
         df_x_ref_cat_transformed, df_x_test_cat_transformed = transform_with_fitted_encoder(
             df_x_ref_cat, df_x_test_cat, encoder)
 
@@ -144,6 +144,9 @@ def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_
     # do all the necessary data transformations (e.g. one-hot encoding, scaling)
     # --> might be different for each dataset
     df_x_ref, df_x_test = preprocess_df_x(df_x_ref, df_x_test, df_y_ref, scaling=scaling, encoding=encoding)
+    # reindex data to make sure the indices match
+    df_y_ref.set_index(df_x_ref.index, inplace=True)
+    df_y_test.set_index(df_x_test.index, inplace=True)
 
     # divide the data in batches
     x_ref_batches, y_ref_batches, x_test_batches, y_test_batches = get_batches(
