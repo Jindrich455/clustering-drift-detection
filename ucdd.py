@@ -56,8 +56,9 @@ def compute_beta(df_u, df_v0, df_v1, show_2d_plots, debug, beta_x=0.5):
     if show_2d_plots:
         ucdd_plotter.plot_u_w0_w1(df_u, w0, w1)
     beta = scipy.stats.beta.cdf(beta_x, len(w0), len(w1))
+    beta_additional = scipy.stats.beta.cdf(beta_x, len(w1), len(w0))
     if debug: print('beta', beta)
-    return beta
+    return beta, beta_additional
 
 
 def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check, debug, threshold=0.05):
@@ -69,15 +70,16 @@ def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check
         ucdd_plotter.plot_predicted(df_ref_plus, df_ref_minus, df_test_plus, df_test_minus)
 
     if debug: print('BETA MINUS (ref+, ref-, test-)')
-    beta_minus = compute_beta(df_ref_plus, df_ref_minus, df_test_minus, show_2d_plots, debug)
+    beta_minus, beta_minus_additional = compute_beta(
+        df_ref_plus, df_ref_minus, df_test_minus, show_2d_plots, debug)
     if debug: print('BETA PLUS (ref-, ref+, test+)')
-    beta_plus = compute_beta(df_ref_minus, df_ref_plus, df_test_plus, show_2d_plots, debug)
+    beta_plus, beta_plus_additional = compute_beta(
+        df_ref_minus, df_ref_plus, df_test_plus, show_2d_plots, debug)
 
-    drift = False
-    if beta_plus < threshold or beta_minus < threshold:
-        drift = True
-    if additional_check and ((1 - beta_plus) < threshold or (1 - beta_minus) < threshold):
-        drift = True
+    drift = (beta_plus < threshold or beta_minus < threshold)
+    if additional_check:
+        drift = drift | (beta_plus_additional < threshold or beta_minus_additional < threshold)
+
     return drift
 
 

@@ -93,7 +93,7 @@ if __name__ == '__main__':
         num_ref_batches=3,
         num_test_batches=7,
         num_runs=10,
-        additional_check_list=[True, False],
+        additional_check_list=[True],
         detect_all_training_batches_list=[False],
         use_pyclustering_list=[True],
         metric_id_list=[spms.Distances.EUCLIDEAN]
