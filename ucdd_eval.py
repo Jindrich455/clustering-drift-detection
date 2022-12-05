@@ -12,10 +12,6 @@ import ucdd
 import ucdd_pyclustering
 import supported_parameters as spms
 
-accepted_scalers = ["minmax"]
-accepted_encoders = ["onehot", "ordinal", "target"]
-accepted_distance_measures = [""]
-
 
 # def scale_with(df_x_num, scaler_id):
 #     if scaler_id == spms.Scalers.MINMAX:
