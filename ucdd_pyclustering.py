@@ -31,7 +31,7 @@ def split_back_to_windows(df_union, labels, len_ref_window, len_test_window):
 def pyclusters_metric_from_id(metric_id):
     converter = {
         spms.Distances.EUCLIDEAN: distance_metric(type_metric.EUCLIDEAN),
-        spms.Distances.EUCLIDEAN_SQUARE: distance_metric(type_metric.EUCLIDEAN_SQUARE),
+        spms.Distances.EUCLIDEANSQUARE: distance_metric(type_metric.EUCLIDEAN_SQUARE),
         spms.Distances.MANHATTAN: distance_metric(type_metric.MANHATTAN),
         spms.Distances.CHEBYSHEV: distance_metric(type_metric.CHEBYSHEV),
         spms.Distances.CANBERRA: distance_metric(type_metric.CANBERRA)
@@ -94,7 +94,7 @@ def join_predict_split(df_ref_window, df_test_window, random_state, metric_id):
 def nn_metric_from_id(metric_id):
     converter = {
         spms.Distances.EUCLIDEAN: 'euclidean',
-        spms.Distances.EUCLIDEAN_SQUARE: 'sqeuclidean',
+        spms.Distances.EUCLIDEANSQUARE: 'sqeuclidean',
         spms.Distances.MANHATTAN: 'manhattan',
         spms.Distances.CHEBYSHEV: 'chebyshev',
         spms.Distances.CANBERRA: 'canberra'
