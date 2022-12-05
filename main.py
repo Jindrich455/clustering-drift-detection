@@ -55,21 +55,23 @@ def convert_filenames_to_directories():
 
 
 if __name__ == '__main__':
-    # random_states = take_random_states(num_runs=2)
+    random_states = take_random_states(num_runs=20)
+    rel_path = 'synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced'
 
-    # all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
-    #     file_path='Datasets_concept_drift/' + path + '.arff',
-    #     scaling=spms.Scalers.MINMAX,
-    #     encoding=spms.Encoders.EXCLUDE,
-    #     test_size=0.7,
-    #     num_ref_batches=3,
-    #     num_test_batches=7,
-    #     random_states=random_states,
-    #     additional_check=False,
-    #     detect_all_training_batches=False,
-    #     use_pyclustering=True,
-    #     metric_id=spms.Distances.EUCLIDEAN
-    # )
+    all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
+        file_path='Datasets_concept_drift/' + rel_path + '.arff',
+        scaling=spms.Scalers.MINMAX,
+        encoding=spms.Encoders.EXCLUDE,
+        test_size=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        random_states=random_states,
+        additional_check=True,
+        detect_all_training_batches=False,
+        only_first_drift=True,
+        use_pyclustering=True,
+        metric_id=spms.Distances.EUCLIDEAN
+    )
 
     # ucdd_eval_and_write_res.eval_and_write(
     #     rel_path='synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced',
@@ -85,19 +87,19 @@ if __name__ == '__main__':
     #     metric_id=spms.Distances.EUCLIDEAN
     # )
 
-    ucdd_eval_and_write_res.eval_and_write_all(
-        rel_path='synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced',
-        scaling_list=[spms.Scalers.MINMAX],
-        encoding_list=[spms.Encoders.EXCLUDE],
-        test_size=0.7,
-        num_ref_batches=3,
-        num_test_batches=7,
-        num_runs=10,
-        additional_check_list=[True],
-        detect_all_training_batches_list=[False],
-        use_pyclustering_list=[True],
-        metric_id_list=[spms.Distances.EUCLIDEAN]
-    )
+    # ucdd_eval_and_write_res.eval_and_write_all(
+    #     rel_path='synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced',
+    #     scaling_list=[spms.Scalers.MINMAX],
+    #     encoding_list=[spms.Encoders.EXCLUDE],
+    #     test_size=0.7,
+    #     num_ref_batches=3,
+    #     num_test_batches=7,
+    #     num_runs=10,
+    #     additional_check_list=[True],
+    #     detect_all_training_batches_list=[False],
+    #     use_pyclustering_list=[True],
+    #     metric_id_list=[spms.Distances.EUCLIDEAN]
+    # )
 
     # print('all_occurrences', all_occurrences)
     #

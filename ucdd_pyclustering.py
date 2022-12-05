@@ -103,7 +103,7 @@ def nn_metric_from_id(metric_id):
 
 
 def compute_neighbors(u, v, metric_id, debug_string='v'):
-    neigh = NearestNeighbors(n_neighbors=1, metric=nn_metric_from_id(metric_id))
+    neigh = NearestNeighbors(n_neighbors=1, metric=nn_metric_from_id(metric_id), n_jobs=-1)
     # neigh = NearestNeighbors(n_neighbors=1, metric='chebyshev')
     neigh.fit(v)
 
@@ -152,6 +152,7 @@ def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check
 
 def drift_occurrences_list(
         X_ref_batches, X_test_batches, random_state, additional_check, detect_all_training_batches,
+        only_first_drift,
         show_2d_plots=False, debug=False, metric_id=spms.Distances.EUCLIDEAN
 ):
     """Return a list of all batches where the algorithm detected drift"""
@@ -173,5 +174,6 @@ def drift_occurrences_list(
                 drift = drift | drift_here
         if drift:
             drift_signal_locations.append(i)
+            if only_first_drift: break
         if debug: print('\n\n')
     return drift_signal_locations

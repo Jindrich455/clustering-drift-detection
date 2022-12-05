@@ -125,9 +125,30 @@ def preprocess_df_x(df_x_ref, df_x_test, df_y_ref, scaling, encoding):
     return df_x_ref_final, df_x_test_final
 
 
+def detection_fpr(drift_locations, true_drift_idx):
+    fpr = []
+    if drift_locations != []:
+        first_detection_idx = drift_locations[0]
+        if first_detection_idx <= true_drift_idx:
+            fpr = (true_drift_idx - first_detection_idx) / (true_drift_idx + 1)
+    return fpr
+
+
+def detection_latency(drift_locations, num_test_batches, true_drift_idx):
+    latency = []
+    if drift_locations != []:
+        first_detection_idx = drift_locations[0]
+        if first_detection_idx >= true_drift_idx:
+            num_batches_with_drift = true_drift_idx + 1
+            latency = (first_detection_idx - true_drift_idx) / num_batches_with_drift
+    return latency
+
+
 def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
                   random_state, additional_check, detect_all_training_batches,
-                  debug=False, use_pyclustering=False, metric_id=spms.Distances.EUCLIDEAN):
+                  only_first_drift=False,
+                  debug=False, use_pyclustering=False, metric_id=spms.Distances.EUCLIDEAN,
+                  true_drift_idx=2):
     df_x, df_y = accepting.get_clean_df(file_path)
 
     # convert labels to 0 and 1
@@ -155,6 +176,7 @@ def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_
         drift_locations = ucdd_pyclustering.drift_occurrences_list(
             x_ref_batches, x_test_batches, random_state=random_state, additional_check=additional_check,
             detect_all_training_batches=detect_all_training_batches,
+            only_first_drift=only_first_drift,
             debug=debug,
             metric_id=metric_id
         )
@@ -164,17 +186,22 @@ def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_
             detect_all_training_batches=detect_all_training_batches,
             debug=debug)
     print('drift locations', drift_locations)
+
+
+
     return drift_locations
 
 
 def evaluate_ucdd_multiple_random_states(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
-                  random_states, additional_check, detect_all_training_batches,
-                  debug=False, use_pyclustering=False, metric_id=spms.Distances.EUCLIDEAN):
+                                         random_states, additional_check, detect_all_training_batches,
+                                         only_first_drift,
+                                         debug=False, use_pyclustering=False, metric_id=spms.Distances.EUCLIDEAN):
     drift_locations_multiple_runs = []
     for random_state in random_states:
         drift_locations = evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
-                  random_state, additional_check, detect_all_training_batches,
-                  debug=debug, use_pyclustering=use_pyclustering, metric_id=metric_id)
+                                        random_state, additional_check, detect_all_training_batches,
+                                        only_first_drift=only_first_drift,
+                                        debug=debug, use_pyclustering=use_pyclustering, metric_id=metric_id)
         drift_locations_binary = np.repeat(False, num_test_batches)
         drift_locations_binary[drift_locations] = True
         drift_locations_multiple_runs.append(list(drift_locations_binary))
