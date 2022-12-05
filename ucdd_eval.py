@@ -165,3 +165,18 @@ def evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_
             debug=debug)
     print('drift locations', drift_locations)
     return drift_locations
+
+
+def evaluate_ucdd_multiple_random_states(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
+                  random_states, additional_check, detect_all_training_batches,
+                  debug=False, use_pyclustering=False, metric_id=spms.Distances.EUCLIDEAN):
+    drift_locations_multiple_runs = []
+    for random_state in random_states:
+        drift_locations = evaluate_ucdd(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
+                  random_state, additional_check, detect_all_training_batches,
+                  debug=debug, use_pyclustering=use_pyclustering, metric_id=metric_id)
+        drift_locations_binary = np.repeat(False, num_test_batches)
+        drift_locations_binary[drift_locations] = True
+        drift_locations_multiple_runs.append(list(drift_locations_binary))
+
+    return drift_locations_multiple_runs
