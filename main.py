@@ -2,6 +2,7 @@ import csv
 import os
 import random
 
+import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.compose import make_column_selector as selector
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, OrdinalEncoder
@@ -55,9 +56,6 @@ def convert_filenames_to_directories():
 
 
 if __name__ == '__main__':
-    # random_states = take_random_states(num_runs=1)
-    dataset_path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'
-
     # all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
     #     file_path='Datasets_concept_drift/' + rel_path + '.arff',
     #     scaling=spms.Scalers.MINMAX,
@@ -73,16 +71,29 @@ if __name__ == '__main__':
     #     metric_id=spms.Distances.EUCLIDEAN
     # )
 
-    ucdd_eval_and_write_res.eval_and_write(
-        dataset_path=dataset_path,
-        scaling=spms.Scalers.MINMAX,
-        encoding=spms.Encoders.EXCLUDE,
+    # ucdd_eval_and_write_res.eval_and_write(
+    #     dataset_path=dataset_path,
+    #     scaling=spms.Scalers.MINMAX,
+    #     encoding=spms.Encoders.EXCLUDE,
+    #     test_size=0.7,
+    #     num_ref_batches=3,
+    #     num_test_batches=7,
+    #     additional_check=False,
+    #     detect_all_training_batches=True,
+    #     metric_id=spms.Distances.EUCLIDEAN,
+    #     use_pyclustering=True
+    # )
+
+    ucdd_eval_and_write_res.eval_and_write_all(
+        dataset_path='Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff',
+        scalings=[spms.Scalers.MINMAX],
+        encodings=[spms.Encoders.EXCLUDE, spms.Encoders.ONEHOT, spms.Encoders.TARGET],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
-        additional_check=False,
-        detect_all_training_batches=True,
-        metric_id=spms.Distances.EUCLIDEAN,
+        additional_checks=[True, False],
+        detect_all_training_batches_list=[True, False],
+        metric_ids=[spms.Distances.EUCLIDEAN],
         use_pyclustering=True
     )
 

@@ -96,6 +96,7 @@ def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift
     drift_locations_arr = np.array(drift_locations)
     signal_locations_not_before_drift = drift_locations_arr[drift_locations_arr >= true_drift_idx]
     num_batches_with_drift = num_test_batches - true_drift_idx
+    drift_detected = False # says whether some drift detection was triggered at or after a drift occurrence
 
     if len(drift_locations) >= 1:
         first_drift_location_idx = drift_locations[0]
@@ -104,10 +105,12 @@ def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift
             if len(signal_locations_not_before_drift) > 0:
                 first_location_not_before_drift = signal_locations_not_before_drift[0]
                 latency = (first_location_not_before_drift - true_drift_idx) / num_batches_with_drift
+                drift_detected = True
         else:
             latency = (first_drift_location_idx - true_drift_idx) / num_batches_with_drift
+            drift_detected = True
 
-    return fpr, latency
+    return fpr, latency, drift_detected
 
 
 def detection_fpr(drift_locations, true_drift_idx):
@@ -232,7 +235,6 @@ def evaluate_ucdd_until_convergence(
     drift_locations_multiple_runs = []
     fprs_for_average = []
     latencies_for_average = []
-    drifts_undetected = []
     fprs_stdev = 1000.0
     latencies_stdev = 1000.0
     while random_state < max_runs and (fprs_stdev > std_threshold or latencies_stdev > std_threshold):
@@ -247,14 +249,10 @@ def evaluate_ucdd_until_convergence(
             debug=debug
         )
         drift_locations_multiple_runs.append(drift_locations)
-        fpr_for_average, latency_for_average = fpr_and_latency_when_averaging(
+        fpr_for_average, latency_for_average, drift_detected = fpr_and_latency_when_averaging(
             drift_locations, num_test_batches, true_drift_idx)
         fprs_for_average.append(fpr_for_average)
         latencies_for_average.append(latency_for_average)
-        if len(drift_locations) == 0:
-            drifts_undetected.append(True)
-        else:
-            drifts_undetected.append(False)
 
         # nonempty_drift_locations = []
         if random_state >= min_runs:

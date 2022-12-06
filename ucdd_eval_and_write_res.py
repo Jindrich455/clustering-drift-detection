@@ -114,39 +114,40 @@ def eval_and_write(
     relative_path = '/'.join(dataset_path.split('.')[0].split('/')[1:])
 
     print('filename', filename)
-    all_occurrences_binary = np.repeat(False, num_test_batches)
-    all_occurrences_binary[all_occurrences] = True
+    all_occurrences_binary = []
+    for drift_locations in all_occurrences:
+        all_current_occurrences_binary = np.repeat(False, num_test_batches)
+        all_current_occurrences_binary[drift_locations] = True
+        all_occurrences_binary.append(all_current_occurrences_binary)
     print('all_occurrences_binary', all_occurrences_binary)
-    write_detections_to_file([all_occurrences_binary], relative_path,
+    write_detections_to_file(all_occurrences_binary, relative_path,
                              filename=filename + '_raw.csv')
     write_metrics_to_file(mean_fpr, mean_latency, relative_path,
                           filename=filename + '_metrics.csv')
 
 
 def eval_and_write_all(
-        rel_path,
-        scaling_list,
-        encoding_list,
+        dataset_path,
+        scalings,
+        encodings,
         test_size,
         num_ref_batches,
         num_test_batches,
-        num_runs,
-        additional_check_list,
+        additional_checks,
         detect_all_training_batches_list,
-        debug=False,
-        use_pyclustering_list=[False],
-        metric_id_list=[spms.Distances.EUCLIDEAN]):
+        metric_ids,
+        use_pyclustering=True
+):
 
-    arg_tuples = list(itertools.product(scaling_list, encoding_list, additional_check_list,
-                                        detect_all_training_batches_list, use_pyclustering_list, metric_id_list))
+    arg_tuples = list(itertools.product(scalings, encodings, additional_checks,
+                                        detect_all_training_batches_list, metric_ids))
 
     for arg_tuple in arg_tuples:
         scaling = arg_tuple[0]
         encoding = arg_tuple[1]
         additional_check = arg_tuple[2]
         detect_all_training_batches = arg_tuple[3]
-        use_pyclustering = arg_tuple[4]
-        metric_id = arg_tuple[5]
+        metric_id = arg_tuple[4]
 
         print(scaling)
         print(encoding)
@@ -156,15 +157,13 @@ def eval_and_write_all(
         print(metric_id)
 
         eval_and_write(
-            rel_path,
+            dataset_path,
             scaling,
             encoding,
             test_size,
             num_ref_batches,
             num_test_batches,
-            num_runs,
             additional_check,
             detect_all_training_batches,
-            use_pyclustering,
-            metric_id,
+            metric_id
         )
