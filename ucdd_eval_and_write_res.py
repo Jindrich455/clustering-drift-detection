@@ -142,7 +142,8 @@ def eval_and_write_all(
     arg_tuples = list(itertools.product(scalings, encodings, additional_checks,
                                         detect_all_training_batches_list, metric_ids))
 
-    for arg_tuple in arg_tuples:
+    for i, arg_tuple in enumerate(arg_tuples):
+        print('argument combination #', i)
         scaling = arg_tuple[0]
         encoding = arg_tuple[1]
         additional_check = arg_tuple[2]
