@@ -55,22 +55,36 @@ def convert_filenames_to_directories():
 
 
 if __name__ == '__main__':
-    random_states = take_random_states(num_runs=1)
+    # random_states = take_random_states(num_runs=1)
     rel_path = 'synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced'
 
-    all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
+    # all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
+    #     file_path='Datasets_concept_drift/' + rel_path + '.arff',
+    #     scaling=spms.Scalers.MINMAX,
+    #     encoding=spms.Encoders.ONEHOT,
+    #     test_size=0.7,
+    #     num_ref_batches=3,
+    #     num_test_batches=7,
+    #     random_states=random_states,
+    #     additional_check=True,
+    #     detect_all_training_batches=False,
+    #     only_first_drift=True,
+    #     use_pyclustering=True,
+    #     metric_id=spms.Distances.EUCLIDEAN
+    # )
+
+    all_occurrences = ucdd_eval.evaluate_ucdd_until_convergence(
         file_path='Datasets_concept_drift/' + rel_path + '.arff',
         scaling=spms.Scalers.MINMAX,
-        encoding=spms.Encoders.ONEHOT,
+        encoding=spms.Encoders.EXCLUDE,
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
-        random_states=random_states,
         additional_check=True,
         detect_all_training_batches=False,
+        metric_id=spms.Distances.EUCLIDEANSQUARE,
         only_first_drift=True,
-        use_pyclustering=True,
-        metric_id=spms.Distances.EUCLIDEAN
+        use_pyclustering=True
     )
 
     # ucdd_eval_and_write_res.eval_and_write(

@@ -90,6 +90,26 @@ def preprocess_df_x(df_x_ref, df_x_test, df_y_ref, scaling, encoding):
     return df_x_ref_final, df_x_test_final
 
 
+def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift_idx):
+    fpr = 0
+    latency = 1
+    drift_locations_arr = np.array(drift_locations)
+    signal_locations_not_before_drift = drift_locations_arr[drift_locations_arr >= true_drift_idx]
+    num_batches_with_drift = num_test_batches - true_drift_idx
+
+    if len(drift_locations) >= 1:
+        first_drift_location_idx = drift_locations[0]
+        if first_drift_location_idx < true_drift_idx:
+            fpr = (true_drift_idx - first_drift_location_idx) / true_drift_idx
+            if len(signal_locations_not_before_drift) > 0:
+                first_location_not_before_drift = signal_locations_not_before_drift[0]
+                latency = (first_location_not_before_drift - true_drift_idx) / num_batches_with_drift
+        else:
+            latency = (first_drift_location_idx - true_drift_idx) / num_batches_with_drift
+
+    return fpr, latency
+
+
 def detection_fpr(drift_locations, true_drift_idx):
     fpr = []
     if drift_locations != []:
@@ -109,21 +129,13 @@ def detection_latency(drift_locations, true_drift_idx):
     return latency
 
 
-def evaluate_ucdd(
+def obtain_preprocessed_batches(
         file_path,
         scaling,
         encoding,
         test_size,
         num_ref_batches,
-        num_test_batches,
-        random_state,
-        additional_check,
-        detect_all_training_batches,
-        metric_id,
-        only_first_drift=False,
-        use_pyclustering=True,
-        debug=False,
-        true_drift_idx=2
+        num_test_batches
 ):
     df_x, df_y = accepting.get_clean_df(file_path)
 
@@ -146,6 +158,35 @@ def evaluate_ucdd(
         df_x_ref, df_x_test, df_y_ref, df_y_test, num_ref_batches=num_ref_batches, num_test_batches=num_test_batches
     )
 
+    return x_ref_batches, y_ref_batches, x_test_batches, y_test_batches
+
+
+def evaluate_ucdd(
+        file_path,
+        scaling,
+        encoding,
+        test_size,
+        num_ref_batches,
+        num_test_batches,
+        random_state,
+        additional_check,
+        detect_all_training_batches,
+        metric_id,
+        only_first_drift=False,
+        use_pyclustering=True,
+        true_drift_idx=2,
+        debug=False
+):
+    # do all preprocessing and obtain the final batches
+    x_ref_batches, y_ref_batches, x_test_batches, y_test_batches = obtain_preprocessed_batches(
+        file_path,
+        scaling,
+        encoding,
+        test_size,
+        num_ref_batches,
+        num_test_batches
+    )
+
     # use ucdd on the batched data and find drift locations
     drift_locations = ucdd_pyclustering.drift_occurrences_list(
         x_ref_batches,
@@ -160,6 +201,100 @@ def evaluate_ucdd(
     print('drift locations', drift_locations)
 
     return drift_locations
+
+
+def evaluate_ucdd_until_convergence(
+        file_path,
+        scaling,
+        encoding,
+        test_size,
+        num_ref_batches,
+        num_test_batches,
+        additional_check,
+        detect_all_training_batches,
+        metric_id,
+        only_first_drift=False,
+        use_pyclustering=True,
+        min_runs=5,
+        max_runs=50,
+        std_threshold=0.1,
+        highest_fq_threshold=0.5,
+        true_drift_idx=2,
+        debug=False
+):
+    # do all preprocessing and obtain the final batches
+    x_ref_batches, y_ref_batches, x_test_batches, y_test_batches = obtain_preprocessed_batches(
+        file_path,
+        scaling,
+        encoding,
+        test_size,
+        num_ref_batches,
+        num_test_batches
+    )
+
+    random_state = 0
+    drift_locations_multiple_runs = []
+    detection_std = 1.0
+    highest_frequency = 0.0
+    while random_state < max_runs and detection_std > std_threshold and highest_frequency < highest_fq_threshold:
+        drift_locations = ucdd_pyclustering.drift_occurrences_list(
+            x_ref_batches,
+            x_test_batches,
+            random_state=random_state,
+            additional_check=additional_check,
+            detect_all_training_batches=detect_all_training_batches,
+            only_first_drift=only_first_drift,
+            metric_id=metric_id,
+            debug=debug
+        )
+        drift_locations_multiple_runs.append(drift_locations)
+        random_state += 1
+
+        nonempty_drift_locations = []
+        if random_state >= min_runs:
+            nonempty_drift_locations = [lst for lst in drift_locations_multiple_runs if len(lst) > 0]
+            if len(nonempty_drift_locations) > 0:
+                normalised_drift_locations = np.array(nonempty_drift_locations) / (num_test_batches - 1)
+                # when drift was detected at least once, get the standard deviation of drift signal locations
+                detection_std = np.std(normalised_drift_locations)
+                nonempty_drift_locations_1d = np.ndarray.flatten(np.array(nonempty_drift_locations))
+                highest_frequency = np.amax(np.bincount(nonempty_drift_locations_1d)) / len(nonempty_drift_locations_1d)
+            else:
+                # if drift was not detected in either of the initial runs, assume it won't ever be detected
+                detection_std = 0.0
+
+        print('drift_locations_multiple_runs', drift_locations_multiple_runs)
+        print('nonempty_drift_locations', nonempty_drift_locations)
+        print('detection_std', detection_std)
+        print('highest_frequency', highest_frequency)
+    # nonempty_drift_locations = [lst for lst in drift_locations_multiple_runs if len(lst) > 0]
+    # if len(nonempty_drift_locations) > 0:
+    #     # when drift was detected at least once, get the standard deviation of drift signal locations
+    #     detection_std = np.std(nonempty_drift_locations)
+    # else:
+    #     # if drift was never detected in all the initial runs, assume it won't ever be detected
+    #     detection_std = 0.0
+    #
+    # print('detection std after min_runs', detection_std)
+    #
+    # while random_state < max_runs and detection_std > std_threshold:
+    #     drift_locations = ucdd_pyclustering.drift_occurrences_list(
+    #         x_ref_batches,
+    #         x_test_batches,
+    #         random_state=random_state,
+    #         additional_check=additional_check,
+    #         detect_all_training_batches=detect_all_training_batches,
+    #         only_first_drift=only_first_drift,
+    #         metric_id=metric_id,
+    #         debug=debug
+    #     )
+    #     drift_locations_multiple_runs.append(drift_locations)
+    #     random_state += 1
+    #     nonempty_drift_locations = [lst for lst in drift_locations_multiple_runs if len(lst) > 0]
+    #     if len(nonempty_drift_locations) > 0:
+    #         detection_std = np.std(nonempty_drift_locations)
+    #     print('current detection_std', detection_std)
+    return drift_locations_multiple_runs
 
 
 def evaluate_ucdd_multiple_random_states(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
