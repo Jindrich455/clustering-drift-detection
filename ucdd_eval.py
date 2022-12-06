@@ -172,7 +172,6 @@ def evaluate_ucdd(
         additional_check,
         detect_all_training_batches,
         metric_id,
-        only_first_drift=False,
         use_pyclustering=True,
         true_drift_idx=2,
         debug=False
@@ -194,7 +193,6 @@ def evaluate_ucdd(
         random_state=random_state,
         additional_check=additional_check,
         detect_all_training_batches=detect_all_training_batches,
-        only_first_drift=only_first_drift,
         metric_id=metric_id,
         debug=debug
     )
@@ -213,7 +211,6 @@ def evaluate_ucdd_until_convergence(
         additional_check,
         detect_all_training_batches,
         metric_id,
-        only_first_drift=False,
         use_pyclustering=True,
         min_runs=5,
         max_runs=50,
@@ -246,7 +243,6 @@ def evaluate_ucdd_until_convergence(
             random_state=random_state,
             additional_check=additional_check,
             detect_all_training_batches=detect_all_training_batches,
-            only_first_drift=only_first_drift,
             metric_id=metric_id,
             debug=debug
         )
@@ -275,7 +271,6 @@ def evaluate_ucdd_until_convergence(
 
 def evaluate_ucdd_multiple_random_states(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
                                          random_states, additional_check, detect_all_training_batches,
-                                         only_first_drift,
                                          debug=False, use_pyclustering=False, metric_id=spms.Distances.EUCLIDEAN):
     drift_locations_multiple_runs = []
     for random_state in random_states:
@@ -290,7 +285,6 @@ def evaluate_ucdd_multiple_random_states(file_path, scaling, encoding, test_size
             additional_check,
             detect_all_training_batches,
             metric_id=metric_id,
-            only_first_drift=only_first_drift,
             use_pyclustering=use_pyclustering,
             debug=debug
         )

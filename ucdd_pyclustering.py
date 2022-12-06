@@ -136,7 +136,6 @@ def drift_occurrences_list(
         random_state,
         additional_check,
         detect_all_training_batches,
-        only_first_drift,
         metric_id,
         show_2d_plots=False,
         debug=False
@@ -167,6 +166,5 @@ def drift_occurrences_list(
         if drift:
             print('drift at', i)
             drift_signal_locations.append(i)
-            if only_first_drift: break
         if debug: print('\n\n')
     return drift_signal_locations

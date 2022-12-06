@@ -3,6 +3,7 @@ import os
 import random
 import itertools
 
+import numpy as np
 from sklearn.compose import ColumnTransformer
 from sklearn.compose import make_column_selector as selector
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, OrdinalEncoder
@@ -69,33 +70,36 @@ def filename_from_params(
     filename += '_' + ('with_check' if additional_check else 'no_check')
     filename += '_' + ('with_alltraining' if detect_all_training_batches else 'no_alltraning')
     filename += '_' + str(num_random_states) + '_runs'
-    filename += '_' + str(num_test_batches) + '_testbatches'
+    filename += '_' + str(num_test_batches) + '_tbs'
     return filename
 
 
+def write_metrics_to_file(mean_fpr, mean_latency, relative_path, filename):
+    with open('runs_results/' + relative_path + '/' + filename, 'w', newline='') as f:
+        wr = csv.writer(f)
+        wr.writerow([mean_fpr])
+        wr.writerow([mean_latency])
+
+
 def eval_and_write(
-        rel_path,
+        dataset_path,
         scaling,
         encoding,
         test_size,
         num_ref_batches,
         num_test_batches,
-        num_runs,
         additional_check,
         detect_all_training_batches,
-        debug=False,
-        use_pyclustering=False,
-        metric_id=spms.Distances.EUCLIDEAN):
-    random_states = take_random_states(num_runs=num_runs)
-    file_path = 'Datasets_concept_drift/' + rel_path + '.arff'
-    all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
-        file_path=file_path,
+        metric_id,
+        use_pyclustering=True
+):
+    all_occurrences, mean_fpr, mean_latency = ucdd_eval.evaluate_ucdd_until_convergence(
+        file_path=dataset_path,
         scaling=scaling,
         encoding=encoding,
         test_size=test_size,
         num_ref_batches=num_ref_batches,
         num_test_batches=num_test_batches,
-        random_states=random_states,
         additional_check=additional_check,
         detect_all_training_batches=detect_all_training_batches,
         use_pyclustering=use_pyclustering,
@@ -104,11 +108,19 @@ def eval_and_write(
 
     filename = filename_from_params(encoding, scaling, metric_id, additional_check,
                                     detect_all_training_batches,
-                                    len(random_states),
+                                    len(all_occurrences),
                                     num_test_batches)
+
+    relative_path = '/'.join(dataset_path.split('.')[0].split('/')[1:])
+
     print('filename', filename)
-    write_detections_to_file(all_occurrences, rel_path,
-                             filename=filename + '.csv')
+    all_occurrences_binary = np.repeat(False, num_test_batches)
+    all_occurrences_binary[all_occurrences] = True
+    print('all_occurrences_binary', all_occurrences_binary)
+    write_detections_to_file([all_occurrences_binary], relative_path,
+                             filename=filename + '_raw.csv')
+    write_metrics_to_file(mean_fpr, mean_latency, relative_path,
+                          filename=filename + '_metrics.csv')
 
 
 def eval_and_write_all(

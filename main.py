@@ -56,7 +56,7 @@ def convert_filenames_to_directories():
 
 if __name__ == '__main__':
     # random_states = take_random_states(num_runs=1)
-    rel_path = 'synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced'
+    dataset_path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'
 
     # all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
     #     file_path='Datasets_concept_drift/' + rel_path + '.arff',
@@ -73,21 +73,33 @@ if __name__ == '__main__':
     #     metric_id=spms.Distances.EUCLIDEAN
     # )
 
-    all_occurrences, mean_fpr, mean_latency = ucdd_eval.evaluate_ucdd_until_convergence(
-        file_path='Datasets_concept_drift/' + rel_path + '.arff',
+    ucdd_eval_and_write_res.eval_and_write(
+        dataset_path=dataset_path,
         scaling=spms.Scalers.MINMAX,
-        encoding=spms.Encoders.ORDINAL,
+        encoding=spms.Encoders.EXCLUDE,
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_check=False,
-        detect_all_training_batches=False,
+        detect_all_training_batches=True,
         metric_id=spms.Distances.EUCLIDEAN,
-        only_first_drift=False,
         use_pyclustering=True
     )
-    print('mean_fpr', mean_fpr)
-    print('mean_latency', mean_latency)
+
+    # all_occurrences, mean_fpr, mean_latency = ucdd_eval.evaluate_ucdd_until_convergence(
+    #     file_path='Datasets_concept_drift/' + rel_path + '.arff',
+    #     scaling=spms.Scalers.MINMAX,
+    #     encoding=spms.Encoders.ORDINAL,
+    #     test_size=0.7,
+    #     num_ref_batches=3,
+    #     num_test_batches=7,
+    #     additional_check=False,
+    #     detect_all_training_batches=False,
+    #     metric_id=spms.Distances.EUCLIDEAN,
+    #     use_pyclustering=True
+    # )
+    # print('mean_fpr', mean_fpr)
+    # print('mean_latency', mean_latency)
 
     # ucdd_eval_and_write_res.eval_and_write(
     #     rel_path='synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced',
