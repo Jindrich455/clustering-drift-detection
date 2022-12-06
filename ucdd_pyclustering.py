@@ -7,7 +7,7 @@ from pyclustering.cluster.kmeans import kmeans, kmeans_visualizer
 from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
 import scipy
 from pyclustering.utils import distance_metric, type_metric
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.neighbors import NearestNeighbors
 import supported_parameters as spms
 
@@ -45,47 +45,20 @@ def join_predict_split(df_ref_window, df_test_window, random_state, metric_id):
     df_union = pd.concat([df_ref_window, df_test_window])
     df_union_new_index = df_union.set_index(np.arange(len(df_union)))
 
-    # predict their label values
-    # predicted_labels = KMeans(n_clusters=2, random_state=random_state).fit_predict(df_union_new_index)
+    if metric_id == spms.Distances.EUCLIDEAN:
+        # predict their label values
+        predicted_labels = KMeans(n_clusters=2, random_state=random_state).fit_predict(df_union_new_index)
+    else:
+        metric = pyclusters_metric_from_id(metric_id)
 
-    # Prepare initial centers using K-Means++ method.
-    # metric = distance_metric(type_metric.USER_DEFINED, func=scipy.spatial.distance.euclidean)
-    # metric = distance_metric(type_metric.EUCLIDEAN)
+        initial_centers = kmeans_plusplus_initializer(df_union, 2, random_state=random_state).initialize()
+        # Create instance of K-Means algorithm with prepared centers.
+        kmeans_instance = kmeans(df_union, initial_centers, random_state=random_state, metric=metric)
+        kmeans_instance.process()
+        clusters = kmeans_instance.get_clusters()
 
-    metric = pyclusters_metric_from_id(metric_id)
-    # metric = distance_metric(type_metric.CHEBYSHEV)
-
-    initial_centers = kmeans_plusplus_initializer(df_union, 2, random_state=random_state).initialize()
-    # Create instance of K-Means algorithm with prepared centers.
-    kmeans_instance = kmeans(df_union, initial_centers, random_state=random_state, metric=metric)
-    kmeans_instance.process()
-    clusters = kmeans_instance.get_clusters()
-    # print('clusters')
-    # print(clusters)
-    final_centers = kmeans_instance.get_centers()
-    # print('final centers')
-    # print(final_centers)
-
-    predicted_labels = np.repeat(0, len(df_union))
-    predicted_labels[clusters[0]] = 1
-    # print('predicted_labels')
-    # print(predicted_labels)
-
-    plus_prediction = df_union.iloc[clusters[0]]
-    # print('plus_prediction')
-    # print(plus_prediction)
-
-    minus_prediction = df_union.iloc[clusters[1]]
-    # print('minus_prediction')
-    # print(minus_prediction)
-
-    # predict = kmeans_instance.predict(df_union)
-    # print('predict')
-    # print(predict)
-    # # Visualize obtained results
-    # kmeans_visualizer.show_clusters(df_union, clusters, final_centers)
-
-
+        predicted_labels = np.repeat(0, len(df_union))
+        predicted_labels[clusters[0]] = 1
 
     # split values by predicted label and window
     return split_back_to_windows(df_union_new_index, predicted_labels, len(df_ref_window), len(df_test_window))
@@ -104,7 +77,6 @@ def nn_metric_from_id(metric_id):
 
 def compute_neighbors(u, v, metric_id, debug_string='v'):
     neigh = NearestNeighbors(n_neighbors=1, metric=nn_metric_from_id(metric_id), n_jobs=-1)
-    # neigh = NearestNeighbors(n_neighbors=1, metric='chebyshev')
     neigh.fit(v)
 
     neigh_ind_v = neigh.kneighbors(u, return_distance=False)
@@ -127,8 +99,16 @@ def compute_beta(df_u, df_v0, df_v1, show_2d_plots, debug, metric_id, beta_x=0.5
     return beta, beta_additional
 
 
-def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check, debug, metric_id,
-              threshold=0.05):
+def detect_cd(
+        df_X_ref,
+        df_X_test,
+        random_state,
+        additional_check,
+        metric_id,
+        show_2d_plots,
+        debug,
+        threshold=0.05
+):
     """Detect whether a concept drift occurred based on a reference and a testing window"""
     df_ref_plus, df_ref_minus, df_test_plus, df_test_minus = \
         join_predict_split(df_X_ref, df_X_test, random_state, metric_id)
@@ -151,9 +131,15 @@ def detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check
 
 
 def drift_occurrences_list(
-        X_ref_batches, X_test_batches, random_state, additional_check, detect_all_training_batches,
+        X_ref_batches,
+        X_test_batches,
+        random_state,
+        additional_check,
+        detect_all_training_batches,
         only_first_drift,
-        show_2d_plots=False, debug=False, metric_id=spms.Distances.EUCLIDEAN
+        metric_id,
+        show_2d_plots=False,
+        debug=False
 ):
     """Return a list of all batches where the algorithm detected drift"""
     print('############################ USING PYCLUSTERING ############################')
@@ -166,13 +152,20 @@ def drift_occurrences_list(
             drift = True
         for j, df_X_ref in enumerate(X_ref_batches):
             if debug: print('--- training batch', j, '---')
-            drift_here = detect_cd(df_X_ref, df_X_test, random_state, show_2d_plots, additional_check, debug,
-                                   metric_id)
+            drift_here = detect_cd(
+                df_X_ref,
+                df_X_test,
+                random_state,
+                additional_check,
+                metric_id,
+                show_2d_plots,
+                debug)
             if detect_all_training_batches:
                 drift = drift & drift_here
             else:
                 drift = drift | drift_here
         if drift:
+            print('drift at', i)
             drift_signal_locations.append(i)
             if only_first_drift: break
         if debug: print('\n\n')

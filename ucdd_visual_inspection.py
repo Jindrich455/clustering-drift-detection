@@ -68,9 +68,13 @@ def show_ucdd(
 
     # use ucdd on the batched data and find drift locations
     drift_locations = ucdd_pyclustering.drift_occurrences_list(
-        x_ref_batches, x_test_batches, random_state=random_state, additional_check=additional_check, show_2d_plots=True,
-        detect_all_training_batches=False,
-        metric_id=spms.Distances.EUCLIDEAN
+        x_ref_batches,
+        x_test_batches,
+        random_state=random_state,
+        additional_check=additional_check,
+        metric_id=spms.Distances.EUCLIDEAN,
+        show_2d_plots=True,
+        detect_all_training_batches=False
     )
 
     # df_x, df_y = accepting.get_clean_df('tests/test_datasets/drift_2d.arff')
