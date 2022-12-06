@@ -217,8 +217,7 @@ def evaluate_ucdd_until_convergence(
         use_pyclustering=True,
         min_runs=5,
         max_runs=50,
-        std_threshold=0.1,
-        highest_fq_threshold=0.5,
+        std_threshold=0.15,
         true_drift_idx=2,
         debug=False
 ):
@@ -234,9 +233,13 @@ def evaluate_ucdd_until_convergence(
 
     random_state = 0
     drift_locations_multiple_runs = []
-    detection_std = 1.0
-    highest_frequency = 0.0
-    while random_state < max_runs and detection_std > std_threshold and highest_frequency < highest_fq_threshold:
+    fprs_for_average = []
+    latencies_for_average = []
+    drifts_undetected = []
+    fprs_stdev = 1000.0
+    latencies_stdev = 1000.0
+    while random_state < max_runs and (fprs_stdev > std_threshold or latencies_stdev > std_threshold):
+        print('random_state', random_state)
         drift_locations = ucdd_pyclustering.drift_occurrences_list(
             x_ref_batches,
             x_test_batches,
@@ -248,53 +251,26 @@ def evaluate_ucdd_until_convergence(
             debug=debug
         )
         drift_locations_multiple_runs.append(drift_locations)
-        random_state += 1
+        fpr_for_average, latency_for_average = fpr_and_latency_when_averaging(
+            drift_locations, num_test_batches, true_drift_idx)
+        fprs_for_average.append(fpr_for_average)
+        latencies_for_average.append(latency_for_average)
+        if len(drift_locations) == 0:
+            drifts_undetected.append(True)
+        else:
+            drifts_undetected.append(False)
 
-        nonempty_drift_locations = []
+        # nonempty_drift_locations = []
         if random_state >= min_runs:
-            nonempty_drift_locations = [lst for lst in drift_locations_multiple_runs if len(lst) > 0]
-            if len(nonempty_drift_locations) > 0:
-                normalised_drift_locations = np.array(nonempty_drift_locations) / (num_test_batches - 1)
-                # when drift was detected at least once, get the standard deviation of drift signal locations
-                detection_std = np.std(normalised_drift_locations)
-                nonempty_drift_locations_1d = np.ndarray.flatten(np.array(nonempty_drift_locations))
-                highest_frequency = np.amax(np.bincount(nonempty_drift_locations_1d)) / len(nonempty_drift_locations_1d)
-            else:
-                # if drift was not detected in either of the initial runs, assume it won't ever be detected
-                detection_std = 0.0
+            fprs_stdev = np.std(fprs_for_average)
+            latencies_stdev = np.std(latencies_for_average)
 
+        print('fprs_stdev', fprs_stdev)
+        print('latencies_stdev', latencies_stdev)
         print('drift_locations_multiple_runs', drift_locations_multiple_runs)
-        print('nonempty_drift_locations', nonempty_drift_locations)
-        print('detection_std', detection_std)
-        print('highest_frequency', highest_frequency)
-    # nonempty_drift_locations = [lst for lst in drift_locations_multiple_runs if len(lst) > 0]
-    # if len(nonempty_drift_locations) > 0:
-    #     # when drift was detected at least once, get the standard deviation of drift signal locations
-    #     detection_std = np.std(nonempty_drift_locations)
-    # else:
-    #     # if drift was never detected in all the initial runs, assume it won't ever be detected
-    #     detection_std = 0.0
-    #
-    # print('detection std after min_runs', detection_std)
-    #
-    # while random_state < max_runs and detection_std > std_threshold:
-    #     drift_locations = ucdd_pyclustering.drift_occurrences_list(
-    #         x_ref_batches,
-    #         x_test_batches,
-    #         random_state=random_state,
-    #         additional_check=additional_check,
-    #         detect_all_training_batches=detect_all_training_batches,
-    #         only_first_drift=only_first_drift,
-    #         metric_id=metric_id,
-    #         debug=debug
-    #     )
-    #     drift_locations_multiple_runs.append(drift_locations)
-    #     random_state += 1
-    #     nonempty_drift_locations = [lst for lst in drift_locations_multiple_runs if len(lst) > 0]
-    #     if len(nonempty_drift_locations) > 0:
-    #         detection_std = np.std(nonempty_drift_locations)
-    #     print('current detection_std', detection_std)
-    return drift_locations_multiple_runs
+
+        random_state += 1
+    return drift_locations_multiple_runs, np.mean(fprs_for_average), np.mean(latencies_for_average)
 
 
 def evaluate_ucdd_multiple_random_states(file_path, scaling, encoding, test_size, num_ref_batches, num_test_batches,
