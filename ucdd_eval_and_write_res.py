@@ -68,7 +68,7 @@ def filename_from_params(
     filename += '_' + scaling.name.lower() + '_scaling'
     filename += '_' + metric_id.name.lower() + '_distance'
     filename += '_' + ('with_check' if additional_check else 'no_check')
-    filename += '_' + ('with_alltraining' if detect_all_training_batches else 'no_alltraning')
+    filename += '_' + ('with_alltraining' if detect_all_training_batches else 'no_alltraining')
     filename += '_' + str(num_random_states) + '_runs'
     filename += '_' + str(num_test_batches) + '_tbs'
     return filename

@@ -107,8 +107,13 @@ def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift
                 latency = (first_location_not_before_drift - true_drift_idx) / num_batches_with_drift
                 drift_detected = True
         else:
+            print(first_drift_location_idx)
+            print(true_drift_idx)
+            print(num_batches_with_drift)
             latency = (first_drift_location_idx - true_drift_idx) / num_batches_with_drift
             drift_detected = True
+
+    # print(fpr, latency, drift_detected)
 
     return fpr, latency, drift_detected
 

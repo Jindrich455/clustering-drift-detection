@@ -3,6 +3,7 @@ import os
 import random
 
 import numpy as np
+import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.compose import make_column_selector as selector
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, OrdinalEncoder
@@ -39,7 +40,8 @@ def generate_random_states():
 def write_detections_to_file(all_detections, path, filename):
     # print('current # files', str(len(os.listdir('runs_results/' + path))))
     # current_n_files = len(os.listdir('runs_results/' + path))
-    # filename = 'run' + str(current_n_files + 1) + '.csv'
+    # filename = 'run' + str(current_n_files +
+    # 1) + '.csv'
     # print('filename', filename)
     with open('runs_results/' + path + '/' + filename, 'w', newline='') as f:
         wr = csv.writer(f)
@@ -57,6 +59,14 @@ def convert_filenames_to_directories():
 
 
 if __name__ == '__main__':
+    # df1 = pd.DataFrame({'val': 1, 'alltraining': 'no'}, index=[0])
+    # df2 = pd.DataFrame({'val': 1, 'alltraining': 'with'}, index=[0])
+    # print(df1.columns)
+    # print(df2.columns)
+    # combined = pd.concat([df1, df2])
+    # print('combined')
+    # print(combined)
+
     # all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
     #     file_path='Datasets_concept_drift/' + rel_path + '.arff',
     #     scaling=spms.Scalers.MINMAX,
@@ -85,12 +95,24 @@ if __name__ == '__main__':
     #     use_pyclustering=True
     # )
 
-    path = 'runs_results/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced'
-    name = 'exclude_encoding_minmax_scaling_euclidean_distance_with_check_no_alltraning_6_runs_7_tbs_raw.csv'
-    # results = read_and_evaluate.csv_to_2d_str_list(path + '/' + name)
-    results = read_and_evaluate.raw_results_2d_int_list(path + '/' + name)
-    print('results')
-    print(results)
+    path = 'runs_results/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced'
+    # all_info = read_and_evaluate.all_info_for_file(csv_path)
+    # print('all_info')
+    # print(all_info)
+    # read_and_evaluate.write_all_info_df_to_csv(csv_path, all_info)
+    # read_and_evaluate.all_info_for_files([csv_path1, csv_path2])
+    all_info_df = read_and_evaluate.all_info_for_all_files_in_folder(path)
+    read_and_evaluate.write_all_info_all_files_df_to_csv(path, all_info_df)
+
+    # # results = read_and_evaluate.csv_to_2d_str_list(path + '/' + name)
+    # results = read_and_evaluate.raw_results_2d_int_list(path + '/' + name)
+    # print('results')
+    # print(results)
+    # read_and_evaluate.metrics_from_results(results)
+    #
+    # read_and_evaluate.df_from_filename(name)
+
+
 
     # path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'
     #
