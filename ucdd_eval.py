@@ -217,7 +217,7 @@ def evaluate_ucdd_until_convergence(
         detect_all_training_batches,
         metric_id,
         use_pyclustering=True,
-        min_runs=5,
+        min_runs=10,
         max_runs=200,
         s_err_threshold=0.05,
         true_drift_idx=2,
