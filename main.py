@@ -95,14 +95,15 @@ if __name__ == '__main__':
     #     use_pyclustering=True
     # )
 
-    path = 'runs_results/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced'
+    path = 'runs_results/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced'
     # all_info = read_and_evaluate.all_info_for_file(csv_path)
     # print('all_info')
     # print(all_info)
     # read_and_evaluate.write_all_info_df_to_csv(csv_path, all_info)
     # read_and_evaluate.all_info_for_files([csv_path1, csv_path2])
     all_info_df = read_and_evaluate.all_info_for_all_files_in_folder(path)
-    read_and_evaluate.write_all_info_all_files_df_to_csv(path, all_info_df)
+    useful_info_df = read_and_evaluate.rows_with_drift_detected(all_info_df)
+    read_and_evaluate.write_all_info_all_files_df_to_csv(path, useful_info_df, 'useful_metrics.csv')
 
     # # results = read_and_evaluate.csv_to_2d_str_list(path + '/' + name)
     # results = read_and_evaluate.raw_results_2d_int_list(path + '/' + name)

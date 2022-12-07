@@ -140,6 +140,13 @@ def all_info_for_all_files_in_folder(folder_path):
     return all_info_df
 
 
+def rows_with_drift_detected(all_info_df):
+    useful_info_df = all_info_df[all_info_df['detection_rate'] > 0]
+    print('only useful rows')
+    print(useful_info_df.to_string())
+    return useful_info_df
+
+
 def write_all_info_df_to_csv(raw_results_csv_path, all_info_df):
     path = Path('overall_results/' + '/'.join(raw_results_csv_path.split('/')[1:-1]) + '/metrics.csv')
     print('path', path)
@@ -147,8 +154,8 @@ def write_all_info_df_to_csv(raw_results_csv_path, all_info_df):
     all_info_df.to_csv(path, index=False)
 
 
-def write_all_info_all_files_df_to_csv(csv_path, all_info_df):
-    path = Path('overall_results/' + '/'.join(csv_path.split('/')[1:]) + '/metrics.csv')
+def write_all_info_all_files_df_to_csv(folder_path, all_info_df, new_file_name):
+    path = Path('overall_results/' + '/'.join(folder_path.split('/')[1:]) + '/' + new_file_name)
     print('path', path)
     path.parent.mkdir(parents=True, exist_ok=True)
     all_info_df.to_csv(path, index=False)
