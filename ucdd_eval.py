@@ -107,9 +107,6 @@ def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift
                 latency = (first_location_not_before_drift - true_drift_idx) / num_batches_with_drift
                 drift_detected = True
         else:
-            print(first_drift_location_idx)
-            print(true_drift_idx)
-            print(num_batches_with_drift)
             latency = (first_drift_location_idx - true_drift_idx) / num_batches_with_drift
             drift_detected = True
 
@@ -221,8 +218,8 @@ def evaluate_ucdd_until_convergence(
         metric_id,
         use_pyclustering=True,
         min_runs=5,
-        max_runs=50,
-        std_threshold=0.15,
+        max_runs=200,
+        s_err_threshold=0.05,
         true_drift_idx=2,
         debug=False
 ):
@@ -240,9 +237,9 @@ def evaluate_ucdd_until_convergence(
     drift_locations_multiple_runs = []
     fprs_for_average = []
     latencies_for_average = []
-    fprs_stdev = 1000.0
-    latencies_stdev = 1000.0
-    while random_state < max_runs and (fprs_stdev > std_threshold or latencies_stdev > std_threshold):
+    fprs_std_err = 1000.0
+    latencies_std_err = 1000.0
+    while random_state < max_runs and (fprs_std_err > s_err_threshold or latencies_std_err > s_err_threshold):
         print('random_state', random_state)
         drift_locations = ucdd_pyclustering.drift_occurrences_list(
             x_ref_batches,
@@ -260,12 +257,14 @@ def evaluate_ucdd_until_convergence(
         latencies_for_average.append(latency_for_average)
 
         # nonempty_drift_locations = []
-        if random_state >= min_runs:
-            fprs_stdev = np.std(fprs_for_average)
-            latencies_stdev = np.std(latencies_for_average)
+        if (random_state + 1) >= min_runs:
+            fprs_std_err = np.std(fprs_for_average)/np.sqrt(len(fprs_for_average))
+            latencies_std_err = np.std(latencies_for_average)/np.sqrt(len(latencies_for_average))
 
-        print('fprs_stdev', fprs_stdev)
-        print('latencies_stdev', latencies_stdev)
+        print('fprs_std_err', fprs_std_err)
+        print('fprs_mean', np.mean(fprs_for_average))
+        print('latencies_std_err', latencies_std_err)
+        print('latencies_mean', np.mean(latencies_for_average))
         print('drift_locations_multiple_runs', drift_locations_multiple_runs)
 
         random_state += 1

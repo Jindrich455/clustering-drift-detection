@@ -67,20 +67,18 @@ if __name__ == '__main__':
     # print('combined')
     # print(combined)
 
-    # all_occurrences = ucdd_eval.evaluate_ucdd_multiple_random_states(
-    #     file_path='Datasets_concept_drift/' + rel_path + '.arff',
-    #     scaling=spms.Scalers.MINMAX,
-    #     encoding=spms.Encoders.ONEHOT,
-    #     test_size=0.7,
-    #     num_ref_batches=3,
-    #     num_test_batches=7,
-    #     random_states=random_states,
-    #     additional_check=True,
-    #     detect_all_training_batches=False,
-    #     only_first_drift=True,
-    #     use_pyclustering=True,
-    #     metric_id=spms.Distances.EUCLIDEAN
-    # )
+    ucdd_eval.evaluate_ucdd_until_convergence(
+        file_path='Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff',
+        scaling=spms.Scalers.MINMAX,
+        encoding=spms.Encoders.ONEHOT,
+        test_size=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        additional_check=True,
+        detect_all_training_batches=False,
+        metric_id=spms.Distances.EUCLIDEAN,
+        use_pyclustering=True
+    )
 
     # ucdd_eval_and_write_res.eval_and_write(
     #     dataset_path=dataset_path,
@@ -95,15 +93,15 @@ if __name__ == '__main__':
     #     use_pyclustering=True
     # )
 
-    path = 'runs_results/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced'
-    # all_info = read_and_evaluate.all_info_for_file(csv_path)
-    # print('all_info')
-    # print(all_info)
-    # read_and_evaluate.write_all_info_df_to_csv(csv_path, all_info)
-    # read_and_evaluate.all_info_for_files([csv_path1, csv_path2])
-    all_info_df = read_and_evaluate.all_info_for_all_files_in_folder(path)
-    useful_info_df = read_and_evaluate.rows_with_drift_detected(all_info_df)
-    read_and_evaluate.write_all_info_all_files_df_to_csv(path, useful_info_df, 'useful_metrics.csv')
+    # path = 'runs_results/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced'
+    # # all_info = read_and_evaluate.all_info_for_file(csv_path)
+    # # print('all_info')
+    # # print(all_info)
+    # # read_and_evaluate.write_all_info_df_to_csv(csv_path, all_info)
+    # # read_and_evaluate.all_info_for_files([csv_path1, csv_path2])
+    # all_info_df = read_and_evaluate.all_info_for_all_files_in_folder(path)
+    # useful_info_df = read_and_evaluate.rows_with_drift_detected(all_info_df)
+    # read_and_evaluate.write_all_info_all_files_df_to_csv(path, useful_info_df, 'useful_metrics.csv')
 
     # # results = read_and_evaluate.csv_to_2d_str_list(path + '/' + name)
     # results = read_and_evaluate.raw_results_2d_int_list(path + '/' + name)
@@ -113,22 +111,36 @@ if __name__ == '__main__':
     #
     # read_and_evaluate.df_from_filename(name)
 
-
-
-    # path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'
+    # paths = [
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_1.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_5.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_05.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_10.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_20.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_1.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_5.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_05.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_10.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_20.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_1.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_5.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_05.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_10.arff',
+    #     'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_20.arff',
+    # ]
     #
-    # ucdd_eval_and_write_res.eval_and_write_all(
-    #     dataset_paths=['Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'],
-    #     scalings=[spms.Scalers.MINMAX],
-    #     encodings=[spms.Encoders.EXCLUDE],
-    #     test_size=0.7,
-    #     num_ref_batches=3,
-    #     num_test_batches=7,
-    #     additional_checks=[True, False],
-    #     detect_all_training_batches_list=[True, False],
-    #     metric_ids=[spms.Distances.MANHATTAN],
-    #     use_pyclustering=True
-    # )
+    ucdd_eval_and_write_res.eval_and_write_all(
+        dataset_paths=['Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'],
+        scalings=[spms.Scalers.MINMAX],
+        encodings=[spms.Encoders.EXCLUDE, spms.Encoders.ONEHOT, spms.Encoders.TARGET],
+        test_size=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        additional_checks=[True, False],
+        detect_all_training_batches_list=[False],
+        metric_ids=[spms.Distances.EUCLIDEAN],
+        use_pyclustering=True
+    )
 
     # all_occurrences, mean_fpr, mean_latency = ucdd_eval.evaluate_ucdd_until_convergence(
     #     file_path='Datasets_concept_drift/' + rel_path + '.arff',
