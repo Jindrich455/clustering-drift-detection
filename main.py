@@ -10,6 +10,7 @@ from category_encoders import TargetEncoder
 
 import accepting
 import my_preprocessing
+import read_and_evaluate
 import ucdd
 import ucdd_eval
 import ucdd_eval_and_write_res
@@ -84,20 +85,27 @@ if __name__ == '__main__':
     #     use_pyclustering=True
     # )
 
-    path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'
+    path = 'runs_results/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced'
+    name = 'exclude_encoding_minmax_scaling_euclidean_distance_with_check_no_alltraning_6_runs_7_tbs_raw.csv'
+    # results = read_and_evaluate.csv_to_2d_str_list(path + '/' + name)
+    results = read_and_evaluate.raw_results_2d_int_list(path + '/' + name)
+    print('results')
+    print(results)
 
-    ucdd_eval_and_write_res.eval_and_write_all(
-        dataset_paths=['Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'],
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE],
-        test_size=0.7,
-        num_ref_batches=3,
-        num_test_batches=7,
-        additional_checks=[True, False],
-        detect_all_training_batches_list=[True, False],
-        metric_ids=[spms.Distances.MANHATTAN],
-        use_pyclustering=True
-    )
+    # path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'
+    #
+    # ucdd_eval_and_write_res.eval_and_write_all(
+    #     dataset_paths=['Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'],
+    #     scalings=[spms.Scalers.MINMAX],
+    #     encodings=[spms.Encoders.EXCLUDE],
+    #     test_size=0.7,
+    #     num_ref_batches=3,
+    #     num_test_batches=7,
+    #     additional_checks=[True, False],
+    #     detect_all_training_batches_list=[True, False],
+    #     metric_ids=[spms.Distances.MANHATTAN],
+    #     use_pyclustering=True
+    # )
 
     # all_occurrences, mean_fpr, mean_latency = ucdd_eval.evaluate_ucdd_until_convergence(
     #     file_path='Datasets_concept_drift/' + rel_path + '.arff',
