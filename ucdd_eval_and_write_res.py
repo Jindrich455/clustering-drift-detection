@@ -127,7 +127,7 @@ def eval_and_write(
 
 
 def eval_and_write_all(
-        dataset_path,
+        dataset_paths,
         scalings,
         encodings,
         test_size,
@@ -139,17 +139,19 @@ def eval_and_write_all(
         use_pyclustering=True
 ):
 
-    arg_tuples = list(itertools.product(scalings, encodings, additional_checks,
+    arg_tuples = list(itertools.product(dataset_paths, scalings, encodings, additional_checks,
                                         detect_all_training_batches_list, metric_ids))
 
     for i, arg_tuple in enumerate(arg_tuples):
         print('argument combination #', i)
-        scaling = arg_tuple[0]
-        encoding = arg_tuple[1]
-        additional_check = arg_tuple[2]
-        detect_all_training_batches = arg_tuple[3]
-        metric_id = arg_tuple[4]
+        dataset_path = arg_tuple[0]
+        scaling = arg_tuple[1]
+        encoding = arg_tuple[2]
+        additional_check = arg_tuple[3]
+        detect_all_training_batches = arg_tuple[4]
+        metric_id = arg_tuple[5]
 
+        print(dataset_path)
         print(scaling)
         print(encoding)
         print(additional_check)

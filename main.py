@@ -84,16 +84,18 @@ if __name__ == '__main__':
     #     use_pyclustering=True
     # )
 
+    path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'
+
     ucdd_eval_and_write_res.eval_and_write_all(
-        dataset_path='Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff',
+        dataset_paths=['Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'],
         scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE, spms.Encoders.ONEHOT, spms.Encoders.TARGET],
+        encodings=[spms.Encoders.EXCLUDE],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True, False],
         detect_all_training_batches_list=[True, False],
-        metric_ids=[spms.Distances.EUCLIDEAN],
+        metric_ids=[spms.Distances.MANHATTAN],
         use_pyclustering=True
     )
 
