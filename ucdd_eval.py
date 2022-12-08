@@ -91,6 +91,7 @@ def preprocess_df_x(df_x_ref, df_x_test, df_y_ref, scaling, encoding):
 
 
 def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift_idx):
+    """Everything is zero-indexed"""
     fpr = 0
     latency = 1
     drift_locations_arr = np.array(drift_locations)
