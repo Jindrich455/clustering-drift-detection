@@ -91,27 +91,22 @@ def preprocess_df_x(df_x_ref, df_x_test, df_y_ref, scaling, encoding):
 
 
 def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift_idx):
-    """Everything is zero-indexed"""
+    """The inputs drift_locations and true_drift_idx are is zero-indexed"""
     fpr = 0
     latency = 1
     drift_locations_arr = np.array(drift_locations)
+    signal_locations_before_drift = drift_locations_arr[drift_locations_arr < true_drift_idx]
     signal_locations_not_before_drift = drift_locations_arr[drift_locations_arr >= true_drift_idx]
-    num_batches_with_drift = num_test_batches - true_drift_idx
+    num_batches_after_first_drift = num_test_batches - (true_drift_idx + 1)
     drift_detected = False # says whether some drift detection was triggered at or after a drift occurrence
 
     if len(drift_locations) >= 1:
-        first_drift_location_idx = drift_locations[0]
-        if first_drift_location_idx < true_drift_idx:
-            fpr = (true_drift_idx - first_drift_location_idx) / true_drift_idx
-            if len(signal_locations_not_before_drift) > 0:
-                first_location_not_before_drift = signal_locations_not_before_drift[0]
-                latency = (first_location_not_before_drift - true_drift_idx) / num_batches_with_drift
-                drift_detected = True
-        else:
-            latency = (first_drift_location_idx - true_drift_idx) / num_batches_with_drift
+        if len(signal_locations_before_drift) > 0:
+            fpr = len(signal_locations_before_drift) / true_drift_idx
+        if len(signal_locations_not_before_drift) > 0:
+            first_useful_drift_signal = signal_locations_not_before_drift[0]
+            latency = (first_useful_drift_signal - true_drift_idx) / num_batches_after_first_drift
             drift_detected = True
-
-    # print(fpr, latency, drift_detected)
 
     return fpr, latency, drift_detected
 

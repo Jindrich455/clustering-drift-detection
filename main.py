@@ -59,19 +59,35 @@ def convert_filenames_to_directories():
         os.mkdir('runs_results/synthetic_data/gradual_drift/' + raw_name)
 
 
+def compute_metric_latency(array_batches, no_batches_with_drift, drift_start):
+    if (len(array_batches) > 0):
+        # print(np.array(array_pr)>=drift_type_start)
+        # print(np.argwhere(np.array(array_pr)>=drift_type_start).size==0)
+
+        if (np.argwhere(np.array(array_batches) >= drift_start).size == 0):
+            latency_score = 'nothing_detected'
+        else:
+            batch_drift_detected = array_batches[np.argwhere(np.array(array_batches) >= drift_start)[0][0]]
+            latency_score = (batch_drift_detected - drift_start) / no_batches_with_drift
+        return latency_score
+    else:
+        return 'nothing_detected'
+
+
 if __name__ == '__main__':
     # experiments.big_evaluation()
     # experiments.big_evaluation2()
     # experiments.big_evaluation3()
     # experiments.big_evaluation4()
     # experiments.big_evaluation5()
-    experiments.big_evaluation6()
+    # experiments.big_evaluation6()
 
     # experiments.save_metrics()
     # experiments.save_metrics2()
     # experiments.save_metrics3()
     # experiments.save_metrics4()
     # experiments.save_all_metrics()
+
 
 
     # ucdd_eval.evaluate_ucdd_until_convergence(
