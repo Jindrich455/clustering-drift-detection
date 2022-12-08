@@ -1,0 +1,5 @@
+encoding,scaling,distance,check,alltraining,runs,tbs,detection_rate,mean_FPR,mean_latency
+exclude,minmax,euclidean,no,no,10,7,0.0,0.0,1.0
+exclude,minmax,euclidean,with,no,10,7,1.0,0.0,0.26
+exclude,minmax,manhattan,no,no,49,7,0.49,0.14,0.8
+exclude,minmax,manhattan,with,no,49,7,0.98,0.14,0.49

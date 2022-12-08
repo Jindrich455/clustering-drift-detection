@@ -1,0 +1,2 @@
+encoding,scaling,distance,check,alltraining,runs,tbs,detection_rate,mean_FPR,mean_latency
+onehot,minmax,euclidean,no,no,22,7,1.0,0.0,0.11
