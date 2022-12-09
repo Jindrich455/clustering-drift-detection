@@ -75,12 +75,12 @@ def compute_metric_latency(array_batches, no_batches_with_drift, drift_start):
 
 
 if __name__ == '__main__':
-    # experiments.big_evaluation()
-    # experiments.big_evaluation2()
-    # experiments.big_evaluation3()
-    # experiments.big_evaluation4()
-    # experiments.big_evaluation5()
-    # experiments.big_evaluation6()
+    experiments.big_evaluation()
+    experiments.big_evaluation2()
+    experiments.big_evaluation3()
+    experiments.big_evaluation4()
+    experiments.big_evaluation5()
+    experiments.big_evaluation6()
 
     # experiments.save_metrics()
     # experiments.save_metrics2()
