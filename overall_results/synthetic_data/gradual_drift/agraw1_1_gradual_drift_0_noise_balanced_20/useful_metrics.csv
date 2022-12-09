@@ -1,3 +1,8 @@
 encoding,scaling,distance,check,alltraining,runs,tbs,detection_rate,mean_FPR,mean_latency
-onehot,minmax,euclidean,no,no,16,7,0.94,0.0,0.25
-target,minmax,euclidean,no,no,25,7,1.0,0.28,0.6
+exclude,minmax,euclidean,with,no,10,7,0.9,0.0,0.78
+exclude,minmax,manhattan,no,no,30,7,1.0,0.83,0.75
+exclude,minmax,manhattan,with,no,14,7,1.0,0.93,0.75
+onehot,minmax,euclidean,no,no,15,7,0.93,0.0,0.3
+onehot,minmax,euclidean,with,no,15,7,0.93,0.0,0.3
+target,minmax,euclidean,no,no,25,7,1.0,0.28,0.75
+target,minmax,euclidean,with,no,25,7,1.0,0.28,0.0
