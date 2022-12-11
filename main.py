@@ -3,25 +3,12 @@ import os
 import random
 
 import numpy as np
-import pandas as pd
-from sklearn.compose import ColumnTransformer
-from sklearn.compose import make_column_selector as selector
-from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, OrdinalEncoder
-from category_encoders import TargetEncoder
 
-import accepting
 import experiments
-import my_preprocessing
-import read_and_evaluate
-import ucdd
-import ucdd_eval
-import ucdd_eval_and_write_res
-import ucdd_visual_inspection
-import supported_parameters as spms
 
 
 def take_random_states(num_runs):
-    with open('runs_results/random_states.csv') as f:
+    with open('ucdd/runs_results/random_states.csv') as f:
         rd = csv.reader(f)
         all_random_states = list(map(int, rd.__next__()))
     random_states = all_random_states[:num_runs]
@@ -33,7 +20,7 @@ def generate_random_states():
     random.seed(initial_random_state)
     random_states = random.sample(range(0, 10000), 1000)
 
-    with open('runs_results/random_states.csv', 'w') as f:
+    with open('ucdd/runs_results/random_states.csv', 'w') as f:
         wr = csv.writer(f)
         wr.writerow(random_states)
 
@@ -50,7 +37,7 @@ def write_detections_to_file(all_detections, path, filename):
 
 
 def convert_filenames_to_directories():
-    files = os.listdir('runs_results/synthetic_data/gradual_drift')
+    files = os.listdir('ucdd/runs_results/synthetic_data/gradual_drift')
     print(files)
     raw_names = []
     for filename in files:
@@ -75,6 +62,7 @@ def compute_metric_latency(array_batches, no_batches_with_drift, drift_start):
 
 
 if __name__ == '__main__':
+    # experiments.big_evaluation0()
     # experiments.big_evaluation()
     # experiments.big_evaluation2()
     # experiments.big_evaluation3()

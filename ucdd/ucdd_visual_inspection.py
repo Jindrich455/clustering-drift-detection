@@ -1,19 +1,13 @@
 import pandas as pd
 import sklearn
-import supported_parameters as spms
+import ucdd_supported_parameters as spms
 from matplotlib import pyplot as plt
 from pandas import Series
 from sklearn import preprocessing
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import MinMaxScaler
 
 import accepting
-from sklearn.compose import make_column_selector as selector
 
-import my_preprocessing
-import ucdd
-import ucdd_eval
-import ucdd_pyclustering
+from ucdd import ucdd_eval, ucdd_pyclustering
 
 
 def show_ucdd(

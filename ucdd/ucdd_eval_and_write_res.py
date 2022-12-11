@@ -4,17 +4,8 @@ import random
 import itertools
 
 import numpy as np
-from sklearn.compose import ColumnTransformer
-from sklearn.compose import make_column_selector as selector
-from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, OrdinalEncoder
-from category_encoders import TargetEncoder
 
-import accepting
-import my_preprocessing
-import ucdd
-import ucdd_eval
-import ucdd_visual_inspection
-import supported_parameters as spms
+from ucdd import ucdd_eval
 
 
 def take_random_states(num_runs):
@@ -40,19 +31,19 @@ def write_detections_to_file(all_detections, path, filename):
     # current_n_files = len(os.listdir('runs_results/' + path))
     # filename = 'run' + str(current_n_files + 1) + '.csv'
     # print('filename', filename)
-    with open('runs_results/' + path + '/' + filename, 'w', newline='') as f:
+    with open('ucdd/runs_results/' + path + '/' + filename, 'w', newline='') as f:
         wr = csv.writer(f)
         wr.writerows(all_detections)
 
 
 def convert_filenames_to_directories():
-    files = os.listdir('runs_results/synthetic_data/gradual_drift')
+    files = os.listdir('ucdd/runs_results/synthetic_data/gradual_drift')
     print(files)
     raw_names = []
     for filename in files:
         raw_names.append(filename[:-5])
     for raw_name in raw_names:
-        os.mkdir('runs_results/synthetic_data/gradual_drift/' + raw_name)
+        os.mkdir('ucdd/runs_results/synthetic_data/gradual_drift/' + raw_name)
 
 
 def filename_from_params(
@@ -75,7 +66,7 @@ def filename_from_params(
 
 
 def write_metrics_to_file(mean_fpr, mean_latency, relative_path, filename):
-    with open('runs_results/' + relative_path + '/' + filename, 'w', newline='') as f:
+    with open('ucdd/runs_results/' + relative_path + '/' + filename, 'w', newline='') as f:
         wr = csv.writer(f)
         wr.writerow([mean_fpr])
         wr.writerow([mean_latency])

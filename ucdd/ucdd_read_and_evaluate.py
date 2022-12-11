@@ -4,7 +4,7 @@ import os
 import numpy as np
 import pandas as pd
 
-import ucdd_eval
+from ucdd import ucdd_eval
 
 from pathlib import Path
 
@@ -148,14 +148,14 @@ def rows_with_drift_detected(all_info_df):
 
 
 def write_all_info_df_to_csv(raw_results_csv_path, all_info_df):
-    path = Path('overall_results/' + '/'.join(raw_results_csv_path.split('/')[1:-1]) + '/metrics.csv')
+    path = Path('ucdd/overall_results/' + '/'.join(raw_results_csv_path.split('/')[2:-1]) + '/metrics.csv')
     print('path', path)
     path.parent.mkdir(parents=True, exist_ok=True)
     all_info_df.to_csv(path, index=False)
 
 
 def write_all_info_all_files_df_to_csv(folder_path, all_info_df, new_file_name):
-    path = Path('overall_results/' + '/'.join(folder_path.split('/')[1:]) + '/' + new_file_name)
+    path = Path('ucdd/overall_results/' + '/'.join(folder_path.split('/')[2:]) + '/' + new_file_name)
     print('path', path)
     path.parent.mkdir(parents=True, exist_ok=True)
     all_info_df.to_csv(path, index=False)

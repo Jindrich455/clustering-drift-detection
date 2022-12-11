@@ -1,6 +1,6 @@
 import unittest
 
-import ucdd_eval
+from ucdd import ucdd_eval
 
 
 class MyTestCase(unittest.TestCase):

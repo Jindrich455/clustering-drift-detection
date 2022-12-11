@@ -1,16 +1,13 @@
 import numpy as np
 import pandas as pd
 import sklearn
+import sklearn.model_selection
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder, OneHotEncoder
 from category_encoders import TargetEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.compose import make_column_selector as selector
 import accepting
-import my_preprocessing
-import ucdd
-import ucdd_pyclustering
-import supported_parameters as spms
+
+from ucdd import ucdd_supported_parameters as spms, ucdd_pyclustering
 
 
 def scale_with(df_x_ref_num_new, df_x_test_num_new, scaler_id):

@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 from scipy.io import arff
 
-import my_preprocessing
-
 
 def accept_data(file_path):
     """Accept an arff file and return its contents in a pandas dataframe"""

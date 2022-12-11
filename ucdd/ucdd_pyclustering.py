@@ -3,16 +3,16 @@ Implementation of the UCDD algorithm by Dan Shang, Guangquan Zhang and Jie Lu
 """
 import numpy as np
 import pandas as pd
-from pyclustering.cluster.kmeans import kmeans, kmeans_visualizer
+from pyclustering.cluster.kmeans import kmeans
 from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
 import scipy
 from pyclustering.utils import distance_metric, type_metric
-from sklearn.cluster import KMeans, MiniBatchKMeans
+from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
-import supported_parameters as spms
+from ucdd import ucdd_supported_parameters as spms
 
 
-import ucdd_plotter
+from ucdd import ucdd_plotter
 
 
 def split_back_to_windows(df_union, labels, len_ref_window, len_test_window):

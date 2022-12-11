@@ -1,15 +1,6 @@
 import unittest
 
-from sklearn.compose import ColumnTransformer
-
-import accepting
-import my_preprocessing
-import ucdd
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.compose import make_column_selector as selector
-
-import ucdd_eval
-import supported_parameters as spms
+from ucdd import ucdd_supported_parameters as spms, ucdd_eval
 
 random_state = 0
 use_additional_check = True
