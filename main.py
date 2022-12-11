@@ -82,11 +82,13 @@ if __name__ == '__main__':
     # experiments.big_evaluation5()
     # experiments.big_evaluation6()
 
-    experiments.save_metrics()
-    experiments.save_metrics2()
-    experiments.save_metrics3()
+    # experiments.save_metrics()
+    # experiments.save_metrics2()
+    # experiments.save_metrics3()
     # experiments.save_metrics4()
-    experiments.save_all_metrics()
+    # experiments.save_all_metrics()
+
+    experiments.perform_clustering()
 
 
 
