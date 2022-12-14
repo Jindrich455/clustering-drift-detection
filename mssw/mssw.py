@@ -4,6 +4,8 @@
 # The terms "slide data" and "testing data" mean the same thing, default is "testing data"
 
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.cluster import KMeans
 
 
 # - function to calculate Ptg = the proportion of one feature attribute in one data point
@@ -120,32 +122,57 @@ def get_mean_s_s_and_mean_moving_ranges(weighted_reference_sub_windows, fitted_k
 
 
 # - function to test for concept drift based on the total average distance from one testing (slide) sub-window
-def concept_drift_detected(mean_av_s, mean_mr, weighted_testing_sub_window, coeff=2.66):
+def concept_drift_detected(mean_av_s, mean_mr, weighted_testing_sub_window, fitted_kmeans, num_clusters, coeff):
     # check that the testing sub-window's Av_sr is within the boundaries set by mean_av_s, mean_mr, coeff
-    # return True or False
-    pass
+    UCL_Av_s = mean_av_s + coeff * mean_mr
+    LCL_Av_s = mean_av_s - coeff * mean_mr
+    _, _, test_Av_sr = calculate_clustering_statistics(weighted_testing_sub_window, fitted_kmeans, num_clusters)
+
+    return not (LCL_Av_s < test_Av_sr < UCL_Av_s)
 
 
-def mssw_preprocess(refrence_data_batches, testing_data_batches):
+def mssw_preprocess(reference_data_batches, testing_data_batches):
     # join all reference data
+    joined_reference_data = reference_data_batches[0]
+    for reference_batch in reference_data_batches[1:]:
+        np.append(joined_reference_data, reference_batch, axis=0)
     # fit minmaxscaler on <joined reference data>
+    scaler = MinMaxScaler()
+    scaler.fit(joined_reference_data)
     # scale <joined reference data>
+    joined_reference_data = scaler.transform(joined_reference_data)
     # scale all reference_data_batches
+    reference_data_batches = [scaler.transform(batch) for batch in reference_data_batches]
     # scale all testing_data_batches
+    testing_data_batches = [scaler.transform(batch) for batch in testing_data_batches]
     # obtain attribute weights: get_attribute_weights_from(<joined reference data>)
+    attribute_weights = get_attribute_weights_from(joined_reference_data)
     # weigh the <joined reference data>
+    weighted_joined_reference_data = transform_data_by_attribute_weights(joined_reference_data, attribute_weights)
     # weigh all reference_data_batches and all testing_data_batches
+    weighted_reference_batches =\
+        [transform_data_by_attribute_weights(batch, attribute_weights) for batch in reference_data_batches]
+    weighted_testing_batches =\
+        [transform_data_by_attribute_weights(batch, attribute_weights) for batch in testing_data_batches]
     # return the weighted joined data, weighted reference batches and weighted testing batches
-    pass
+    return weighted_joined_reference_data, weighted_reference_batches, weighted_testing_batches
 
 
 # - function to give all batches with concept drift from input data
-def all_drifting_batches(reference_data_batches, testing_data_batches, num_clusters, coeff=2.66):
+def all_drifting_batches(reference_data_batches, testing_data_batches, num_clusters, random_state=0, coeff=2.66):
     # the batches accepted as input should be lists of numpy arrays
 
     # obtain scaled and weighted joined reference data and batches through mssw_preprocessing
+    weighted_joined_reference_data, weighted_reference_batches, weighted_testing_batches =\
+        mssw_preprocess(reference_data_batches, testing_data_batches)
     # use sklearn's kmeans to obtain clusters in <weighted joined reference data>
-    # get the mean_av_s and mean_mr through get_s_s() and get_moving_ranges()
+    fitted_kmeans = KMeans(n_clusters=num_clusters, random_state=random_state).fit(weighted_joined_reference_data)
+    # get the mean_av_s and mean_mr through get_mean_s_s_and_mean_moving_ranges
+    mean_av_s, mean_mr = get_mean_s_s_and_mean_moving_ranges(weighted_reference_batches, fitted_kmeans, num_clusters)
     # for each testing batch, run concept_drift_detected() and save the result in a list
+    drifts_detected = []
+    for weighted_testing_batch in weighted_testing_batches:
+        drifts_detected.append(concept_drift_detected(
+            mean_av_s, mean_mr, weighted_testing_batch, fitted_kmeans, num_clusters, coeff))
     # return a list of boolean results of concept drift detections in all testing batches
     pass
