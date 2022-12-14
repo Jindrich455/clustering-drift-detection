@@ -69,6 +69,8 @@ if __name__ == '__main__':
     # experiments.big_evaluation4()
     # experiments.big_evaluation5()
     # experiments.big_evaluation6()
+    # experiments.big_evaluation7()
+    experiments.big_evaluation8()
 
     # experiments.save_metrics()
     # experiments.save_metrics2()
@@ -76,7 +78,7 @@ if __name__ == '__main__':
     # experiments.save_metrics4()
     # experiments.save_all_metrics()
 
-    experiments.perform_clustering()
+    # experiments.perform_clustering()
 
 
 
