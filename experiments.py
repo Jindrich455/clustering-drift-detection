@@ -5,9 +5,12 @@ import numpy as np
 import pandas as pd
 import pyclustering.utils
 import scipy.spatial.distance
+import sklearn.preprocessing
+from category_encoders import TargetEncoder
 from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
 from pyclustering.cluster.kmeans import kmeans
 from pyclustering.utils import type_metric, distance_metric
+from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder, OneHotEncoder, LabelEncoder
 
 import accepting
 import mssw.mssw
@@ -448,7 +451,7 @@ def euclidean_distance_numpy(o1, o2):
 
 
 def mssw_eval_attempt():
-    data_path = 'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_20.arff'
+    data_path = 'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_05.arff'
     df_x, _ = accepting.get_clean_df(data_path)
     numpy_data = df_x.to_numpy()
 
@@ -470,3 +473,105 @@ def mssw_eval_attempt():
     drifts_detected = mssw.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
     print('drifts detected')
     print(drifts_detected)
+
+
+def mssw_eval_attempt2():
+    data_path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'
+    df_x, df_y = accepting.get_clean_df(data_path)
+
+    df_y = pd.DataFrame(LabelEncoder().fit_transform(df_y))
+    df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
+        df_x, df_y, test_size=0.7, shuffle=False)
+
+    df_x_ref_num, df_x_ref_cat = accepting.divide_numeric_categorical(df_x_ref)
+    df_x_test_num, df_x_test_cat = accepting.divide_numeric_categorical(df_x_test)
+
+    encoder = OneHotEncoder(sparse=False)
+    encoder.fit(df_x_ref_cat)
+
+    ref_index = df_x_ref_cat.index
+    test_index = df_x_test_cat.index
+    df_x_ref_cat_transformed = pd.DataFrame(encoder.transform(df_x_ref_cat))
+    df_x_test_cat_transformed = pd.DataFrame(encoder.transform(df_x_test_cat))
+    df_x_ref_cat_transformed.set_index(ref_index, inplace=True)
+    df_x_test_cat_transformed.set_index(test_index, inplace=True)
+
+    # print('df_x_ref_num')
+    # print(df_x_ref_num)
+    # print('df_x_ref_cat_transformed')
+    # print(df_x_ref_cat_transformed)
+    # print('df_x_test_num')
+    # print(df_x_test_num)
+    # print('df_x_test_cat_transformed')
+    # print(df_x_test_cat_transformed)
+
+    reference_data = df_x_ref_num.join(df_x_ref_cat_transformed, lsuffix='_num').to_numpy()
+    testing_data = df_x_test_num.join(df_x_test_cat_transformed, lsuffix='_num').to_numpy()
+
+    ref_batches = np.array_split(reference_data, 3)
+    test_batches = np.array_split(testing_data, 7)
+    print('num ref batches')
+    print(len(ref_batches))
+    print(ref_batches)
+    print('num test batches')
+    print(len(test_batches))
+    print(test_batches)
+
+    start = time.time()
+    drifts_detected = mssw.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
+    print('drifts detected')
+    print(drifts_detected)
+
+    print('time taken')
+    print(time.time() - start)
+
+
+def mssw_eval_attempt3():
+    data_path = 'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_5.arff'
+    df_x, df_y = accepting.get_clean_df(data_path)
+
+    df_y = pd.DataFrame(LabelEncoder().fit_transform(df_y))
+    df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
+        df_x, df_y, test_size=0.7, shuffle=False)
+
+    df_x_ref_num, df_x_ref_cat = accepting.divide_numeric_categorical(df_x_ref)
+    df_x_test_num, df_x_test_cat = accepting.divide_numeric_categorical(df_x_test)
+
+    encoder = TargetEncoder()
+    encoder.fit(df_x_ref_cat, df_y_ref)
+
+    ref_index = df_x_ref_cat.index
+    test_index = df_x_test_cat.index
+    df_x_ref_cat_transformed = pd.DataFrame(encoder.transform(df_x_ref_cat))
+    df_x_test_cat_transformed = pd.DataFrame(encoder.transform(df_x_test_cat))
+    df_x_ref_cat_transformed.set_index(ref_index, inplace=True)
+    df_x_test_cat_transformed.set_index(test_index, inplace=True)
+
+    # print('df_x_ref_num')
+    # print(df_x_ref_num)
+    # print('df_x_ref_cat_transformed')
+    # print(df_x_ref_cat_transformed)
+    # print('df_x_test_num')
+    # print(df_x_test_num)
+    # print('df_x_test_cat_transformed')
+    # print(df_x_test_cat_transformed)
+
+    reference_data = df_x_ref_num.join(df_x_ref_cat_transformed, lsuffix='_num').to_numpy()
+    testing_data = df_x_test_num.join(df_x_test_cat_transformed, lsuffix='_num').to_numpy()
+
+    ref_batches = np.array_split(reference_data, 3)
+    test_batches = np.array_split(testing_data, 7)
+    print('num ref batches')
+    print(len(ref_batches))
+    print(ref_batches)
+    print('num test batches')
+    print(len(test_batches))
+    print(test_batches)
+
+    start = time.time()
+    drifts_detected = mssw.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
+    print('drifts detected')
+    print(drifts_detected)
+
+    print('time taken')
+    print(time.time() - start)

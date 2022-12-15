@@ -2,6 +2,7 @@
 # Unless specified otherwise, functions in this file work with numpy arrays
 # The terms "benchmark data" and "reference data" mean the same thing, default is "reference data"
 # The terms "slide data" and "testing data" mean the same thing, default is "testing data"
+import time
 
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
@@ -73,14 +74,41 @@ def transform_batches_by_attribute_weights(original_batches, attribute_weights):
 def calculate_clustering_statistics(weighted_sub_window, fitted_kmeans, num_clusters):
     # cluster the weighted input data through the fitted_kmeans object
     centroids = fitted_kmeans.cluster_centers_
+    start_prediction = time.time()
     predicted_cluster_labels = fitted_kmeans.predict(weighted_sub_window)
+    # print('prediction time', time.time() - start_prediction)
+
     sum_centroid_distances = np.zeros(num_clusters).reshape((1, num_clusters))
     num_points_in_clusters = np.zeros(num_clusters).reshape((1, num_clusters))
-    # for each weighted data point, calculate the Euclidean distance to its centroid (found by label)
-    for i, label in enumerate(predicted_cluster_labels):
-        num_points_in_clusters[0, label] += 1
-        # the following numpy operations are a simple Euclidean distance
-        sum_centroid_distances[0, label] += np.linalg.norm(np.subtract(centroids[label], weighted_sub_window[i]))
+    for cluster_id in range(num_clusters):
+        # print('predicted cluster labels')
+        # print(predicted_cluster_labels)
+        cluster_mask = predicted_cluster_labels == cluster_id
+        # print('cluster mask')
+        # print(cluster_mask)
+        cluster = weighted_sub_window[cluster_mask]
+        # print('cluster shape')
+        # print(cluster.shape)
+
+        centroid = centroids[cluster_id]
+        num_points_in_clusters[0, cluster_id] = cluster.shape[0]
+        centroid_diffs = np.subtract(cluster, centroid)
+        # print('cluster')
+        # print(cluster)
+        # print('centroid')
+        # print(centroid)
+        # print('centroid differences')
+        # print(centroid_diffs)
+        euclideans = np.linalg.norm(centroid_diffs, axis=1)
+        # print('euclideans')
+        # print(euclideans)
+        # print('euclideans shape')
+        # print(euclideans.shape)
+        sum_euclideans = np.sum(euclideans)
+        # print('sum of euclideans')
+        # print(sum_euclideans)
+        sum_centroid_distances[0, cluster_id] = sum_euclideans
+
     # --> store the sum of distances for each centroid in array1
     # --> store the number of points in each cluster in array2
     # JSEE = sum of all entries in array1
@@ -162,21 +190,26 @@ def mssw_preprocess(reference_data_batches, testing_data_batches):
 def all_drifting_batches(reference_data_batches, testing_data_batches, num_clusters, random_state=0, coeff=2.66):
     # the batches accepted as input should be lists of numpy arrays
 
-    print('for real?')
+    start_preprocessing = time.time()
     # obtain scaled and weighted joined reference data and batches through mssw_preprocessing
     weighted_joined_reference_data, weighted_reference_batches, weighted_testing_batches =\
         mssw_preprocess(reference_data_batches, testing_data_batches)
+    # print('mssw preprocessing time', time.time() - start_preprocessing)
+
+    start_kmeans = time.time()
     # use sklearn's kmeans to obtain clusters in <weighted joined reference data>
-    print('before kmeans')
     fitted_kmeans = KMeans(n_clusters=num_clusters, random_state=random_state).fit(weighted_joined_reference_data)
-    print('after kmeans')
+    # print('kmeans time', time.time() - start_kmeans)
+
     # get the mean_av_s and mean_mr through get_mean_s_s_and_mean_moving_ranges
     mean_av_s, mean_mr = get_mean_s_s_and_mean_moving_ranges(weighted_reference_batches, fitted_kmeans, num_clusters)
     # for each testing batch, run concept_drift_detected() and save the result in a list
     drifts_detected = []
     for weighted_testing_batch in weighted_testing_batches:
-        print('testing batch')
+        # print('testing batch')
+        start_test_batch = time.time()
         drifts_detected.append(concept_drift_detected(
             mean_av_s, mean_mr, weighted_testing_batch, fitted_kmeans, num_clusters, coeff))
+        # print('testing batch time', time.time() - start_test_batch)
     # return a list of boolean results of concept drift detections in all testing batches
     return drifts_detected
