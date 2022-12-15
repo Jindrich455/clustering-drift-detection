@@ -162,17 +162,21 @@ def mssw_preprocess(reference_data_batches, testing_data_batches):
 def all_drifting_batches(reference_data_batches, testing_data_batches, num_clusters, random_state=0, coeff=2.66):
     # the batches accepted as input should be lists of numpy arrays
 
+    print('for real?')
     # obtain scaled and weighted joined reference data and batches through mssw_preprocessing
     weighted_joined_reference_data, weighted_reference_batches, weighted_testing_batches =\
         mssw_preprocess(reference_data_batches, testing_data_batches)
     # use sklearn's kmeans to obtain clusters in <weighted joined reference data>
+    print('before kmeans')
     fitted_kmeans = KMeans(n_clusters=num_clusters, random_state=random_state).fit(weighted_joined_reference_data)
+    print('after kmeans')
     # get the mean_av_s and mean_mr through get_mean_s_s_and_mean_moving_ranges
     mean_av_s, mean_mr = get_mean_s_s_and_mean_moving_ranges(weighted_reference_batches, fitted_kmeans, num_clusters)
     # for each testing batch, run concept_drift_detected() and save the result in a list
     drifts_detected = []
     for weighted_testing_batch in weighted_testing_batches:
+        print('testing batch')
         drifts_detected.append(concept_drift_detected(
             mean_av_s, mean_mr, weighted_testing_batch, fitted_kmeans, num_clusters, coeff))
     # return a list of boolean results of concept drift detections in all testing batches
-    pass
+    return drifts_detected

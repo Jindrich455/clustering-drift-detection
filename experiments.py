@@ -2,12 +2,15 @@ import os
 import time
 
 import numpy as np
+import pandas as pd
 import pyclustering.utils
 import scipy.spatial.distance
 from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
 from pyclustering.cluster.kmeans import kmeans
 from pyclustering.utils import type_metric, distance_metric
 
+import accepting
+import mssw.mssw
 from ucdd import ucdd_supported_parameters as spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
 
 
@@ -443,3 +446,27 @@ def euclidean_distance_weighted_numpy(o1, o2, w):
 def euclidean_distance_numpy(o1, o2):
     return np.sqrt(np.sum(np.square(np.subtract(o1, o2))))
 
+
+def mssw_eval_attempt():
+    data_path = 'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_20.arff'
+    df_x, _ = accepting.get_clean_df(data_path)
+    numpy_data = df_x.to_numpy()
+
+    reference_data = numpy_data[:30000]
+    testing_data = numpy_data[30000:]
+    print('ref')
+    print(reference_data)
+    print('test')
+    print(testing_data)
+    ref_batches = np.array_split(reference_data, 3)
+    test_batches = np.array_split(testing_data, 7)
+    print('num ref batches')
+    print(len(ref_batches))
+    print(ref_batches)
+    print('num test batches')
+    print(len(test_batches))
+    print(test_batches)
+
+    drifts_detected = mssw.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
+    print('drifts detected')
+    print(drifts_detected)

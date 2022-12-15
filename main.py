@@ -79,13 +79,8 @@ if __name__ == '__main__':
     # experiments.save_all_metrics()
 
     # experiments.perform_clustering()
-    division = np.divide(np.array([[4, 8, 12], [6, 12, 18]]), np.array([2, 4, 3]))
-    print(division)
-    div2 = np.divide(np.array([[1, 2], [3, 4]]), 3)
-    print(div2)
-    sub = np.subtract(1, np.array([[1, 2], [3, 4]]))
-    print(sub)
 
+    experiments.mssw_eval_attempt()
 
     # ucdd_eval.evaluate_ucdd_until_convergence(
     #     file_path='Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff',
