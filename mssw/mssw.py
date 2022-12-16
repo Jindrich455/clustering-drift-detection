@@ -129,7 +129,7 @@ def concept_drift_detected(mean_av_s, mean_mr, weighted_testing_sub_window, fitt
     return not (LCL_Av_s < test_Av_sr < UCL_Av_s)
 
 
-def all_drifting_batches(reference_data_batches, testing_data_batches, num_clusters=2, random_state=0, coeff=2.66):
+def all_drifting_batches(reference_data_batches, testing_data_batches, num_clusters=2, random_state=None, coeff=2.66):
     """
     Find all drift locations based on the given reference and testing batches
 
@@ -138,7 +138,7 @@ def all_drifting_batches(reference_data_batches, testing_data_batches, num_clust
     :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
         n_r_t=#points in this batch
     :param num_clusters: desired number of clusters for kmeans
-    :param random_state: used to control the randomness of initial cluster choice in kmeans
+    :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
     :param coeff: coeff used to detect drift, default=2.66
     :return: a boolean list, length=len(testing_data_batches),
         an entry is True if drift was detected there and False otherwise

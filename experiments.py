@@ -14,6 +14,7 @@ from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder, OneHotEncoder, L
 
 import accepting
 import mssw.mssw
+import mssw.mssw_eval
 from ucdd import ucdd_supported_parameters as spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
 
 
@@ -572,6 +573,80 @@ def mssw_eval_attempt3():
     drifts_detected = mssw.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
     print('drifts detected')
     print(drifts_detected)
+
+    print('time taken')
+    print(time.time() - start)
+
+
+def mssw_eval_attempt4():
+    data_path = 'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_20.arff'
+    df_x, _ = accepting.get_clean_df(data_path)
+    numpy_data = df_x.to_numpy()
+
+    reference_data = numpy_data[:30000]
+    testing_data = numpy_data[30000:]
+    print('ref')
+    print(reference_data)
+    print('test')
+    print(testing_data)
+    ref_batches = np.array_split(reference_data, 3)
+    test_batches = np.array_split(testing_data, 7)
+    print('num ref batches')
+    print(len(ref_batches))
+    print(ref_batches)
+    print('num test batches')
+    print(len(test_batches))
+    print(test_batches)
+
+    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = mssw.mssw_eval\
+        .all_drifting_batches_randomness_robust(ref_batches, test_batches)
+
+
+def mssw_eval_attempt5():
+    data_path = 'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_10.arff'
+    df_x, df_y = accepting.get_clean_df(data_path)
+
+    df_y = pd.DataFrame(LabelEncoder().fit_transform(df_y))
+    df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
+        df_x, df_y, test_size=0.7, shuffle=False)
+
+    df_x_ref_num, df_x_ref_cat = accepting.divide_numeric_categorical(df_x_ref)
+    df_x_test_num, df_x_test_cat = accepting.divide_numeric_categorical(df_x_test)
+
+    encoder = TargetEncoder()
+    encoder.fit(df_x_ref_cat, df_y_ref)
+
+    ref_index = df_x_ref_cat.index
+    test_index = df_x_test_cat.index
+    df_x_ref_cat_transformed = pd.DataFrame(encoder.transform(df_x_ref_cat))
+    df_x_test_cat_transformed = pd.DataFrame(encoder.transform(df_x_test_cat))
+    df_x_ref_cat_transformed.set_index(ref_index, inplace=True)
+    df_x_test_cat_transformed.set_index(test_index, inplace=True)
+
+    # print('df_x_ref_num')
+    # print(df_x_ref_num)
+    # print('df_x_ref_cat_transformed')
+    # print(df_x_ref_cat_transformed)
+    # print('df_x_test_num')
+    # print(df_x_test_num)
+    # print('df_x_test_cat_transformed')
+    # print(df_x_test_cat_transformed)
+
+    reference_data = df_x_ref_num.join(df_x_ref_cat_transformed, lsuffix='_num').to_numpy()
+    testing_data = df_x_test_num.join(df_x_test_cat_transformed, lsuffix='_num').to_numpy()
+
+    ref_batches = np.array_split(reference_data, 3)
+    test_batches = np.array_split(testing_data, 7)
+    print('num ref batches')
+    print(len(ref_batches))
+    print(ref_batches)
+    print('num test batches')
+    print(len(test_batches))
+    print(test_batches)
+
+    start = time.time()
+    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = mssw.mssw_eval \
+        .all_drifting_batches_randomness_robust(ref_batches, test_batches)
 
     print('time taken')
     print(time.time() - start)
