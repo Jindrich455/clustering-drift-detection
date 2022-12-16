@@ -15,20 +15,22 @@ from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder, OneHotEncoder, L
 import accepting
 import mssw.mssw
 import mssw.mssw_eval
-from ucdd import ucdd_supported_parameters as spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
+import mssw.mssw_eval_local_datasets
+from ucdd import ucdd_supported_parameters as ucdd_spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
+import mssw.mssw_supported_parameters as mssw_spms
 
 
 def big_evaluation0():
     ucdd_eval_and_write_res.eval_and_write_all(
         dataset_paths=['Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'],
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True],
         detect_all_training_batches_list=[False],
-        metric_ids=[spms.Distances.EUCLIDEAN],
+        metric_ids=[ucdd_spms.Distances.EUCLIDEAN],
         use_pyclustering=True
     )
 
@@ -36,14 +38,14 @@ def big_evaluation0():
 def big_evaluation():
     ucdd_eval_and_write_res.eval_and_write_all(
         dataset_paths=['Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'],
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True, False],
         detect_all_training_batches_list=[True, False],
-        metric_ids=[spms.Distances.EUCLIDEAN, spms.Distances.MANHATTAN],
+        metric_ids=[ucdd_spms.Distances.EUCLIDEAN, ucdd_spms.Distances.MANHATTAN],
         use_pyclustering=True
     )
 
@@ -54,14 +56,14 @@ def big_evaluation2():
             'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff',
             'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff'
         ],
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE, spms.Encoders.ONEHOT, spms.Encoders.TARGET],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE, ucdd_spms.Encoders.ONEHOT, ucdd_spms.Encoders.TARGET],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True, False],
         detect_all_training_batches_list=[True, False],
-        metric_ids=[spms.Distances.EUCLIDEAN, spms.Distances.MANHATTAN],
+        metric_ids=[ucdd_spms.Distances.EUCLIDEAN, ucdd_spms.Distances.MANHATTAN],
         use_pyclustering=True
     )
 
@@ -77,14 +79,14 @@ def big_evaluation3():
 
     ucdd_eval_and_write_res.eval_and_write_all(
         dataset_paths=paths,
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True, False],
         detect_all_training_batches_list=[False],
-        metric_ids=[spms.Distances.EUCLIDEAN, spms.Distances.MANHATTAN],
+        metric_ids=[ucdd_spms.Distances.EUCLIDEAN, ucdd_spms.Distances.MANHATTAN],
         use_pyclustering=True
     )
 
@@ -105,14 +107,14 @@ def big_evaluation4():
 
     ucdd_eval_and_write_res.eval_and_write_all(
         dataset_paths=paths,
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE, spms.Encoders.ONEHOT, spms.Encoders.TARGET],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE, ucdd_spms.Encoders.ONEHOT, ucdd_spms.Encoders.TARGET],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[False],
         detect_all_training_batches_list=[False],
-        metric_ids=[spms.Distances.EUCLIDEAN],
+        metric_ids=[ucdd_spms.Distances.EUCLIDEAN],
         use_pyclustering=True
     )
 
@@ -133,14 +135,14 @@ def big_evaluation5():
 
     ucdd_eval_and_write_res.eval_and_write_all(
         dataset_paths=paths,
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE, spms.Encoders.ONEHOT, spms.Encoders.TARGET],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE, ucdd_spms.Encoders.ONEHOT, ucdd_spms.Encoders.TARGET],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True],
         detect_all_training_batches_list=[False],
-        metric_ids=[spms.Distances.EUCLIDEAN],
+        metric_ids=[ucdd_spms.Distances.EUCLIDEAN],
         use_pyclustering=True
     )
 
@@ -161,14 +163,14 @@ def big_evaluation6():
 
     ucdd_eval_and_write_res.eval_and_write_all(
         dataset_paths=paths,
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE, spms.Encoders.ONEHOT, spms.Encoders.TARGET],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE, ucdd_spms.Encoders.ONEHOT, ucdd_spms.Encoders.TARGET],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True, False],
         detect_all_training_batches_list=[False],
-        metric_ids=[spms.Distances.MANHATTAN],
+        metric_ids=[ucdd_spms.Distances.MANHATTAN],
         use_pyclustering=True
     )
 
@@ -189,14 +191,14 @@ def big_evaluation7():
 
     ucdd_eval_and_write_res.eval_and_write_all(
         dataset_paths=paths,
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE, spms.Encoders.ONEHOT, spms.Encoders.TARGET],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE, ucdd_spms.Encoders.ONEHOT, ucdd_spms.Encoders.TARGET],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True, False],
         detect_all_training_batches_list=[True],
-        metric_ids=[spms.Distances.EUCLIDEAN, spms.Distances.MANHATTAN],
+        metric_ids=[ucdd_spms.Distances.EUCLIDEAN, ucdd_spms.Distances.MANHATTAN],
         use_pyclustering=True
     )
 
@@ -212,14 +214,14 @@ def big_evaluation8():
 
     ucdd_eval_and_write_res.eval_and_write_all(
         dataset_paths=paths,
-        scalings=[spms.Scalers.MINMAX],
-        encodings=[spms.Encoders.EXCLUDE],
+        scalings=[ucdd_spms.Scalers.MINMAX],
+        encodings=[ucdd_spms.Encoders.EXCLUDE],
         test_size=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         additional_checks=[True, False],
         detect_all_training_batches_list=[True],
-        metric_ids=[spms.Distances.EUCLIDEAN, spms.Distances.MANHATTAN],
+        metric_ids=[ucdd_spms.Distances.EUCLIDEAN, ucdd_spms.Distances.MANHATTAN],
         use_pyclustering=True
     )
 
@@ -291,8 +293,8 @@ def perform_clustering():
     dataset_path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff'
     x_ref_batches, y_ref_batches, x_test_batches, y_test_batches = ucdd_eval.obtain_preprocessed_batches(
         dataset_path,
-        spms.Scalers.MINMAX,
-        spms.Encoders.ONEHOT,
+        ucdd_spms.Scalers.MINMAX,
+        ucdd_spms.Encoders.ONEHOT,
         0.5,
         1,
         1
@@ -650,3 +652,35 @@ def mssw_eval_attempt5():
 
     print('time taken')
     print(time.time() - start)
+
+
+def mssw_eval_attempt6():
+    start = time.time()
+    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se =\
+        mssw.mssw_eval_local_datasets.eval_one_parameter_set(
+            'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff',
+            mssw_spms.Encoders.ONEHOT,
+            test_fraction=0.7,
+            num_ref_batches=3,
+            num_test_batches=7,
+            true_drift_idx=2
+        )
+
+    print('mean FPR', fpr_mean)
+    print('mean latency', latency_mean)
+
+    print('time taken')
+    print(time.time() - start)
+
+
+def mssw_big_eval():
+    results = mssw.mssw_eval_local_datasets.eval_multiple_parameter_sets(
+        ['Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff',
+         'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'],
+        [mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2
+    )
+    print(results)

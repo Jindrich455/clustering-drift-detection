@@ -27,10 +27,10 @@ def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift
 def all_drifting_batches_randomness_robust(
         reference_data_batches,
         testing_data_batches,
-        true_drift_idx=2,
         num_clusters=2,
-        first_random_state=0,
         coeff=2.66,
+        true_drift_idx=2,
+        first_random_state=0,
         min_runs=10,
         std_err_threshold=0.05
 ):
