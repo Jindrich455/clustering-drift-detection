@@ -1,10 +1,12 @@
 import csv
 import os
 import random
+import time
 
 import numpy as np
 
 import experiments
+from mssw import messing_around
 
 
 def take_random_states(num_runs):
@@ -82,7 +84,10 @@ if __name__ == '__main__':
 
     # experiments.mssw_eval_attempt()
     # experiments.mssw_eval_attempt2()
-    experiments.mssw_eval_attempt3()
+    # experiments.mssw_eval_attempt3()
+
+    messing_around.f2()
+    messing_around.f2(10)
 
     # ucdd_eval.evaluate_ucdd_until_convergence(
     #     file_path='Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff',
