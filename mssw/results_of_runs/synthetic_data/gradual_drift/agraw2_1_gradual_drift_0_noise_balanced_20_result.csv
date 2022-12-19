@@ -1,0 +1,17 @@
+data_path,Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_20.arff
+encoding,Encoders.EXCLUDE
+fpr_mean,0.5
+fpr_se,0.0
+latency_mean,0.0
+latency_se,0.0
+num_runs,10
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True
+True,False,True,True,True,True,True

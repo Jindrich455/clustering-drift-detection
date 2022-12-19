@@ -89,7 +89,9 @@ if __name__ == '__main__':
     # experiments.mssw_eval_attempt5()
     # experiments.mssw_eval_attempt6()
 
-    experiments.mssw_big_eval()
+    # experiments.mssw_big_eval()
+    # experiments.mssw_big_eval_write_res()
+    experiments.mssw_big_eval_write_res2()
 
     # messing_around.f2()
     # messing_around.f2(10)

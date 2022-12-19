@@ -106,6 +106,15 @@ def eval_multiple_parameter_sets(
             min_runs=min_runs,
             std_err_threshold=std_err_threshold
         )
-        argument_results.append((data_path, encoding, runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se))
+        results_dict = {
+            'data_path': data_path,
+            'encoding': encoding,
+            'runs_results_bool': runs_results_bool,
+            'fpr_mean': fpr_mean,
+            'fpr_se': fpr_se,
+            'latency_mean': latency_mean,
+            'latency_se': latency_se
+        }
+        argument_results.append(results_dict)
 
     return argument_results

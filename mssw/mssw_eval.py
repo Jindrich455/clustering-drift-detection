@@ -62,11 +62,11 @@ def all_drifting_batches_randomness_robust(
             random_state=random_state,
             coeff=coeff
         )
-        print('drifting_batches_bool')
-        print(drifting_batches_bool)
+        # print('drifting_batches_bool')
+        # print(drifting_batches_bool)
         drift_locations = np.arange(len(drifting_batches_bool))[drifting_batches_bool]
-        print('drift_locations')
-        print(drift_locations)
+        # print('drift_locations')
+        # print(drift_locations)
         fpr, latency, _ = fpr_and_latency_when_averaging(
             drift_locations,
             len(testing_data_batches),
@@ -78,12 +78,12 @@ def all_drifting_batches_randomness_robust(
         num_runs += 1
         random_state += 1
 
-        print('number of runs', num_runs)
+        # print('number of runs', num_runs)
         if num_runs >= min_runs:
             fpr_std_err = np.std(fprs) / np.sqrt(len(fprs))
             latency_std_err = np.std(latencies) / np.sqrt(len(latencies))
-        print('fprs', fprs, 's.e.', fpr_std_err)
-        print('latencies', latencies, 's.e.', latency_std_err)
+        # print('fprs', fprs, 's.e.', fpr_std_err)
+        # print('latencies', latencies, 's.e.', latency_std_err)
 
     final_fpr_mean = np.mean(fprs)
     final_latency_mean = np.mean(latencies)

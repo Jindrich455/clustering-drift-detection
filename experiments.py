@@ -16,6 +16,7 @@ import accepting
 import mssw.mssw
 import mssw.mssw_eval
 import mssw.mssw_eval_local_datasets
+import mssw.mssw_result_writer
 from ucdd import ucdd_supported_parameters as ucdd_spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
 import mssw.mssw_supported_parameters as mssw_spms
 
@@ -684,3 +685,67 @@ def mssw_big_eval():
         true_drift_idx=2
     )
     print(results)
+
+
+abrupt_sea_path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff'
+abrupt_agraw1_path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'
+abrupt_agraw2_path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff'
+
+gradual_sea_paths = [
+    'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_05.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_1.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_5.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_10.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/sea_1_gradual_drift_0_noise_balanced_20.arff'
+]
+
+gradual_agraw1_paths = [
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_05.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_1.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_5.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_10.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_20.arff'
+]
+
+gradual_agraw2_paths = [
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_05.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_1.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_5.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_10.arff',
+    'Datasets_concept_drift/synthetic_data/gradual_drift/agraw2_1_gradual_drift_0_noise_balanced_20.arff'
+]
+
+only_numerical_data_paths = [abrupt_sea_path] + gradual_sea_paths
+only_mixed_data_paths = [abrupt_agraw1_path] + gradual_agraw1_paths + [abrupt_agraw2_path] + gradual_agraw2_paths
+
+
+def mssw_big_eval_write_res():
+    results = mssw.mssw_result_writer.eval_and_write(
+        ['Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff',
+         'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'],
+        [mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2
+    )
+    print(results)
+
+
+def mssw_big_eval_write_res2():
+    mssw.mssw_result_writer.eval_and_write(
+        only_numerical_data_paths,
+        [mssw_spms.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2
+    )
+    mssw.mssw_result_writer.eval_and_write(
+        only_mixed_data_paths,
+        [mssw_spms.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2
+    )
