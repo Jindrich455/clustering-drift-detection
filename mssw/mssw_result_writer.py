@@ -90,22 +90,41 @@ def combine_synthetic_results():
                 final_result_dict['FPR_mean'].append(result_dict['fpr_mean'])
                 final_result_dict['latency_mean'].append(result_dict['latency_mean'])
 
+    gradual_path = Path('mssw/results_of_runs/synthetic_data/gradual_drift')
+    all_gradual_folders = os.listdir(gradual_path)
+    for gradual_folder in all_gradual_folders:
+        gradual_files_in_folder = os.listdir(gradual_path.__str__() + '/' + gradual_folder)
+        for gradual_file in gradual_files_in_folder:
+            full_file_path = gradual_path.__str__() + '/' + gradual_folder + '/' + gradual_file
+            with open(full_file_path) as f:
+                rdr = csv.reader(f)
+                result_dict = {}
+                description = ''
+                while description != 'num_runs':
+                    two_element_line = rdr.__next__()
+                    description = two_element_line[0]
+                    value = two_element_line[1]
+                    result_dict[description] = value
+                print('result dict')
+                print(result_dict)
+
+                final_result_dict['dataset'].append(gradual_folder.split('_')[0])
+                final_result_dict['data'].append('synthetic')
+                final_result_dict['drift'].append('gradual')
+                drift_width = gradual_folder.split('_')[-1]
+                drift_width = 0.5 if drift_width == '05' else float(drift_width)
+                final_result_dict['width'].append(drift_width)
+                final_result_dict['encoding'].append(result_dict['encoding'])
+                final_result_dict['FPR_mean'].append(float(result_dict['fpr_mean']))
+                final_result_dict['latency_mean'].append(float(result_dict['latency_mean']))
+
     final_result_df = pd.DataFrame.from_dict(final_result_dict)
     print('final result_df')
     print(final_result_df)
 
-    # TODO: add gradual drifts
+    sorted_final_result_df = final_result_df.sort_values(['drift', 'dataset', 'encoding', 'width'])
+    print('sorted')
+    print(sorted_final_result_df)
 
-
-    # gradual_path = Path('mssw/results_of_runs/synthetic_data/gradual_drift')
-    # for abrupt_file in all_abrupt_files:
-    #     with open(abrupt_path.__str__() + '/' + abrupt_file) as f:
-    #         rdr = csv.reader(f)
-    #         description = ''
-    #         while description != 'num_runs':
-    #             two_element_line = rdr.__next__()
-    #             description = two_element_line[0]
-    #             value = two_element_line[1]
-    #             result_dict[description] = value
-    #         print('result dict')
-    #         print(result_dict)
+    path = 'mssw/mssw_final_result.csv'
+    sorted_final_result_df.to_csv(path, index=False)
