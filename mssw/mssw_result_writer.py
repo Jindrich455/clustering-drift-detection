@@ -1,4 +1,7 @@
 import csv
+import os
+
+import pandas as pd
 
 import mssw.mssw_eval_local_datasets
 from pathlib import Path
@@ -36,15 +39,15 @@ def eval_and_write(
     print('argument_results')
     print(argument_results)
 
-    for i, data_path in enumerate(data_paths):
-        argument_result = argument_results[i]
+    for argument_result in argument_results:
+        data_path = argument_result['data_path']
         runs_results_bool = argument_result['runs_results_bool']
         argument_result.pop('runs_results_bool')
 
         folder_directory = data_path.split('/')[1:]
         folder_directory[-1] = folder_directory[-1].split('.')[0]
         folder_directory = 'mssw/results_of_runs/' + '/'.join(folder_directory[:-1]) +\
-                           '/' + folder_directory[-1] + '_result.csv'
+                           '/' + folder_directory[-1] + '/' + argument_result['encoding'] + '_result.csv'
         print('folder_directory')
         print(folder_directory)
         path = Path(folder_directory)
@@ -57,3 +60,52 @@ def eval_and_write(
             wr.writerows(runs_results_bool)
 
 
+def combine_synthetic_results():
+    abrupt_path = Path('mssw/results_of_runs/synthetic_data/abrupt_drift')
+    all_abrupt_folders = os.listdir(abrupt_path)
+    final_result_dict = {
+        'dataset': [], 'data': [], 'drift': [], 'width': [], 'encoding': [], 'FPR_mean': [], 'latency_mean': []
+    }
+    for abrupt_folder in all_abrupt_folders:
+        abrupt_files_in_folder = os.listdir(abrupt_path.__str__() + '/' + abrupt_folder)
+        for abrupt_file in abrupt_files_in_folder:
+            full_file_path = abrupt_path.__str__() + '/' + abrupt_folder + '/' + abrupt_file
+            with open(full_file_path) as f:
+                rdr = csv.reader(f)
+                result_dict = {}
+                description = ''
+                while description != 'num_runs':
+                    two_element_line = rdr.__next__()
+                    description = two_element_line[0]
+                    value = two_element_line[1]
+                    result_dict[description] = value
+                print('result dict')
+                print(result_dict)
+
+                final_result_dict['dataset'].append(abrupt_folder.split('_')[0])
+                final_result_dict['data'].append('synthetic')
+                final_result_dict['drift'].append('abrupt')
+                final_result_dict['width'].append(0)
+                final_result_dict['encoding'].append(result_dict['encoding'])
+                final_result_dict['FPR_mean'].append(result_dict['fpr_mean'])
+                final_result_dict['latency_mean'].append(result_dict['latency_mean'])
+
+    final_result_df = pd.DataFrame.from_dict(final_result_dict)
+    print('final result_df')
+    print(final_result_df)
+
+    # TODO: add gradual drifts
+
+
+    # gradual_path = Path('mssw/results_of_runs/synthetic_data/gradual_drift')
+    # for abrupt_file in all_abrupt_files:
+    #     with open(abrupt_path.__str__() + '/' + abrupt_file) as f:
+    #         rdr = csv.reader(f)
+    #         description = ''
+    #         while description != 'num_runs':
+    #             two_element_line = rdr.__next__()
+    #             description = two_element_line[0]
+    #             value = two_element_line[1]
+    #             result_dict[description] = value
+    #         print('result dict')
+    #         print(result_dict)

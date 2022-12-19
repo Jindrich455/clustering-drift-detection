@@ -743,9 +743,13 @@ def mssw_big_eval_write_res2():
     )
     mssw.mssw_result_writer.eval_and_write(
         only_mixed_data_paths,
-        [mssw_spms.Encoders.EXCLUDE],
+        [mssw_spms.Encoders.EXCLUDE, mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         true_drift_idx=2
     )
+
+
+def combine_results():
+    mssw.mssw_result_writer.combine_synthetic_results()

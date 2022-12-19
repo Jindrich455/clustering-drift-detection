@@ -108,7 +108,7 @@ def eval_multiple_parameter_sets(
         )
         results_dict = {
             'data_path': data_path,
-            'encoding': encoding,
+            'encoding': encoding.name.lower(),
             'runs_results_bool': runs_results_bool,
             'fpr_mean': fpr_mean,
             'fpr_se': fpr_se,
