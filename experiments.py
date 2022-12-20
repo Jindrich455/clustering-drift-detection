@@ -751,5 +751,5 @@ def mssw_big_eval_write_res2():
     )
 
 
-def combine_results():
+def mssw_combine_results():
     mssw.mssw_result_writer.combine_synthetic_results()

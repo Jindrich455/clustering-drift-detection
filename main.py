@@ -91,9 +91,9 @@ if __name__ == '__main__':
 
     # experiments.mssw_big_eval()
     # experiments.mssw_big_eval_write_res()
-    # experiments.mssw_big_eval_write_res2()
+    experiments.mssw_big_eval_write_res2()
 
-    experiments.combine_results()
+    experiments.mssw_combine_results()
 
     # messing_around.f2()
     # messing_around.f2(10)

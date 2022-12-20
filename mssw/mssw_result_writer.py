@@ -126,5 +126,5 @@ def combine_synthetic_results():
     print('sorted')
     print(sorted_final_result_df)
 
-    path = 'mssw/mssw_final_result.csv'
+    path = 'mssw/mssw_final_result_3_clusters.csv'
     sorted_final_result_df.to_csv(path, index=False)
