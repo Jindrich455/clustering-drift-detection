@@ -146,7 +146,7 @@ def all_drifting_batches(reference_data_batches, testing_data_batches, num_clust
     weighted_joined_reference_data, weighted_reference_batches, weighted_testing_batches =\
         mssw_preprocessing.mssw_preprocess(reference_data_batches, testing_data_batches)
 
-    fitted_kmeans = KMeans(n_clusters=3, random_state=random_state)\
+    fitted_kmeans = KMeans(n_clusters=2, random_state=random_state)\
         .fit(weighted_joined_reference_data)
     mean_av_s, mean_mr = get_mean_s_s_and_mean_moving_ranges(weighted_reference_batches, fitted_kmeans, num_clusters)
 

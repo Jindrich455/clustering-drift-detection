@@ -720,7 +720,7 @@ only_mixed_data_paths = [abrupt_agraw1_path] + gradual_agraw1_paths + [abrupt_ag
 
 
 def mssw_big_eval_write_res():
-    results = mssw.mssw_result_writer.eval_and_write(
+    results = mssw.mssw_result_writer.eval_and_write_raw(
         ['Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff',
          'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'],
         [mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET],
@@ -733,7 +733,7 @@ def mssw_big_eval_write_res():
 
 
 def mssw_big_eval_write_res2():
-    mssw.mssw_result_writer.eval_and_write(
+    mssw.mssw_result_writer.eval_and_write_raw(
         only_numerical_data_paths,
         [mssw_spms.Encoders.EXCLUDE],
         test_fraction=0.7,
@@ -741,7 +741,7 @@ def mssw_big_eval_write_res2():
         num_test_batches=7,
         true_drift_idx=2
     )
-    mssw.mssw_result_writer.eval_and_write(
+    mssw.mssw_result_writer.eval_and_write_raw(
         only_mixed_data_paths,
         [mssw_spms.Encoders.EXCLUDE, mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET],
         test_fraction=0.7,
@@ -753,3 +753,15 @@ def mssw_big_eval_write_res2():
 
 def mssw_combine_results():
     mssw.mssw_result_writer.combine_synthetic_results()
+
+
+def mssw_write_to_file():
+    mssw.mssw_result_writer.eval_and_write_to_file(
+        only_numerical_data_paths,
+        [mssw_spms.Encoders.EXCLUDE],
+        result_file = 'mssw/mssw_final_result_only_numerical.csv',
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2
+    )
