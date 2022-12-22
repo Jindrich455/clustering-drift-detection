@@ -24,24 +24,20 @@ def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift
     return fpr, latency, drift_detected
 
 
-def all_drifting_batches_randomness_robust(
-        reference_data_batches,
-        testing_data_batches,
-        num_clusters=2,
-        coeff=2.66,
-        true_drift_idx=2,
-        first_random_state=0,
-        min_runs=10,
-        std_err_threshold=0.05
-):
+def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_batches, n_clusters=2, n_init=10,
+                                           max_iter=300, tol=1e-4, coeff=2.66, true_drift_idx=2, first_random_state=0,
+                                           min_runs=10, std_err_threshold=0.05):
     """
     Repeat running mssw.mssw.all_drifting_batches(...) until the s.e. of metrics from different runs is low enough
 
+    :param n_init:
+    :param max_iter:
+    :param tol:
     :param reference_data_batches: list of arrays of shape (n_r_r, #attributes), r_r=reference batch number,
         n_r_r=#points in this batch
     :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
         n_r_t=#points in this batch
-    :param num_clusters: desired number of clusters for kmeans
+    :param n_clusters: desired number of clusters for kmeans
     :param first_random_state: random states used will be incremented from this one
     :param coeff: coeff used to detect drift, default=2.66
     :param std_err_threshold: threshold to stop executing the mssw algorithm
@@ -58,7 +54,10 @@ def all_drifting_batches_randomness_robust(
         drifting_batches_bool = mssw.mssw.all_drifting_batches(
             reference_data_batches,
             testing_data_batches,
-            num_clusters,
+            n_clusters=n_clusters,
+            n_init=n_init,
+            max_iter=max_iter,
+            tol=tol,
             random_state=random_state,
             coeff=coeff
         )

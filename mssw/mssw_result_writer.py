@@ -9,32 +9,16 @@ from pathlib import Path
 from mssw import mssw_eval_local_datasets
 
 
-def eval_and_write_raw(
-        data_paths,
-        encodings,
-        test_fraction,
-        num_ref_batches,
-        num_test_batches,
-        true_drift_idx,
-        num_clusters=2,
-        first_random_state=0,
-        coeff=2.66,
-        min_runs=10,
-        std_err_threshold=0.05
-):
-    argument_results = mssw_eval_local_datasets.eval_multiple_parameter_sets(
-        data_paths,
-        encodings,
-        test_fraction,
-        num_ref_batches,
-        num_test_batches,
-        true_drift_idx,
-        num_clusters,
-        first_random_state,
-        coeff,
-        min_runs,
-        std_err_threshold
-    )
+def eval_and_write_raw(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches, true_drift_idx,
+                       n_clusters=2, n_init=10, max_iter=300, tol=1e-4, first_random_state=0, coeff=2.66, min_runs=10,
+                       std_err_threshold=0.05):
+    argument_results = mssw_eval_local_datasets.eval_multiple_parameter_sets(data_paths, encodings, test_fraction,
+                                                                             num_ref_batches, num_test_batches,
+                                                                             true_drift_idx, n_clusters,
+                                                                             n_init, max_iter, tol,
+                                                                             first_random_state=first_random_state,
+                                                                             coeff=coeff, min_runs=min_runs,
+                                                                             std_err_threshold=std_err_threshold)
 
     print('argument_results')
     print(argument_results)
@@ -46,7 +30,7 @@ def eval_and_write_raw(
 
         folder_directory = data_path.split('/')[1:]
         folder_directory[-1] = folder_directory[-1].split('.')[0]
-        folder_directory = 'mssw/results_of_runs/' + '/'.join(folder_directory[:-1]) +\
+        folder_directory = 'mssw/results_of_runs/' + '/'.join(folder_directory[:-1]) + \
                            '/' + folder_directory[-1] + '/' + argument_result['encoding'] + '_result.csv'
         print('folder_directory')
         print(folder_directory)
@@ -60,33 +44,16 @@ def eval_and_write_raw(
             wr.writerows(runs_results_bool)
 
 
-def eval_and_write_to_file(
-        data_paths,
-        encodings,
-        test_fraction,
-        num_ref_batches,
-        num_test_batches,
-        true_drift_idx,
-        result_file,
-        num_clusters=2,
-        first_random_state=0,
-        coeff=2.66,
-        min_runs=10,
-        std_err_threshold=0.05
-):
-    argument_results = mssw_eval_local_datasets.eval_multiple_parameter_sets(
-        data_paths,
-        encodings,
-        test_fraction,
-        num_ref_batches,
-        num_test_batches,
-        true_drift_idx,
-        num_clusters,
-        first_random_state,
-        coeff,
-        min_runs,
-        std_err_threshold
-    )
+def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches, true_drift_idx,
+                           result_file, n_clusters=2, n_init=10, max_iter=300, tol=1e-4, first_random_state=0,
+                           coeff=2.66, min_runs=10, std_err_threshold=0.05):
+    argument_results = mssw_eval_local_datasets.eval_multiple_parameter_sets(data_paths, encodings, test_fraction,
+                                                                             num_ref_batches, num_test_batches,
+                                                                             true_drift_idx, n_clusters,
+                                                                             n_init, max_iter, tol,
+                                                                             first_random_state=first_random_state,
+                                                                             coeff=coeff, min_runs=min_runs,
+                                                                             std_err_threshold=std_err_threshold)
 
     print('argument_results')
     print(argument_results)
@@ -101,8 +68,8 @@ def eval_and_write_to_file(
         argument_result.pop('runs_results_bool')
 
         data_filename = data_path.split('/')[-1]
-        dataset_name = data_filename.split('_')[0] # sea, agraw1, agraw2
-        type_of_data = data_path.split('/')[1].split('_')[0] # synthetic or real-world
+        dataset_name = data_filename.split('_')[0]  # sea, agraw1, agraw2
+        type_of_data = data_path.split('/')[1].split('_')[0]  # synthetic or real-world
         drift_type = data_path.split('/')[2].split('_')[0]
         drift_width = '0' if drift_type == 'abrupt' else data_filename.split('_')[-1].split('.')[0]
         drift_width = 0.5 if drift_width == '05' else float(drift_width)

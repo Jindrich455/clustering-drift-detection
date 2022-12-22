@@ -12,19 +12,9 @@ import accepting
 import mssw.mssw_eval
 
 
-def eval_one_parameter_set(
-        data_path,
-        encoding,
-        test_fraction,
-        num_ref_batches,
-        num_test_batches,
-        true_drift_idx,
-        num_clusters=2,
-        first_random_state=0,
-        coeff=2.66,
-        min_runs=10,
-        std_err_threshold=0.05
-):
+def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, num_test_batches, true_drift_idx,
+                           n_clusters=2, n_init=10, max_iter=300, tol=1e-4, first_random_state=0, coeff=2.66,
+                           min_runs=10, std_err_threshold=0.05):
     df_x, df_y = accepting.get_clean_df(data_path)
 
     df_y = pd.DataFrame(LabelEncoder().fit_transform(df_y))
@@ -67,22 +57,13 @@ def eval_one_parameter_set(
     ref_batches = np.array_split(reference_data, num_ref_batches)
     test_batches = np.array_split(testing_data, num_test_batches)
 
-    return mssw.mssw_eval.all_drifting_batches_randomness_robust(ref_batches, test_batches)
+    return mssw.mssw_eval.all_drifting_batches_randomness_robust(ref_batches, test_batches, n_clusters=n_clusters,
+                                                                 n_init=n_init, max_iter=max_iter, tol=tol)
 
 
-def eval_multiple_parameter_sets(
-        data_paths,
-        encodings,
-        test_fraction,
-        num_ref_batches,
-        num_test_batches,
-        true_drift_idx,
-        num_clusters=2,
-        first_random_state=0,
-        coeff=2.66,
-        min_runs=10,
-        std_err_threshold=0.05
-):
+def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,
+                                 true_drift_idx, n_clusters=2, n_init=10, max_iter=300, tol=1e-4, first_random_state=0,
+                                 coeff=2.66, min_runs=10, std_err_threshold=0.05):
     arg_tuples = list(itertools.product(data_paths, encodings))
     argument_results = []
     for i, arg_tuple in enumerate(arg_tuples):
@@ -94,13 +75,15 @@ def eval_multiple_parameter_sets(
         print('encoding')
         print(encoding)
         runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = eval_one_parameter_set(
-            data_path,
-            encoding,
+            data_path, encoding,
             test_fraction,
             num_ref_batches,
             num_test_batches,
             true_drift_idx,
-            num_clusters=num_clusters,
+            n_clusters=n_clusters,
+            n_init=n_init,
+            max_iter=max_iter,
+            tol=tol,
             first_random_state=first_random_state,
             coeff=coeff,
             min_runs=min_runs,

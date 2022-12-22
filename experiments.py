@@ -601,7 +601,7 @@ def mssw_eval_attempt4():
     print(len(test_batches))
     print(test_batches)
 
-    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = mssw.mssw_eval\
+    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = mssw.mssw_eval \
         .all_drifting_batches_randomness_robust(ref_batches, test_batches)
 
 
@@ -657,15 +657,10 @@ def mssw_eval_attempt5():
 
 def mssw_eval_attempt6():
     start = time.time()
-    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se =\
+    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = \
         mssw.mssw_eval_local_datasets.eval_one_parameter_set(
             'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff',
-            mssw_spms.Encoders.ONEHOT,
-            test_fraction=0.7,
-            num_ref_batches=3,
-            num_test_batches=7,
-            true_drift_idx=2
-        )
+            mssw_spms.Encoders.ONEHOT, test_fraction=0.7, num_ref_batches=3, num_test_batches=7, true_drift_idx=2)
 
     print('mean FPR', fpr_mean)
     print('mean latency', latency_mean)
@@ -678,12 +673,8 @@ def mssw_big_eval():
     results = mssw.mssw_eval_local_datasets.eval_multiple_parameter_sets(
         ['Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff',
          'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'],
-        [mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET],
-        test_fraction=0.7,
-        num_ref_batches=3,
-        num_test_batches=7,
-        true_drift_idx=2
-    )
+        [mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET], test_fraction=0.7, num_ref_batches=3,
+        num_test_batches=7, true_drift_idx=2)
     print(results)
 
 
@@ -723,32 +714,19 @@ def mssw_big_eval_write_res():
     results = mssw.mssw_result_writer.eval_and_write_raw(
         ['Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff',
          'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'],
-        [mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET],
-        test_fraction=0.7,
-        num_ref_batches=3,
-        num_test_batches=7,
-        true_drift_idx=2
-    )
+        [mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET], test_fraction=0.7, num_ref_batches=3,
+        num_test_batches=7, true_drift_idx=2)
     print(results)
 
 
 def mssw_big_eval_write_res2():
-    mssw.mssw_result_writer.eval_and_write_raw(
-        only_numerical_data_paths,
-        [mssw_spms.Encoders.EXCLUDE],
-        test_fraction=0.7,
-        num_ref_batches=3,
-        num_test_batches=7,
-        true_drift_idx=2
-    )
-    mssw.mssw_result_writer.eval_and_write_raw(
-        only_mixed_data_paths,
-        [mssw_spms.Encoders.EXCLUDE, mssw_spms.Encoders.ONEHOT, mssw_spms.Encoders.TARGET],
-        test_fraction=0.7,
-        num_ref_batches=3,
-        num_test_batches=7,
-        true_drift_idx=2
-    )
+    mssw.mssw_result_writer.eval_and_write_raw(only_numerical_data_paths, [mssw_spms.Encoders.EXCLUDE],
+                                               test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                               true_drift_idx=2)
+    mssw.mssw_result_writer.eval_and_write_raw(only_mixed_data_paths,
+                                               [mssw_spms.Encoders.EXCLUDE, mssw_spms.Encoders.ONEHOT,
+                                                mssw_spms.Encoders.TARGET], test_fraction=0.7, num_ref_batches=3,
+                                               num_test_batches=7, true_drift_idx=2)
 
 
 def mssw_combine_results():
@@ -756,12 +734,7 @@ def mssw_combine_results():
 
 
 def mssw_write_to_file():
-    mssw.mssw_result_writer.eval_and_write_to_file(
-        only_numerical_data_paths,
-        [mssw_spms.Encoders.EXCLUDE],
-        result_file = 'mssw/mssw_final_result_only_numerical.csv',
-        test_fraction=0.7,
-        num_ref_batches=3,
-        num_test_batches=7,
-        true_drift_idx=2
-    )
+    mssw.mssw_result_writer.eval_and_write_to_file(only_numerical_data_paths, [mssw_spms.Encoders.EXCLUDE],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   result_file='mssw/mssw_final_result_only_numerical2.csv')
