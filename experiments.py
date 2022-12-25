@@ -737,4 +737,5 @@ def mssw_write_to_file():
     mssw.mssw_result_writer.eval_and_write_to_file(only_numerical_data_paths, [mssw_spms.Encoders.EXCLUDE],
                                                    test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
                                                    true_drift_idx=2,
-                                                   result_file='mssw/mssw_final_result_only_numerical2.csv')
+                                                   n_clusters=2,
+                                                   result_file='mssw/mssw_crazy_n_init.csv')
