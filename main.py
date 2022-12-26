@@ -64,6 +64,21 @@ def compute_metric_latency(array_batches, no_batches_with_drift, drift_start):
 
 
 if __name__ == '__main__':
+    arr = np.array([[1, 2], [3, 4]])
+    idx = np.array([True, False])
+    print(arr[idx])
+
+    arr = np.concatenate([np.repeat([True], 3), np.repeat([False], 5)])
+    print(arr)
+
+    arr = np.array([[1, 2], [3, 4], [5, 6]])
+    idx = np.array([[1, 2]])
+    print(arr[idx])
+
+    experiments.ucdd_improved_simple()
+
+
+
     # experiments.big_evaluation0()
     # experiments.big_evaluation()
     # experiments.big_evaluation2()
@@ -94,7 +109,7 @@ if __name__ == '__main__':
     # experiments.mssw_big_eval_write_res2()
     # experiments.mssw_combine_results()
 
-    experiments.mssw_write_to_file()
+    # experiments.mssw_write_to_file()
 
     # messing_around.f2()
     # messing_around.f2(10)

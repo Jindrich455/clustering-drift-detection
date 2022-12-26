@@ -17,6 +17,7 @@ import mssw.mssw
 import mssw.mssw_eval
 import mssw.mssw_eval_local_datasets
 import mssw.mssw_result_writer
+import ucdd_improved.ucdd
 from ucdd import ucdd_supported_parameters as ucdd_spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
 import mssw.mssw_supported_parameters as mssw_spms
 
@@ -739,3 +740,29 @@ def mssw_write_to_file():
                                                    true_drift_idx=2,
                                                    n_clusters=2,
                                                    result_file='mssw/mssw_crazy_n_init.csv')
+
+
+def ucdd_improved_simple():
+    df_x, df_y = accepting.get_clean_df(
+        'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff')
+
+    df_y = pd.DataFrame(LabelEncoder().fit_transform(df_y))
+    df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
+        df_x, df_y, test_size=0.7, shuffle=False)
+
+    scaler = MinMaxScaler()
+    scaler.fit(df_x_ref)
+    reference_data = pd.DataFrame(scaler.transform(df_x_ref)).to_numpy()
+    testing_data = pd.DataFrame(scaler.transform(df_x_test)).to_numpy()
+
+    ref_batches = np.array_split(reference_data, 3)
+    test_batches = np.array_split(testing_data, 7)
+
+    drifts = ucdd_improved.ucdd.all_drifting_batches(
+        ref_batches,
+        test_batches,
+        train_batch_strategy=ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+        additional_check=True,
+        random_state=0
+    )
+    print(drifts)

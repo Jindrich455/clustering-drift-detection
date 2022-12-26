@@ -1,94 +1,102 @@
 """
 Implementation of the UCDD algorithm by Dan Shang, Guangquan Zhang and Jie Lu
 """
-# TODO: MAKE THIS FILE AS GOOD AS MSSW
-
 import numpy as np
 import pandas as pd
+from pyclustering.cluster.kmeans import kmeans
+from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
+import scipy
+from pyclustering.utils import distance_metric, type_metric
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
-from ucdd import ucdd_supported_parameters as spms
+from ucdd_improved import ucdd_supported_parameters as spms
 
 
-def split_back_to_windows(df_union, labels, len_ref_window, len_test_window):
+def split_back_to_windows(window_union, labels, len_ref_window, len_test_window):
     """Separate predicted points back to original reference and testing windows (through boolean masks)"""
-    ref_mask = pd.Series(np.concatenate([np.repeat(True, len_ref_window), np.repeat(False, len_test_window)]))
-    plus_mask = pd.Series(labels, dtype=bool)
+    ref_mask = np.concatenate([np.repeat(True, len_ref_window), np.repeat(False, len_test_window)])
+    plus_mask = np.where(labels == 1, True, False)
 
-    df_ref_plus = df_union[ref_mask & plus_mask]
-    df_ref_minus = df_union[ref_mask & (~plus_mask)]
-    df_test_plus = df_union[(~ref_mask) & plus_mask]
-    df_test_minus = df_union[(~ref_mask) & (~plus_mask)]
+    ref_plus = window_union[np.logical_and(ref_mask, plus_mask)]
+    ref_minus = window_union[np.logical_and(ref_mask, np.logical_not(plus_mask))]
+    test_plus = window_union[np.logical_and(np.logical_not(ref_mask), plus_mask)]
+    test_minus = window_union[np.logical_and(np.logical_not(ref_mask), np.logical_not(plus_mask))]
 
-    return df_ref_plus, df_ref_minus, df_test_plus, df_test_minus
+    return ref_plus, ref_minus, test_plus, test_minus
 
 
-def join_predict_split(df_ref_window, df_test_window, random_state, metric_id):
+def join_predict_split(ref_window, test_window, random_state,
+                       n_init, max_iter, tol):
     """Join points from two windows, predict their labels through kmeans, then separate them again"""
     # join the points from two windows
-    df_union = pd.concat([df_ref_window, df_test_window])
-    df_union_new_index = df_union.set_index(np.arange(len(df_union)))
+    window_union = np.vstack((ref_window, test_window))
 
     # predict their label values
-    predicted_labels = KMeans(n_clusters=2, random_state=random_state).fit_predict(df_union_new_index)
+    predicted_labels = KMeans(n_clusters=2, n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)\
+        .fit_predict(window_union)
 
     # split values by predicted label and window
-    return split_back_to_windows(df_union_new_index, predicted_labels, len(df_ref_window), len(df_test_window))
+    return split_back_to_windows(window_union, predicted_labels, ref_window.shape[0], test_window.shape[0])
 
 
-def compute_neighbors(u, v, metric_id, debug_string='v'):
-    neigh = NearestNeighbors(n_neighbors=1, metric=nn_metric_from_id(metric_id), n_jobs=-1)
+def compute_neighbors(u, v, debug_string='v'):
+    neigh = NearestNeighbors(n_neighbors=1, n_jobs=-1)
     neigh.fit(v)
 
     neigh_ind_v = neigh.kneighbors(u, return_distance=False)
     # print('neigh_ind_' + debug_string, neigh_ind_v)
     unique_v_neighbor_indices = np.unique(neigh_ind_v)
-    w = v.iloc[unique_v_neighbor_indices]
+    # print('unique neigh_ind_' + debug_string, unique_v_neighbor_indices)
+    w = v[unique_v_neighbor_indices]
     return w
 
 
-def compute_beta(df_u, df_v0, df_v1, show_2d_plots, debug, metric_id, beta_x=0.5):
-    w0 = compute_neighbors(df_u, df_v0, metric_id, 'v0')
-    w1 = compute_neighbors(df_u, df_v1, metric_id, 'v1')
+def compute_beta(u, v0, v1, beta_x=0.5, debug=False):
+    w0 = compute_neighbors(u, v0, 'v0')
+    w1 = compute_neighbors(u, v1, 'v1')
     if debug: print('neighbors in W0', len(w0))
     if debug: print('neighbors in W1', len(w1))
-    if show_2d_plots:
-        ucdd_plotter.plot_u_w0_w1(df_u, w0, w1)
     beta = scipy.stats.beta.cdf(beta_x, len(w0), len(w1))
     beta_additional = scipy.stats.beta.cdf(beta_x, len(w1), len(w0))
     if debug: print('beta', beta)
     return beta, beta_additional
 
 
-def detect_cd_one_batch(
-        df_X_ref,
-        df_X_test,
+def concept_drift_detected(
+        ref_window,
+        test_window,
         random_state,
         additional_check,
-        metric_id,
-        show_2d_plots,
-        debug,
-        threshold=0.05
+        n_init,
+        max_iter,
+        tol,
+        threshold=0.05,
+        debug=False,
 ):
-    """
-    Detect whether a concept drift occurred based on one reference and one testing window
-    :param df_X_ref:
-    :param df_X_test:
-    :param random_state:
-    :param additional_check:
-    :param metric_id:
-    :param show_2d_plots:
-    :param debug:
-    :param threshold:
-    :return:
-    """
-    pass
+    """Detect whether a concept drift occurred based on a reference and a testing window"""
+    ref_plus, ref_minus, test_plus, test_minus = \
+        join_predict_split(ref_window, test_window, random_state,
+                           n_init=n_init, max_iter=max_iter, tol=tol)
+
+    if debug: print('BETA MINUS (ref+, ref-, test-)')
+    beta_minus, beta_minus_additional = compute_beta(
+        ref_plus, ref_minus, test_minus)
+    if debug: print('BETA PLUS (ref-, ref+, test+)')
+    beta_plus, beta_plus_additional = compute_beta(
+        ref_minus, ref_plus, test_plus)
+
+    drift = (beta_plus < threshold or beta_minus < threshold)
+    if additional_check:
+        drift = drift | (beta_plus_additional < threshold or beta_minus_additional < threshold)
+
+    return drift
 
 
 def all_drifting_batches(
         reference_data_batches,
         testing_data_batches,
-        n_clusters=2,
+        train_batch_strategy,
+        additional_check,
         n_init=10,
         max_iter=300,
         tol=1e-4,
@@ -101,11 +109,29 @@ def all_drifting_batches(
         n_r_r=#points in this batch
     :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
         n_r_t=#points in this batch
-    :param n_clusters: desired number of clusters for kmeans
     :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
-    :param coeff: coeff used to detect drift, default=2.66
     :return: a boolean list, length=len(testing_data_batches),
         an entry is True if drift was detected there and False otherwise
     """
-    pass
+
+    drifts_detected = []
+    for i, test_window in enumerate(testing_data_batches):
+        print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
+        num_ref_drifts = 0 # how many training batches signal drift against this testing batch
+        for j, ref_window in enumerate(reference_data_batches):
+            drift_here = concept_drift_detected(
+                ref_window, test_window, random_state, additional_check, n_init, max_iter, tol)
+            if drift_here:
+                num_ref_drifts += 1
+        if train_batch_strategy == spms.TrainBatchStrategies.ANY:
+            drift = num_ref_drifts > 0
+        elif train_batch_strategy == spms.TrainBatchStrategies.MAJORITY:
+            drift = num_ref_drifts > (len(reference_data_batches) / 2)
+        elif train_batch_strategy == spms.TrainBatchStrategies.ALL:
+            drift = num_ref_drifts == len(reference_data_batches)
+        else:
+            raise NameError('The train batch strategy', train_batch_strategy, 'is not supported')
+        drifts_detected.append(drift)
+
+    return drifts_detected
 
