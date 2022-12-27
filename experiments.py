@@ -20,6 +20,8 @@ import mssw.mssw_result_writer
 import ucdd_improved.ucdd
 import ucdd_improved.ucdd_eval
 import ucdd_improved.ucdd_eval_local_datasets
+import ucdd_improved.ucdd_result_writer
+import ucdd_improved.ucdd_supported_parameters
 from ucdd import ucdd_supported_parameters as ucdd_spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
 import mssw.mssw_supported_parameters as mssw_spms
 
@@ -825,3 +827,33 @@ def ucdd_improved_automated_multiple_parameter_sets():
     )
 
     print(argument_results)
+
+
+def ucdd_improved_write_to_file():
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=only_numerical_data_paths[:2],
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        result_file='ucdd_improved/results/first_result_numerical.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        additional_checks=[True]
+    )
+
+
+def ucdd_improved_write_to_file_all_numerical():
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=only_numerical_data_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        result_file='ucdd_improved/results/all_numerical_results.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )
