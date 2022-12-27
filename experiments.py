@@ -810,3 +810,18 @@ def ucdd_improved_automated_one_dataset():
     )
 
     print(runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err)
+
+
+def ucdd_improved_automated_multiple_parameter_sets():
+    argument_results = ucdd_improved.ucdd_eval_local_datasets.eval_multiple_parameter_sets(
+        data_paths=only_numerical_data_paths[:2],
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        additional_checks=[True]
+    )
+
+    print(argument_results)

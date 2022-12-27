@@ -79,43 +79,54 @@ def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, 
     )
 
 
-# def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,
-#                                  true_drift_idx, n_clusters=2, n_init=10, max_iter=300, tol=1e-4, first_random_state=0,
-#                                  coeff=2.66, min_runs=10, std_err_threshold=0.05):
-#     arg_tuples = list(itertools.product(data_paths, encodings))
-#     argument_results = []
-#     for i, arg_tuple in enumerate(arg_tuples):
-#         print('argument combination #', i)
-#         data_path = arg_tuple[0]
-#         encoding = arg_tuple[1]
-#         print('data path')
-#         print(data_path)
-#         print('encoding')
-#         print(encoding)
-#         runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = eval_one_parameter_set(
-#             data_path, encoding,
-#             test_fraction,
-#             num_ref_batches,
-#             num_test_batches,
-#             true_drift_idx,
-#             n_clusters=n_clusters,
-#             n_init=n_init,
-#             max_iter=max_iter,
-#             tol=tol,
-#             first_random_state=first_random_state,
-#             coeff=coeff,
-#             min_runs=min_runs,
-#             std_err_threshold=std_err_threshold
-#         )
-#         results_dict = {
-#             'data_path': data_path,
-#             'encoding': encoding.name.lower(),
-#             'runs_results_bool': runs_results_bool,
-#             'fpr_mean': fpr_mean,
-#             'fpr_se': fpr_se,
-#             'latency_mean': latency_mean,
-#             'latency_se': latency_se
-#         }
-#         argument_results.append(results_dict)
-#
-#     return argument_results
+def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,
+                                 true_drift_idx,
+                                 train_batch_strategies, additional_checks,
+                                 n_init=10, max_iter=300, tol=1e-4, first_random_state=0,
+                                 min_runs=10, std_err_threshold=0.05):
+    arg_tuples = list(itertools.product(data_paths, encodings, train_batch_strategies, additional_checks))
+    argument_results = []
+    for i, arg_tuple in enumerate(arg_tuples):
+        print('argument combination #', i)
+        data_path = arg_tuple[0]
+        encoding = arg_tuple[1]
+        train_batch_strategy = arg_tuple[2]
+        additional_check = arg_tuple[3]
+        print('data path')
+        print(data_path)
+        print('encoding')
+        print(encoding)
+        print('train batch strategy')
+        print(train_batch_strategy)
+        print('additional check')
+        print(additional_check)
+        runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = eval_one_parameter_set(
+            data_path,
+            encoding,
+            test_fraction,
+            num_ref_batches,
+            num_test_batches,
+            true_drift_idx,
+            train_batch_strategy=train_batch_strategy,
+            additional_check=additional_check,
+            n_init=n_init,
+            max_iter=max_iter,
+            tol=tol,
+            first_random_state=first_random_state,
+            min_runs=min_runs,
+            std_err_threshold=std_err_threshold
+        )
+        results_dict = {
+            'data_path': data_path,
+            'encoding': encoding.name.lower(),
+            'train_batch_strategy': train_batch_strategy.name.lower(),
+            'additional_check': 'yes' if additional_check else 'no',
+            'runs_results_bool': runs_results_bool,
+            'fpr_mean': fpr_mean,
+            'fpr_se': fpr_se,
+            'latency_mean': latency_mean,
+            'latency_se': latency_se
+        }
+        argument_results.append(results_dict)
+
+    return argument_results
