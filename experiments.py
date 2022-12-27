@@ -19,6 +19,7 @@ import mssw.mssw_eval_local_datasets
 import mssw.mssw_result_writer
 import ucdd_improved.ucdd
 import ucdd_improved.ucdd_eval
+import ucdd_improved.ucdd_eval_local_datasets
 from ucdd import ucdd_supported_parameters as ucdd_spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
 import mssw.mssw_supported_parameters as mssw_spms
 
@@ -788,6 +789,22 @@ def ucdd_improved_randomness_robust():
     runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err = ucdd_improved.ucdd_eval.all_drifting_batches_randomness_robust(
         ref_batches,
         test_batches,
+        train_batch_strategy=ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+        additional_check=True
+    )
+
+    print(runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err)
+
+
+def ucdd_improved_automated_one_dataset():
+    path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'
+    runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err = ucdd_improved.ucdd_eval_local_datasets.eval_one_parameter_set(
+        path,
+        encoding=ucdd_improved.ucdd_supported_parameters.Encoders.TARGET,
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
         train_batch_strategy=ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
         additional_check=True
     )
