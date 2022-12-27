@@ -75,7 +75,8 @@ if __name__ == '__main__':
     idx = np.array([[1, 2]])
     print(arr[idx])
 
-    experiments.ucdd_improved_simple()
+    # experiments.ucdd_improved_simple()
+    experiments.ucdd_improved_randomness_robust()
 
 
 

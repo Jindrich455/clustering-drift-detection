@@ -177,6 +177,8 @@ def all_drifting_batches(
         an entry is True if drift was detected there and False otherwise
     """
 
+    print('random_state')
+    print(random_state)
     drifts_detected = []
     for i, test_window in enumerate(testing_data_batches):
         print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')

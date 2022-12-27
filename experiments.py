@@ -18,6 +18,7 @@ import mssw.mssw_eval
 import mssw.mssw_eval_local_datasets
 import mssw.mssw_result_writer
 import ucdd_improved.ucdd
+import ucdd_improved.ucdd_eval
 from ucdd import ucdd_supported_parameters as ucdd_spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
 import mssw.mssw_supported_parameters as mssw_spms
 
@@ -766,3 +767,29 @@ def ucdd_improved_simple():
         random_state=0
     )
     print(drifts)
+
+
+def ucdd_improved_randomness_robust():
+    df_x, df_y = accepting.get_clean_df(
+        'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff')
+
+    df_y = pd.DataFrame(LabelEncoder().fit_transform(df_y))
+    df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
+        df_x, df_y, test_size=0.7, shuffle=False)
+
+    scaler = MinMaxScaler()
+    scaler.fit(df_x_ref)
+    reference_data = pd.DataFrame(scaler.transform(df_x_ref)).to_numpy()
+    testing_data = pd.DataFrame(scaler.transform(df_x_test)).to_numpy()
+
+    ref_batches = np.array_split(reference_data, 3)
+    test_batches = np.array_split(testing_data, 7)
+
+    runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err = ucdd_improved.ucdd_eval.all_drifting_batches_randomness_robust(
+        ref_batches,
+        test_batches,
+        train_batch_strategy=ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+        additional_check=True
+    )
+
+    print(runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err)
