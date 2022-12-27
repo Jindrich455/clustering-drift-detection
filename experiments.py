@@ -857,3 +857,20 @@ def ucdd_improved_write_to_file_all_numerical():
                                 ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
+
+
+def ucdd_improved_write_to_file_all_numerical_small_max_iter():
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=only_numerical_data_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        max_iter=10,
+        result_file='ucdd_improved/results/all_numerical_results_small_max_iter.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )

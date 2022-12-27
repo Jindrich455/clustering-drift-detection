@@ -79,7 +79,9 @@ if __name__ == '__main__':
     # experiments.ucdd_improved_randomness_robust()
     # experiments.ucdd_improved_automated_one_dataset()
     # experiments.ucdd_improved_automated_multiple_parameter_sets()
-    experiments.ucdd_improved_write_to_file()
+    # experiments.ucdd_improved_write_to_file()
+    # experiments.ucdd_improved_write_to_file_all_numerical()
+    experiments.ucdd_improved_write_to_file_all_numerical_small_max_iter()
 
 
 
