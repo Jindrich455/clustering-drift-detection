@@ -876,7 +876,7 @@ def ucdd_improved_write_to_file_all_numerical_small_max_iter():
     )
 
 
-def ucdd_improved_write_to_file_many_parameters():
+def ucdd_improved_write_to_file_trainbatchstrategy_majority():
     ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
         encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],

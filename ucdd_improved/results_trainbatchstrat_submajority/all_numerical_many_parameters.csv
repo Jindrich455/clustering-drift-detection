@@ -1,0 +1,13 @@
+,type_of_data,dataset,drift,width,encoding,train_batch_strategy,additional_check,n_init,max_iter,tol,FPR_mean,latency_mean
+0,synthetic,sea,abrupt,0.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.0
+1,synthetic,sea,abrupt,0.0,exclude,submajority,no,100,1000,0.0001,0.0,1.0
+2,synthetic,sea,gradual,0.5,exclude,submajority,yes,100,1000,0.0001,0.0,0.0
+3,synthetic,sea,gradual,0.5,exclude,submajority,no,100,1000,0.0001,0.0,1.0
+4,synthetic,sea,gradual,1.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.0
+5,synthetic,sea,gradual,1.0,exclude,submajority,no,100,1000,0.0001,0.0,1.0
+6,synthetic,sea,gradual,5.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.0
+7,synthetic,sea,gradual,5.0,exclude,submajority,no,100,1000,0.0001,0.0,1.0
+8,synthetic,sea,gradual,10.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.25
+9,synthetic,sea,gradual,10.0,exclude,submajority,no,100,1000,0.0001,0.0,1.0
+10,synthetic,sea,gradual,20.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.25
+11,synthetic,sea,gradual,20.0,exclude,submajority,no,100,1000,0.0001,0.0,1.0
