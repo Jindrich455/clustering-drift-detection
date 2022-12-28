@@ -64,25 +64,15 @@ def compute_metric_latency(array_batches, no_batches_with_drift, drift_start):
 
 
 if __name__ == '__main__':
-    arr = np.array([[1, 2], [3, 4]])
-    idx = np.array([True, False])
-    print(arr[idx])
-
-    arr = np.concatenate([np.repeat([True], 3), np.repeat([False], 5)])
-    print(arr)
-
-    arr = np.array([[1, 2], [3, 4], [5, 6]])
-    idx = np.array([[1, 2]])
-    print(arr[idx])
-
     # experiments.ucdd_improved_simple()
     # experiments.ucdd_improved_randomness_robust()
     # experiments.ucdd_improved_automated_one_dataset()
     # experiments.ucdd_improved_automated_multiple_parameter_sets()
     # experiments.ucdd_improved_write_to_file()
     # experiments.ucdd_improved_write_to_file_all_numerical()
-    experiments.ucdd_improved_write_to_file_all_numerical_small_max_iter()
-
+    # experiments.ucdd_improved_write_to_file_all_numerical_small_max_iter()
+    experiments.ucdd_improved_write_to_file_many_parameters()
+    # experiments.ucdd_improved_write_to_file_new_rand_state_change()
 
 
     # experiments.big_evaluation0()

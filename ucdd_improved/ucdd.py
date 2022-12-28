@@ -181,7 +181,7 @@ def all_drifting_batches(
     print(random_state)
     drifts_detected = []
     for i, test_window in enumerate(testing_data_batches):
-        print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
+        # print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
         num_ref_drifts = 0 # how many training batches signal drift against this testing batch
         for j, ref_window in enumerate(reference_data_batches):
             drift_here = concept_drift_detected(

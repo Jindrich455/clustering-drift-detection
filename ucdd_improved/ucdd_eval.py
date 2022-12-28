@@ -78,7 +78,7 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
         latencies.append(latency)
         runs_results_bool.append(drifting_batches_bool)
         num_runs += 1
-        random_state += 1
+        random_state += 1  # TODO: random_state += n_init?
 
         # print('number of runs', num_runs)
         if num_runs >= min_runs:

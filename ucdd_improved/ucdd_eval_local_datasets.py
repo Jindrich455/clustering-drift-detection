@@ -82,16 +82,20 @@ def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, 
 def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,
                                  true_drift_idx,
                                  train_batch_strategies, additional_checks,
-                                 n_init=10, max_iter=300, tol=1e-4, first_random_state=0,
+                                 n_inits=[10], max_iters=[300], tols=[1e-4], first_random_state=0,
                                  min_runs=10, std_err_threshold=0.05):
-    arg_tuples = list(itertools.product(data_paths, encodings, train_batch_strategies, additional_checks))
+    arg_tuples = list(itertools.product(
+        data_paths, encodings, train_batch_strategies, additional_checks, n_inits, max_iters, tols))
     argument_results = []
     for i, arg_tuple in enumerate(arg_tuples):
-        print('argument combination #', i)
+        print('argument combination #', i, 'of', len(arg_tuples))
         data_path = arg_tuple[0]
         encoding = arg_tuple[1]
         train_batch_strategy = arg_tuple[2]
         additional_check = arg_tuple[3]
+        n_init = arg_tuple[4]
+        max_iter = arg_tuple[5]
+        tol = arg_tuple[6]
         print('data path')
         print(data_path)
         print('encoding')
@@ -100,6 +104,12 @@ def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_b
         print(train_batch_strategy)
         print('additional check')
         print(additional_check)
+        print('n_init')
+        print(n_init)
+        print('max_iter')
+        print(max_iter)
+        print('tol')
+        print(tol)
         runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = eval_one_parameter_set(
             data_path,
             encoding,

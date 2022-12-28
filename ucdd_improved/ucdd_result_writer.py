@@ -7,14 +7,14 @@ def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches
                            true_drift_idx,
                            result_file,
                            train_batch_strategies, additional_checks,
-                           n_init=10, max_iter=300, tol=1e-4, first_random_state=0,
+                           n_inits=[10], max_iters=[300], tols=[1e-4], first_random_state=0,
                            min_runs=10, std_err_threshold=0.05
                            ):
     argument_results = ucdd_improved.ucdd_eval_local_datasets.eval_multiple_parameter_sets(
         data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,
         true_drift_idx,
         train_batch_strategies, additional_checks,
-        n_init=n_init, max_iter=max_iter, tol=tol, first_random_state=first_random_state,
+        n_inits=n_inits, max_iters=max_iters, tols=tols, first_random_state=first_random_state,
         min_runs=min_runs, std_err_threshold=std_err_threshold
     )
 
