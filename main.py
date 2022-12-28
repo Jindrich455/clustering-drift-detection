@@ -4,6 +4,7 @@ import random
 import time
 
 import numpy as np
+import pandas as pd
 
 import experiments
 from mssw import messing_around
@@ -71,8 +72,11 @@ if __name__ == '__main__':
     # experiments.ucdd_improved_write_to_file()
     # experiments.ucdd_improved_write_to_file_all_numerical()
     # experiments.ucdd_improved_write_to_file_all_numerical_small_max_iter()
-    experiments.ucdd_improved_write_to_file_many_parameters()
+    # experiments.ucdd_improved_write_to_file_many_parameters()
     # experiments.ucdd_improved_write_to_file_new_rand_state_change()
+    # experiments.ucdd_improved_write_to_file_trainbatchstrategy_any()
+
+    results = pd.read_csv()
 
 
     # experiments.big_evaluation0()

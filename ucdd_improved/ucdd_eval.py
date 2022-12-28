@@ -84,9 +84,13 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
         if num_runs >= min_runs:
             fpr_std_err = np.std(fprs) / np.sqrt(len(fprs))
             latency_std_err = np.std(latencies) / np.sqrt(len(latencies))
+            print('fpr s.e.', fpr_std_err)
+            print('latency s.e.', latency_std_err)
         # print('fprs', fprs, 's.e.', fpr_std_err)
         # print('latencies', latencies, 's.e.', latency_std_err)
 
     final_fpr_mean = np.mean(fprs)
     final_latency_mean = np.mean(latencies)
+    print('final fpr mean', final_fpr_mean)
+    print('final latency mean', final_latency_mean)
     return runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err
