@@ -191,7 +191,7 @@ def all_drifting_batches(
         if train_batch_strategy == spms.TrainBatchStrategies.ANY:
             drift = num_ref_drifts > 0
         elif train_batch_strategy == spms.TrainBatchStrategies.MAJORITY:
-            drift = num_ref_drifts > (len(reference_data_batches) / 2)
+            drift = num_ref_drifts >= (len(reference_data_batches) // 2)
         elif train_batch_strategy == spms.TrainBatchStrategies.ALL:
             drift = num_ref_drifts == len(reference_data_batches)
         else:

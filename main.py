@@ -75,9 +75,8 @@ if __name__ == '__main__':
     # experiments.ucdd_improved_write_to_file_many_parameters()
     # experiments.ucdd_improved_write_to_file_new_rand_state_change()
     # experiments.ucdd_improved_write_to_file_trainbatchstrategy_any()
-
-    results = pd.read_csv()
-
+    # experiments.ucdd_improved_write_to_file_trainbatchstrategy_majority()
+    experiments.ucdd_improved_write_to_file_trainbatchstrategy_all()
 
     # experiments.big_evaluation0()
     # experiments.big_evaluation()
