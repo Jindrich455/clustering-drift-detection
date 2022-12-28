@@ -877,43 +877,35 @@ def ucdd_improved_write_to_file_all_numerical_small_max_iter():
 
 
 def ucdd_improved_write_to_file_many_parameters():
-    # ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
-    #     data_paths=only_numerical_data_paths,
-    #     encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
-    #     test_fraction=0.7,
-    #     num_ref_batches=3,
-    #     num_test_batches=7,
-    #     true_drift_idx=2,
-    #     max_iters=[10, 100, 300],
-    #     tols=[1e-2, 1e-4, 1e-5],
-    #     min_runs=5,
-    #     result_file='ucdd_improved/results/all_numerical_many_parameters.csv',
-    #     train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
-    #                             ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
-    #                             ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
-    #     additional_checks=[True, False]
-    # )
-    #
-    # print('all numerical data evaluated')
-    #
-    # ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
-    #     data_paths=only_mixed_data_paths,
-    #     encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
-    #     test_fraction=0.7,
-    #     num_ref_batches=3,
-    #     num_test_batches=7,
-    #     true_drift_idx=2,
-    #     max_iters=[10, 100, 300],
-    #     tols=[1e-2, 1e-4, 1e-5],
-    #     min_runs=5,
-    #     result_file='ucdd_improved/results/mixed_exclude_many_parameters.csv',
-    #     train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
-    #                             ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
-    #                             ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
-    #     additional_checks=[True, False]
-    # )
-    #
-    # print('all mixed data with categories excluded evaluated')
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=only_numerical_data_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        max_iters=[10, 100, 300],
+        tols=[0.05, 0.01, 1e-4],
+        min_runs=5,
+        result_file='ucdd_improved/results/all_numerical_many_parameters.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=only_mixed_data_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        max_iters=[10, 100, 300],
+        tols=[0.05, 0.01, 1e-4],
+        min_runs=5,
+        result_file='ucdd_improved/results/mixed_exclude_many_parameters.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        additional_checks=[True, False]
+    )
 
     ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
@@ -923,16 +915,12 @@ def ucdd_improved_write_to_file_many_parameters():
         num_test_batches=7,
         true_drift_idx=2,
         max_iters=[10, 100, 300],
-        tols=[1e-2, 1e-4, 1e-5],
+        tols=[0.05, 0.01, 1e-4],
         min_runs=5,
         result_file='ucdd_improved/results/mixed_target_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
-
-    print('all mixed data with categories target encoded evaluated')
 
     ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
@@ -942,16 +930,12 @@ def ucdd_improved_write_to_file_many_parameters():
         num_test_batches=7,
         true_drift_idx=2,
         max_iters=[10, 100, 300],
-        tols=[1e-2, 1e-4, 1e-5],
+        tols=[0.05, 0.01, 1e-4],
         min_runs=5,
         result_file='ucdd_improved/results/mixed_onehot_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
-
-    print('all mixed data with categories onehot encoded evaluated')
 
 
 def ucdd_improved_write_to_file_new_rand_state_change():
