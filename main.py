@@ -75,6 +75,10 @@ if __name__ == '__main__':
     # experiments.ucdd_improved_write_to_file_trainbatchstrategy_majority()
     # experiments.ucdd_improved_write_to_file_new_rand_state_change()
     # experiments.ucdd_improved_write_to_file_trainbatchstrategy_any()
+    experiments.ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters()
+    experiments.ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols()
+    experiments.ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits()
+
 
     # experiments.big_evaluation0()
     # experiments.big_evaluation()
