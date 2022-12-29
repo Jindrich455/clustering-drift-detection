@@ -1,0 +1,7 @@
+type_of_data,dataset,drift,width,encoding,n_init,max_iter,tol,FPR_mean,latency_mean
+synthetic,sea,abrupt,0.0,exclude,100,280,0.0002,0.0,0.0
+synthetic,sea,gradual,0.5,exclude,100,280,0.0002,0.0,0.0
+synthetic,sea,gradual,1.0,exclude,100,280,0.0002,0.0,0.0
+synthetic,sea,gradual,5.0,exclude,100,280,0.0002,0.0,0.0
+synthetic,sea,gradual,10.0,exclude,100,280,0.0002,0.0,0.25
+synthetic,sea,gradual,20.0,exclude,100,280,0.0002,0.0,0.25

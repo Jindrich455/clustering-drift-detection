@@ -67,7 +67,7 @@ def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_b
     arg_tuples = list(itertools.product(data_paths, encodings))
     argument_results = []
     for i, arg_tuple in enumerate(arg_tuples):
-        print('argument combination #', i)
+        print('argument combination #', i, 'of', len(arg_tuples))
         data_path = arg_tuple[0]
         encoding = arg_tuple[1]
         print('data path')

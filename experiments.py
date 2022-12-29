@@ -742,8 +742,24 @@ def mssw_write_to_file():
     mssw.mssw_result_writer.eval_and_write_to_file(only_numerical_data_paths, [mssw_spms.Encoders.EXCLUDE],
                                                    test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
                                                    true_drift_idx=2,
+                                                   min_runs=2,
+                                                   n_init=100,
+                                                   max_iter=280,
+                                                   tol=2e-4,
                                                    n_clusters=2,
-                                                   result_file='mssw/mssw_crazy_n_init.csv')
+                                                   result_file='mssw/results/mssw_test_different_clustering_params.csv')
+
+
+def mssw_write_to_file_mixed_exclude():
+    mssw.mssw_result_writer.eval_and_write_to_file(only_mixed_data_paths, [mssw_spms.Encoders.EXCLUDE],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=2,
+                                                   n_init=100,
+                                                   max_iter=1000,
+                                                   tol=2e-4,
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_mixed_exclude_high_max_iter.csv')
 
 
 def ucdd_improved_simple():
