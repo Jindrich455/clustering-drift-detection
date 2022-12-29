@@ -59,7 +59,9 @@ def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches
     print(argument_results)
 
     final_result_dict = {
-        'dataset': [], 'data': [], 'drift': [], 'width': [], 'encoding': [], 'FPR_mean': [], 'latency_mean': []
+        'type_of_data': [], 'dataset': [], 'drift': [], 'width': [], 'encoding': [],
+        'n_init': [], 'max_iter': [], 'tol': [],
+        'FPR_mean': [], 'latency_mean': []
     }
 
     for argument_result in argument_results:
@@ -68,8 +70,8 @@ def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches
         argument_result.pop('runs_results_bool')
 
         data_filename = data_path.split('/')[-1]
-        dataset_name = data_filename.split('_')[0]  # sea, agraw1, agraw2
         type_of_data = data_path.split('/')[1].split('_')[0]  # synthetic or real-world
+        dataset_name = data_filename.split('_')[0]  # sea, agraw1, agraw2
         drift_type = data_path.split('/')[2].split('_')[0]
         drift_width = '0' if drift_type == 'abrupt' else data_filename.split('_')[-1].split('.')[0]
         drift_width = 0.5 if drift_width == '05' else float(drift_width)
@@ -77,11 +79,14 @@ def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches
         fpr_mean = float(argument_result['fpr_mean'])
         latency_mean = float(argument_result['latency_mean'])
 
+        final_result_dict['type_of_data'].append(type_of_data)
         final_result_dict['dataset'].append(dataset_name)
-        final_result_dict['data'].append(type_of_data)
         final_result_dict['drift'].append(drift_type)
         final_result_dict['width'].append(drift_width)
         final_result_dict['encoding'].append(encoding)
+        final_result_dict['n_init'].append(n_init)
+        final_result_dict['max_iter'].append(max_iter)
+        final_result_dict['tol'].append(tol)
         final_result_dict['FPR_mean'].append(fpr_mean)
         final_result_dict['latency_mean'].append(latency_mean)
 

@@ -92,6 +92,12 @@ def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_b
         results_dict = {
             'data_path': data_path,
             'encoding': encoding.name.lower(),
+            'n_init': n_init,
+            'max_iter': max_iter,
+            'tol': tol,
+            'first_random_state': first_random_state,
+            'min_runs': min_runs,
+            'std_err_threshold': std_err_threshold,
             'runs_results_bool': runs_results_bool,
             'fpr_mean': fpr_mean,
             'fpr_se': fpr_se,
