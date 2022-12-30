@@ -78,7 +78,11 @@ if __name__ == '__main__':
     # experiments.ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters()
     # experiments.ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols()
     # experiments.ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits()
+    # experiments.ucdd_improved_write_to_file_some_numerical_play_with_n_init_max_iter_and_tol()
 
+    experiments.ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters_new()
+    experiments.ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols_new()
+    experiments.ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits_new()
 
     # experiments.big_evaluation0()
     # experiments.big_evaluation()
@@ -111,7 +115,7 @@ if __name__ == '__main__':
     # experiments.mssw_combine_results()
 
     # experiments.mssw_write_to_file()
-    experiments.mssw_write_to_file_mixed_exclude()
+    # experiments.mssw_write_to_file_mixed_exclude()
 
     # messing_around.f2()
     # messing_around.f2(10)

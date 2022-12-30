@@ -57,6 +57,8 @@ def join_predict_split(ref_window, test_window,
     # join the points from two windows
     window_union = np.vstack((ref_window, test_window))
 
+    print('n_init', n_init, 'max_iter', max_iter, 'tol', tol)
+
     # predict their label values
     predicted_labels = KMeans(n_clusters=2, n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)\
         .fit_predict(window_union)
