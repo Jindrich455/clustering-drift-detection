@@ -1,25 +1,3 @@
-type_of_data,dataset,drift,width,encoding,train_batch_strategy,additional_check,n_init,max_iter,tol,FPR_mean,latency_mean
-synthetic,sea,abrupt,0.0,exclude,submajority,yes,100,1000,10.0,0.125,0.1875
-synthetic,sea,abrupt,0.0,exclude,submajority,yes,100,1000,0.01,0.0,0.16666666666666666
-synthetic,sea,abrupt,0.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.0
-synthetic,sea,abrupt,0.0,exclude,submajority,yes,100,1000,1e-06,0.1590909090909091,0.0
-synthetic,sea,gradual,0.5,exclude,submajority,yes,100,1000,10.0,0.125,0.2125
-synthetic,sea,gradual,0.5,exclude,submajority,yes,100,1000,0.01,0.0,0.25
-synthetic,sea,gradual,0.5,exclude,submajority,yes,100,1000,0.0001,0.0,0.0
-synthetic,sea,gradual,0.5,exclude,submajority,yes,100,1000,1e-06,0.1590909090909091,0.0
-synthetic,sea,gradual,1.0,exclude,submajority,yes,100,1000,10.0,0.5,0.0
-synthetic,sea,gradual,1.0,exclude,submajority,yes,100,1000,0.01,0.0,0.08333333333333333
-synthetic,sea,gradual,1.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.0
-synthetic,sea,gradual,1.0,exclude,submajority,yes,100,1000,1e-06,0.1590909090909091,0.022727272727272728
-synthetic,sea,gradual,5.0,exclude,submajority,yes,100,1000,10.0,0.5,0.0
-synthetic,sea,gradual,5.0,exclude,submajority,yes,100,1000,0.01,0.0,0.13636363636363635
-synthetic,sea,gradual,5.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.0
-synthetic,sea,gradual,5.0,exclude,submajority,yes,100,1000,1e-06,0.5,0.0
-synthetic,sea,gradual,10.0,exclude,submajority,yes,100,1000,10.0,0.06818181818181818,0.32954545454545453
-synthetic,sea,gradual,10.0,exclude,submajority,yes,100,1000,0.01,0.0,0.3
-synthetic,sea,gradual,10.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.25
-synthetic,sea,gradual,10.0,exclude,submajority,yes,100,1000,1e-06,0.0,0.25
-synthetic,sea,gradual,20.0,exclude,submajority,yes,100,1000,10.0,0.045454545454545456,0.38636363636363635
-synthetic,sea,gradual,20.0,exclude,submajority,yes,100,1000,0.01,0.0,0.25
-synthetic,sea,gradual,20.0,exclude,submajority,yes,100,1000,0.0001,0.0,0.25
-synthetic,sea,gradual,20.0,exclude,submajority,yes,100,1000,1e-06,0.0,0.25
+version https://git-lfs.github.com/spec/v1
+oid sha256:24753273f24124d5e8bc146baab77cc3a1bee24fd9e65980fcce23bd2bf1c898
+size 2063

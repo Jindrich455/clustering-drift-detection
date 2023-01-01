@@ -1,5 +1,3 @@
-encoding,scaling,distance,check,alltraining,runs,tbs,detection_rate,mean_FPR,mean_latency
-exclude,minmax,euclidean,no,no,10,7,0.0,0.0,1.0
-exclude,minmax,euclidean,with,no,10,7,1.0,0.0,0.35
-exclude,minmax,manhattan,no,no,21,7,0.1,0.02,0.93
-exclude,minmax,manhattan,with,no,12,7,0.92,0.0,0.52
+version https://git-lfs.github.com/spec/v1
+oid sha256:8a365a1a5de71c0b0d873fa9e3beefc91edf0c6452281926f9adcdb992925081
+size 291

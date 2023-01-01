@@ -1,7 +1,3 @@
-dataset,data,drift,width,encoding,FPR_mean,latency_mean
-sea,synthetic,abrupt,0.0,exclude,0.0,0.25
-sea,synthetic,gradual,0.5,exclude,0.0,0.25
-sea,synthetic,gradual,1.0,exclude,0.0,0.25
-sea,synthetic,gradual,5.0,exclude,0.0,0.25
-sea,synthetic,gradual,10.0,exclude,0.0,0.25
-sea,synthetic,gradual,20.0,exclude,0.0,0.5
+version https://git-lfs.github.com/spec/v1
+oid sha256:58a1efb7fabb87cd738062f971ab93b7e0e355386633122ed0861d591825d7b7
+size 314

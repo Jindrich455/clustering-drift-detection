@@ -1,17 +1,3 @@
-data_path,Datasets_concept_drift/synthetic_data/gradual_drift/agraw1_1_gradual_drift_0_noise_balanced_05.arff
-encoding,onehot
-fpr_mean,0.0
-fpr_se,0.0
-latency_mean,1.0
-latency_se,0.0
-num_runs,10
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
+version https://git-lfs.github.com/spec/v1
+oid sha256:761ab6ca23c39b5939cc06ee9f1a3317ef0305f950d51835f5ebcd375754bd25
+size 614

@@ -1,17 +1,3 @@
-data_path,Datasets_concept_drift/synthetic_data/abrupt_drift/agraw2_1_abrupt_drift_0_noise_balanced.arff
-encoding,target
-fpr_mean,0.0
-fpr_se,0.0
-latency_mean,0.8
-latency_se,0.04743416490252569
-num_runs,10
-False,False,False,False,False,True,False
-False,False,False,False,False,False,False
-False,False,False,False,False,False,False
-False,False,False,False,False,True,False
-False,False,False,False,False,True,False
-False,False,False,False,True,True,False
-False,False,False,False,False,True,False
-False,False,False,False,False,True,False
-False,False,False,False,False,True,False
-False,False,False,False,False,False,False
+version https://git-lfs.github.com/spec/v1
+oid sha256:a7f3a8f5bd99728dc29bf2dadc4d0ae047b756ee5fd58100581c5285f48659d6
+size 617

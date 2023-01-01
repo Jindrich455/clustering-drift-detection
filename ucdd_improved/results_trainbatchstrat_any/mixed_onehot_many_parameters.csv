@@ -1,25 +1,3 @@
-type_of_data,dataset,drift,width,encoding,train_batch_strategy,additional_check,n_init,max_iter,tol,FPR_mean,latency_mean
-synthetic,agraw1,abrupt,0.0,onehot,any,yes,100,1000,0.0001,0.0,0.0
-synthetic,agraw1,abrupt,0.0,onehot,any,no,100,1000,0.0001,0.0,0.0
-synthetic,agraw2,abrupt,0.0,onehot,any,yes,100,1000,0.0001,0.0,0.5
-synthetic,agraw2,abrupt,0.0,onehot,any,no,100,1000,0.0001,0.0,0.5
-synthetic,agraw1,gradual,0.5,onehot,any,yes,100,1000,0.0001,0.0,0.0
-synthetic,agraw1,gradual,0.5,onehot,any,no,100,1000,0.0001,0.0,0.0
-synthetic,agraw1,gradual,1.0,onehot,any,yes,100,1000,0.0001,0.0,0.0
-synthetic,agraw1,gradual,1.0,onehot,any,no,100,1000,0.0001,0.0,0.0
-synthetic,agraw1,gradual,5.0,onehot,any,yes,100,1000,0.0001,0.0,0.0
-synthetic,agraw1,gradual,5.0,onehot,any,no,100,1000,0.0001,0.0,0.0
-synthetic,agraw1,gradual,10.0,onehot,any,yes,100,1000,0.0001,0.0,0.25
-synthetic,agraw1,gradual,10.0,onehot,any,no,100,1000,0.0001,0.0,0.5
-synthetic,agraw1,gradual,20.0,onehot,any,yes,100,1000,0.0001,0.0,0.25
-synthetic,agraw1,gradual,20.0,onehot,any,no,100,1000,0.0001,0.0,0.25
-synthetic,agraw2,gradual,0.5,onehot,any,yes,100,1000,0.0001,0.0,0.5
-synthetic,agraw2,gradual,0.5,onehot,any,no,100,1000,0.0001,0.0,0.5
-synthetic,agraw2,gradual,1.0,onehot,any,yes,100,1000,0.0001,0.0,0.5
-synthetic,agraw2,gradual,1.0,onehot,any,no,100,1000,0.0001,0.0,0.5
-synthetic,agraw2,gradual,5.0,onehot,any,yes,100,1000,0.0001,0.0,0.5
-synthetic,agraw2,gradual,5.0,onehot,any,no,100,1000,0.0001,0.0,0.5
-synthetic,agraw2,gradual,10.0,onehot,any,yes,100,1000,0.0001,0.0,1.0
-synthetic,agraw2,gradual,10.0,onehot,any,no,100,1000,0.0001,0.0,1.0
-synthetic,agraw2,gradual,20.0,onehot,any,yes,100,1000,0.0001,0.0,0.0
-synthetic,agraw2,gradual,20.0,onehot,any,no,100,1000,0.0001,0.0,0.0
+version https://git-lfs.github.com/spec/v1
+oid sha256:55197df0abd3f5e80f15670be5dbd84798837f3f49c9d0dc224d4c62f4bb8ef9
+size 1749

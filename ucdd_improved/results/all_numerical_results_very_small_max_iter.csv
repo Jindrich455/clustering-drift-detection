@@ -1,3 +1,3 @@
-type_of_data,dataset,drift,width,encoding,train_batch_strategy,additional_check,n_init,max_iter,tol,FPR_mean,latency_mean
-synthetic,sea,abrupt,0.0,exclude,submajority,yes,100,2,0.0001,0.0,0.175
-synthetic,sea,gradual,0.5,exclude,submajority,yes,100,2,0.0001,0.0,0.125
+version https://git-lfs.github.com/spec/v1
+oid sha256:38a9c24bd5a58537a6600f5fd5b8f8d66db5e3e7d1c8e6ca7e5d3a983209e9a0
+size 267
