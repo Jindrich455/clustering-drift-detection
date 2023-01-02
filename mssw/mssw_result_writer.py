@@ -45,12 +45,12 @@ def eval_and_write_raw(data_paths, encodings, test_fraction, num_ref_batches, nu
 
 
 def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches, true_drift_idx,
-                           result_file, n_clusters=2, n_init=10, max_iter=300, tol=1e-4, first_random_state=0,
+                           result_file, n_clusters=2, n_inits=[10], max_iters=[300], tols=[1e-4], first_random_state=0,
                            coeff=2.66, min_runs=10, std_err_threshold=0.05):
     argument_results = mssw_eval_local_datasets.eval_multiple_parameter_sets(data_paths, encodings, test_fraction,
                                                                              num_ref_batches, num_test_batches,
                                                                              true_drift_idx, n_clusters,
-                                                                             n_init, max_iter, tol,
+                                                                             n_inits, max_iters, tols,
                                                                              first_random_state=first_random_state,
                                                                              coeff=coeff, min_runs=min_runs,
                                                                              std_err_threshold=std_err_threshold)
@@ -84,9 +84,9 @@ def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches
         final_result_dict['drift'].append(drift_type)
         final_result_dict['width'].append(drift_width)
         final_result_dict['encoding'].append(encoding)
-        final_result_dict['n_init'].append(n_init)
-        final_result_dict['max_iter'].append(max_iter)
-        final_result_dict['tol'].append(tol)
+        final_result_dict['n_init'].append(argument_result['n_init'])
+        final_result_dict['max_iter'].append(argument_result['max_iter'])
+        final_result_dict['tol'].append(argument_result['tol'])
         final_result_dict['FPR_mean'].append(fpr_mean)
         final_result_dict['latency_mean'].append(latency_mean)
 

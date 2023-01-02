@@ -58,18 +58,26 @@ def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, 
     test_batches = np.array_split(testing_data, num_test_batches)
 
     return mssw.mssw_eval.all_drifting_batches_randomness_robust(ref_batches, test_batches, n_clusters=n_clusters,
-                                                                 n_init=n_init, max_iter=max_iter, tol=tol)
+                                                                 n_init=n_init, max_iter=max_iter, tol=tol,
+                                                                 coeff=coeff, true_drift_idx=true_drift_idx,
+                                                                 first_random_state=first_random_state,
+                                                                 min_runs=min_runs,
+                                                                 std_err_threshold=std_err_threshold)
 
 
 def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,
-                                 true_drift_idx, n_clusters=2, n_init=10, max_iter=300, tol=1e-4, first_random_state=0,
+                                 true_drift_idx, n_clusters=2, n_inits=[10], max_iters=[300], tols=[1e-4],
+                                 first_random_state=0,
                                  coeff=2.66, min_runs=10, std_err_threshold=0.05):
-    arg_tuples = list(itertools.product(data_paths, encodings))
+    arg_tuples = list(itertools.product(data_paths, encodings, n_inits, max_iters, tols))
     argument_results = []
     for i, arg_tuple in enumerate(arg_tuples):
         print('argument combination #', i, 'of', len(arg_tuples))
         data_path = arg_tuple[0]
         encoding = arg_tuple[1]
+        n_init = arg_tuple[2]
+        max_iter = arg_tuple[3]
+        tol = arg_tuple[4]
         print('data path')
         print(data_path)
         print('encoding')

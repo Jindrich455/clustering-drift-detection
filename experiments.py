@@ -743,9 +743,9 @@ def mssw_write_to_file():
                                                    test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
                                                    true_drift_idx=2,
                                                    min_runs=2,
-                                                   n_init=100,
-                                                   max_iter=280,
-                                                   tol=2e-4,
+                                                   n_inits=[100],
+                                                   max_iters=[280],
+                                                   tols=[2e-4],
                                                    n_clusters=2,
                                                    result_file='mssw/results/mssw_test_different_clustering_params.csv')
 
@@ -755,11 +755,103 @@ def mssw_write_to_file_mixed_exclude():
                                                    test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
                                                    true_drift_idx=2,
                                                    min_runs=2,
-                                                   n_init=100,
-                                                   max_iter=1000,
-                                                   tol=2e-4,
+                                                   n_inits=[100],
+                                                   max_iters=[1000],
+                                                   tols=[2e-4],
                                                    n_clusters=2,
                                                    result_file='mssw/results/mssw_mixed_exclude_high_max_iter.csv')
+
+
+def mssw_write_to_file_multiple_clustering_possibilities():
+    mssw.mssw_result_writer.eval_and_write_to_file(only_mixed_data_paths, [mssw_spms.Encoders.EXCLUDE],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=2,
+                                                   n_inits=[100, 200],
+                                                   max_iters=[100, 1000],
+                                                   tols=[1e-2, 2e-4],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_mixed_exclude_multiple_clustering_params.csv')
+
+
+def mssw_write_to_file_multiple_encoding_strategies():
+    mssw.mssw_result_writer.eval_and_write_to_file(only_mixed_data_paths, [mssw_spms.Encoders.EXCLUDE, mssw_spms.Encoders.ONEHOT],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=2,
+                                                   n_inits=[100],
+                                                   max_iters=[1000],
+                                                   tols=[1e-2, 1e-4],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_mixed_exclude_multiple_encoding.csv')
+
+
+def mssw_write_to_file_progressively_changing_clustering_parameters():
+    mssw.mssw_result_writer.eval_and_write_to_file(only_numerical_data_paths, [mssw_spms.Encoders.EXCLUDE],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=2,
+                                                   n_inits=[100],
+                                                   max_iters=[1000],
+                                                   tols=[10, 1, 0.1, 0.01, 0.001, 0.0001, 0.00001],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_numerical_decreasing_tol.csv')
+
+    mssw.mssw_result_writer.eval_and_write_to_file(only_mixed_data_paths, [mssw_spms.Encoders.EXCLUDE,
+                                                                           mssw_spms.Encoders.ONEHOT,
+                                                                           mssw_spms.Encoders.TARGET],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=2,
+                                                   n_inits=[100],
+                                                   max_iters=[1000],
+                                                   tols=[10, 1, 0.1, 0.01, 0.001, 0.0001, 0.00001],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_mixed_decreasing_tol.csv')
+
+    mssw.mssw_result_writer.eval_and_write_to_file(only_numerical_data_paths, [mssw_spms.Encoders.EXCLUDE],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=10,
+                                                   n_inits=[1, 10, 20, 50, 100, 200],
+                                                   max_iters=[1000],
+                                                   tols=[0.0001],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_numerical_increasing_n_init.csv')
+
+    mssw.mssw_result_writer.eval_and_write_to_file(only_mixed_data_paths, [mssw_spms.Encoders.EXCLUDE,
+                                                                           mssw_spms.Encoders.ONEHOT,
+                                                                           mssw_spms.Encoders.TARGET],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=10,
+                                                   n_inits=[1, 10, 20, 50, 100, 200],
+                                                   max_iters=[1000],
+                                                   tols=[0.0001],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_mixed_increasing_n_init.csv')
+
+    mssw.mssw_result_writer.eval_and_write_to_file(only_numerical_data_paths, [mssw_spms.Encoders.EXCLUDE],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=2,
+                                                   n_inits=[100],
+                                                   max_iters=[2, 5, 10, 20, 50, 100, 1000],
+                                                   tols=[0.0001],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_numerical_increasing_max_iter.csv')
+
+    mssw.mssw_result_writer.eval_and_write_to_file(only_mixed_data_paths, [mssw_spms.Encoders.EXCLUDE,
+                                                                           mssw_spms.Encoders.ONEHOT,
+                                                                           mssw_spms.Encoders.TARGET],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=2,
+                                                   n_inits=[100],
+                                                   max_iters=[2, 5, 10, 20, 50, 100, 1000],
+                                                   tols=[0.0001],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results/mssw_mixed_increasing_max_iter.csv')
 
 
 def ucdd_improved_simple():

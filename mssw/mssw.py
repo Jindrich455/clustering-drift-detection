@@ -156,6 +156,10 @@ def all_drifting_batches(
     weighted_joined_reference_data, weighted_reference_batches, weighted_testing_batches =\
         mssw_preprocessing.mssw_preprocess(reference_data_batches, testing_data_batches)
 
+    print('n_init', n_init)
+    print('max_iter', max_iter)
+    print('tol', tol)
+
     fitted_kmeans = KMeans(
         n_clusters=n_clusters,
         n_init=n_init,

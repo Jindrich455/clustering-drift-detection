@@ -43,6 +43,8 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     :param std_err_threshold: threshold to stop executing the mssw algorithm
     :return: a list of lists from all_drifting_batches(...), and the mean and s.e. of FPR and latency
     """
+    print('min_runs', min_runs)
+
     fprs = []
     latencies = []
     runs_results_bool = []
