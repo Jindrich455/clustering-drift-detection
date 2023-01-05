@@ -860,7 +860,7 @@ def mssw_write_to_file_sea_with_best_parameters():
                                                    true_drift_idx=2,
                                                    min_runs=5,
                                                    n_inits=[100],
-                                                   max_iters=[500],
+                                                   max_iters=[550],
                                                    tols=[0],
                                                    n_clusters=2,
                                                    result_file='mssw/results_after_analysis/sea.csv')
@@ -872,7 +872,7 @@ def mssw_write_to_file_agraw1_exclude_with_best_parameters():
                                                    true_drift_idx=2,
                                                    min_runs=5,
                                                    n_inits=[100],
-                                                   max_iters=[200],
+                                                   max_iters=[250],
                                                    tols=[0],
                                                    n_clusters=2,
                                                    result_file='mssw/results_after_analysis/agraw1_exclude.csv')
@@ -896,7 +896,7 @@ def mssw_write_to_file_agraw1_target_with_best_parameters():
                                                    true_drift_idx=2,
                                                    min_runs=5,
                                                    n_inits=[100],
-                                                   max_iters=[250],
+                                                   max_iters=[300],
                                                    tols=[0],
                                                    n_clusters=2,
                                                    result_file='mssw/results_after_analysis/agraw1_target.csv')
