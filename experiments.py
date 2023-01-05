@@ -878,6 +878,18 @@ def mssw_write_to_file_agraw1_exclude_with_best_parameters():
                                                    result_file='mssw/results_after_analysis/agraw1_exclude.csv')
 
 
+def mssw_write_to_file_agraw1_target_with_best_parameters():
+    mssw.mssw_result_writer.eval_and_write_to_file([abrupt_agraw1_path] + gradual_agraw1_paths, [mssw_spms.Encoders.TARGET],
+                                                   test_fraction=0.7, num_ref_batches=3, num_test_batches=7,
+                                                   true_drift_idx=2,
+                                                   min_runs=5,
+                                                   n_inits=[100],
+                                                   max_iters=[250],
+                                                   tols=[0],
+                                                   n_clusters=2,
+                                                   result_file='mssw/results_after_analysis/agraw1_target.csv')
+
+
 def ucdd_improved_simple():
     df_x, df_y = accepting.get_clean_df(
         'Datasets_concept_drift/synthetic_data/abrupt_drift/sea_1_abrupt_drift_0_noise_balanced.arff')
