@@ -1627,3 +1627,23 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits_new():
         train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
+
+
+def ucdd_improved_write_to_file_sea_with_best_parameters():
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=only_numerical_data_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[77000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/sea.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )
