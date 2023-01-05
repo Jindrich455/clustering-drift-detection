@@ -128,7 +128,11 @@ if __name__ == '__main__':
     # experiments.mssw_write_to_file_agraw2_onehot_with_best_parameters()
     # experiments.mssw_write_to_file_agraw2_target_with_best_parameters()
 
-    experiments.ucdd_improved_write_to_file_sea_with_best_parameters()
+    # experiments.ucdd_improved_write_to_file_sea_with_best_parameters()
+    experiments.ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_never_all()
+    experiments.ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_never_all()
+    experiments.ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_always_all()
+    experiments.ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_always_all()
 
     # messing_around.f2()
     # messing_around.f2(10)
