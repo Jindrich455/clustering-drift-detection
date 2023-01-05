@@ -1647,3 +1647,209 @@ def ucdd_improved_write_to_file_sea_with_best_parameters():
                                 ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
+
+
+def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_never_all():
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[18000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw1_exclude_trainbatches_never_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[34000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw1_onehot_trainbatches_never_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[45000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw1_target_trainbatches_never_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        additional_checks=[True, False]
+    )
+
+
+def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_never_all():
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[43000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw2_exclude_trainbatches_never_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[37000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw2_onehot_trainbatches_never_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[25000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw2_target_trainbatches_never_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        additional_checks=[True, False]
+    )
+
+
+def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_always_all():
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[18000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw1_exclude_trainbatches_always_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[34000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw1_onehot_trainbatches_always_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[45000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw1_target_trainbatches_always_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )
+
+
+def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_always_all():
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[43000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw2_exclude_trainbatches_always_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[37000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw2_onehot_trainbatches_always_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )
+
+    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+        data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
+        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        test_fraction=0.7,
+        num_ref_batches=3,
+        num_test_batches=7,
+        true_drift_idx=2,
+        n_inits=[100],
+        max_iters=[25000],
+        tols=[0],
+        min_runs=2,
+        result_file='ucdd_improved/results_after_analysis/agraw2_target_trainbatches_always_all.csv',
+        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        additional_checks=[True, False]
+    )
