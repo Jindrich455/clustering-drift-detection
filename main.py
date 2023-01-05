@@ -119,7 +119,8 @@ if __name__ == '__main__':
     # experiments.mssw_write_to_file_multiple_clustering_possibilities()
     # experiments.mssw_write_to_file_multiple_encoding_strategies()
     # experiments.mssw_write_to_file_progressively_changing_clustering_parameters()
-    experiments.mssw_write_to_file_sea_with_best_parameters()
+    # experiments.mssw_write_to_file_sea_with_best_parameters()
+    experiments.mssw_write_to_file_agraw1_exclude_with_best_parameters()
 
     # messing_around.f2()
     # messing_around.f2(10)
