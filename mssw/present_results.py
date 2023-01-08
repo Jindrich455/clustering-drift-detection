@@ -23,8 +23,8 @@ for rel_path in rel_paths[1:]:
 
 
 print(all_results.to_string())
-all_results = all_results.drop(columns=['type_of_data', 'n_init', 'max_iter', 'tol'])
-all_results.to_csv(common_path + 'everything.csv')
+all_results = all_results.drop(columns=['type_of_data', 'n_init', 'tol'])
+all_results.to_csv(common_path + 'everything.csv', index=False)
 
 
 # all_agraw = res_dict['agraw1_exclude'].join(res_dict['agraw1_onehot'].join(res_dict['agraw1_target']))
