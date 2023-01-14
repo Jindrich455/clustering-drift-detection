@@ -14,7 +14,10 @@ import inspect
 import time
 import numpy as np
 from sklearn.cluster import KMeans
-from mssw import mssw_preprocessing
+# import mssw.mssw_preprocessing
+import mssw_preprocessing
+# from mssw import mssw_preprocessing
+
 
 
 def obtain_cluster_distances_and_sizes(weighted_sub_window, fitted_kmeans, n_clusters):
@@ -61,6 +64,8 @@ def calculate_clustering_statistics(weighted_sub_window, fitted_kmeans, n_cluste
     )
 
     JSEE = np.sum(centroid_distance_sums)
+    print('centroid distance sums', centroid_distance_sums)
+    print('num points in clusters', num_points_in_clusters)
     Av_c = np.divide(centroid_distance_sums, num_points_in_clusters)
     Av_sr = JSEE / weighted_sub_window.shape[0]
     return JSEE, Av_c, Av_sr

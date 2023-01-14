@@ -120,7 +120,7 @@ if __name__ == '__main__':
     # experiments.mssw_write_to_file_multiple_encoding_strategies()
     # experiments.mssw_write_to_file_progressively_changing_clustering_parameters()
 
-    # experiments.mssw_write_to_file_sea_with_best_parameters()
+    experiments.mssw_write_to_file_sea_with_best_parameters()
     # experiments.mssw_write_to_file_agraw1_exclude_with_best_parameters()
     # experiments.mssw_write_to_file_agraw1_onehot_with_best_parameters()
     # experiments.mssw_write_to_file_agraw1_target_with_best_parameters()
@@ -129,10 +129,10 @@ if __name__ == '__main__':
     # experiments.mssw_write_to_file_agraw2_target_with_best_parameters()
 
     # experiments.ucdd_improved_write_to_file_sea_with_best_parameters()
-    experiments.ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_never_all()
-    experiments.ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_never_all()
-    experiments.ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_always_all()
-    experiments.ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_always_all()
+    # experiments.ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_never_all()
+    # experiments.ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_never_all()
+    # experiments.ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_always_all()
+    # experiments.ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_always_all()
 
     # messing_around.f2()
     # messing_around.f2(10)
