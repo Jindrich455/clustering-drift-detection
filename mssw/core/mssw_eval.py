@@ -1,6 +1,6 @@
 import numpy as np
 
-import mssw
+from . import mssw
 
 
 def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift_idx):

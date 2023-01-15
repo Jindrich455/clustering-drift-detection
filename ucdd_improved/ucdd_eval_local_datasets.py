@@ -10,7 +10,7 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 import ucdd.ucdd_eval
 from ucdd import ucdd_supported_parameters as spms
 
-from mssw import accepting
+from mssw.eval_helpers import accepting
 
 
 def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, num_test_batches, true_drift_idx,

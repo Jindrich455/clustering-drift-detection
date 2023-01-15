@@ -6,9 +6,9 @@ import sklearn
 
 from category_encoders import TargetEncoder
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder
-from mssw import mssw_supported_parameters as spms, accepting
+from mssw.eval_helpers import accepting, mssw_supported_parameters as spms
 
-import mssw.mssw_eval
+import mssw.core.mssw_eval
 
 
 def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, num_test_batches, true_drift_idx,
@@ -56,12 +56,12 @@ def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, 
     ref_batches = np.array_split(reference_data, num_ref_batches)
     test_batches = np.array_split(testing_data, num_test_batches)
 
-    return mssw.mssw_eval.all_drifting_batches_randomness_robust(ref_batches, test_batches, n_clusters=n_clusters,
-                                                                 n_init=n_init, max_iter=max_iter, tol=tol,
-                                                                 coeff=coeff, true_drift_idx=true_drift_idx,
-                                                                 first_random_state=first_random_state,
-                                                                 min_runs=min_runs,
-                                                                 std_err_threshold=std_err_threshold)
+    return mssw.core.mssw_eval.all_drifting_batches_randomness_robust(ref_batches, test_batches, n_clusters=n_clusters,
+                                                                      n_init=n_init, max_iter=max_iter, tol=tol,
+                                                                      coeff=coeff, true_drift_idx=true_drift_idx,
+                                                                      first_random_state=first_random_state,
+                                                                      min_runs=min_runs,
+                                                                      std_err_threshold=std_err_threshold)
 
 
 def eval_multiple_parameter_sets(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,

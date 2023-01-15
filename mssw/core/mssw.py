@@ -10,12 +10,10 @@ MSSW is an abbreviation for Multi-Scale Sliding Windows
 - The terms "benchmark data" and "reference data" mean the same thing, default is "reference data"
 - The terms "slide data" and "testing data" mean the same thing, default is "testing data"
 """
-import inspect
-import time
 import numpy as np
 from sklearn.cluster import KMeans
 # import mssw.mssw_preprocessing
-import mssw_preprocessing
+from . import mssw_preprocessing
 # from mssw import mssw_preprocessing
 
 

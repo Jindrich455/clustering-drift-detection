@@ -12,9 +12,9 @@ from pyclustering.cluster.kmeans import kmeans
 from pyclustering.utils import type_metric, distance_metric
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 
-from mssw import accepting
-import mssw.mssw
-import mssw.mssw_eval
+from mssw.eval_helpers import accepting
+from mssw.core import mssw
+import mssw.core.mssw_eval
 import mssw.mssw_eval_local_datasets
 import mssw.mssw_result_writer
 import ucdd.ucdd
@@ -23,7 +23,7 @@ import ucdd.ucdd_eval_local_datasets
 import ucdd.ucdd_result_writer
 import ucdd.ucdd_supported_parameters
 from ucdd import ucdd_supported_parameters as ucdd_spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
-import mssw.mssw_supported_parameters as mssw_spms
+import mssw.eval_helpers.mssw_supported_parameters as mssw_spms
 
 
 def big_evaluation0():
@@ -479,7 +479,7 @@ def mssw_eval_attempt():
     print(len(test_batches))
     print(test_batches)
 
-    drifts_detected = mssw.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
+    drifts_detected = mssw.core.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
     print('drifts detected')
     print(drifts_detected)
 
@@ -527,7 +527,7 @@ def mssw_eval_attempt2():
     print(test_batches)
 
     start = time.time()
-    drifts_detected = mssw.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
+    drifts_detected = mssw.core.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
     print('drifts detected')
     print(drifts_detected)
 
@@ -578,7 +578,7 @@ def mssw_eval_attempt3():
     print(test_batches)
 
     start = time.time()
-    drifts_detected = mssw.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
+    drifts_detected = mssw.core.mssw.all_drifting_batches(ref_batches, test_batches, num_clusters=2)
     print('drifts detected')
     print(drifts_detected)
 
@@ -606,7 +606,7 @@ def mssw_eval_attempt4():
     print(len(test_batches))
     print(test_batches)
 
-    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = mssw.mssw_eval \
+    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = mssw.core.mssw_eval \
         .all_drifting_batches_randomness_robust(ref_batches, test_batches)
 
 
@@ -653,7 +653,7 @@ def mssw_eval_attempt5():
     print(test_batches)
 
     start = time.time()
-    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = mssw.mssw_eval \
+    runs_results_bool, fpr_mean, fpr_se, latency_mean, latency_se = mssw.core.mssw_eval \
         .all_drifting_batches_randomness_robust(ref_batches, test_batches)
 
     print('time taken')

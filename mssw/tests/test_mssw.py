@@ -3,7 +3,7 @@ import numpy.testing
 
 import numpy as np
 
-import mssw.mssw
+from mssw.core import mssw
 
 
 class TestMSSW(TestCase):
