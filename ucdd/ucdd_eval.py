@@ -5,7 +5,7 @@ import sklearn.model_selection
 from sklearn import preprocessing
 from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder, OneHotEncoder
 from category_encoders import TargetEncoder
-import accepting
+from mssw import accepting
 
 from ucdd import ucdd_supported_parameters as spms, ucdd_pyclustering
 

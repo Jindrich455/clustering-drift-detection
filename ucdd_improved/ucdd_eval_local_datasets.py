@@ -5,12 +5,12 @@ import numpy as np
 import sklearn
 
 from category_encoders import TargetEncoder
-from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder, OneHotEncoder, LabelEncoder
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 
 import ucdd_improved.ucdd_eval
 from ucdd_improved import ucdd_supported_parameters as spms
 
-import accepting
+from mssw import accepting
 
 
 def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, num_test_batches, true_drift_idx,

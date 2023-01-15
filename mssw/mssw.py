@@ -19,7 +19,6 @@ import mssw_preprocessing
 # from mssw import mssw_preprocessing
 
 
-
 def obtain_cluster_distances_and_sizes(weighted_sub_window, fitted_kmeans, n_clusters):
     """
     Get the sum of centroid distances and size for clusters formed by fitted_kmeans and weighted_sub_window

@@ -1,6 +1,6 @@
 import numpy as np
 
-import mssw.mssw
+import mssw
 
 
 def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift_idx):
@@ -53,7 +53,7 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     num_runs = 0
     random_state = first_random_state
     while num_runs < min_runs or max(fpr_std_err, latency_std_err) > std_err_threshold:
-        drifting_batches_bool = mssw.mssw.all_drifting_batches(
+        drifting_batches_bool = mssw.all_drifting_batches(
             reference_data_batches,
             testing_data_batches,
             n_clusters=n_clusters,

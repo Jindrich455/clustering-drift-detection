@@ -5,10 +5,9 @@ import numpy as np
 import sklearn
 
 from category_encoders import TargetEncoder
-from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder, OneHotEncoder, LabelEncoder
-from mssw import mssw_supported_parameters as spms
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+from mssw import mssw_supported_parameters as spms, accepting
 
-import accepting
 import mssw.mssw_eval
 
 

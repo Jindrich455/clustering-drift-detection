@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 from pandas import Series
 from sklearn import preprocessing
 
-import accepting
+from mssw import accepting
 
 from ucdd import ucdd_eval, ucdd_pyclustering
 

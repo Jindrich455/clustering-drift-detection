@@ -10,9 +10,9 @@ from category_encoders import TargetEncoder
 from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
 from pyclustering.cluster.kmeans import kmeans
 from pyclustering.utils import type_metric, distance_metric
-from sklearn.preprocessing import MinMaxScaler, OrdinalEncoder, OneHotEncoder, LabelEncoder
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 
-import accepting
+from mssw import accepting
 import mssw.mssw
 import mssw.mssw_eval
 import mssw.mssw_eval_local_datasets
