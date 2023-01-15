@@ -190,12 +190,6 @@ def all_drifting_batches(
                 ref_window, test_window, additional_check, n_init, max_iter, tol, random_state)
             if drift_here:
                 num_ref_drifts += 1
-        print('train_batch_strategy', print(train_batch_strategy))
-        print('acceptable_strategies:')
-        print(spms.TrainBatchStrategies.ANY)
-        print(spms.TrainBatchStrategies.SUBMAJORITY)
-        print(spms.TrainBatchStrategies.MAJORITY)
-        print(spms.TrainBatchStrategies.ALL)
         if train_batch_strategy == spms.TrainBatchStrategies.ANY:
             drift = num_ref_drifts > 0
         elif train_batch_strategy == spms.TrainBatchStrategies.SUBMAJORITY:

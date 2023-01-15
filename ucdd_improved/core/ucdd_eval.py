@@ -53,7 +53,6 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     num_runs = 0
     random_state = first_random_state
     while num_runs < min_runs or max(fpr_std_err, latency_std_err) > std_err_threshold:
-        print('train_batch_strategy', train_batch_strategy)
         drifting_batches_bool = ucdd.all_drifting_batches(
             reference_data_batches,
             testing_data_batches,
