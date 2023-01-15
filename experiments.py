@@ -17,11 +17,11 @@ import mssw.mssw
 import mssw.mssw_eval
 import mssw.mssw_eval_local_datasets
 import mssw.mssw_result_writer
-import ucdd_improved.ucdd
-import ucdd_improved.ucdd_eval
-import ucdd_improved.ucdd_eval_local_datasets
-import ucdd_improved.ucdd_result_writer
-import ucdd_improved.ucdd_supported_parameters
+import ucdd.ucdd
+import ucdd.ucdd_eval
+import ucdd.ucdd_eval_local_datasets
+import ucdd.ucdd_result_writer
+import ucdd.ucdd_supported_parameters
 from ucdd import ucdd_supported_parameters as ucdd_spms, ucdd_eval_and_write_res, ucdd_eval, ucdd_read_and_evaluate
 import mssw.mssw_supported_parameters as mssw_spms
 
@@ -954,10 +954,10 @@ def ucdd_improved_simple():
     ref_batches = np.array_split(reference_data, 3)
     test_batches = np.array_split(testing_data, 7)
 
-    drifts = ucdd_improved.ucdd.all_drifting_batches(
+    drifts = ucdd.ucdd.all_drifting_batches(
         ref_batches,
         test_batches,
-        train_batch_strategy=ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+        train_batch_strategy=ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY,
         additional_check=True,
         random_state=0
     )
@@ -980,10 +980,10 @@ def ucdd_improved_randomness_robust():
     ref_batches = np.array_split(reference_data, 3)
     test_batches = np.array_split(testing_data, 7)
 
-    runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err = ucdd_improved.ucdd_eval.all_drifting_batches_randomness_robust(
+    runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err = ucdd.ucdd_eval.all_drifting_batches_randomness_robust(
         ref_batches,
         test_batches,
-        train_batch_strategy=ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+        train_batch_strategy=ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY,
         additional_check=True
     )
 
@@ -992,14 +992,14 @@ def ucdd_improved_randomness_robust():
 
 def ucdd_improved_automated_one_dataset():
     path = 'Datasets_concept_drift/synthetic_data/abrupt_drift/agraw1_1_abrupt_drift_0_noise_balanced.arff'
-    runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err = ucdd_improved.ucdd_eval_local_datasets.eval_one_parameter_set(
+    runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err = ucdd.ucdd_eval_local_datasets.eval_one_parameter_set(
         path,
-        encoding=ucdd_improved.ucdd_supported_parameters.Encoders.TARGET,
+        encoding=ucdd.ucdd_supported_parameters.Encoders.TARGET,
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         true_drift_idx=2,
-        train_batch_strategy=ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+        train_batch_strategy=ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY,
         additional_check=True
     )
 
@@ -1007,14 +1007,14 @@ def ucdd_improved_automated_one_dataset():
 
 
 def ucdd_improved_automated_multiple_parameter_sets():
-    argument_results = ucdd_improved.ucdd_eval_local_datasets.eval_multiple_parameter_sets(
+    argument_results = ucdd.ucdd_eval_local_datasets.eval_multiple_parameter_sets(
         data_paths=only_numerical_data_paths[:2],
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         true_drift_idx=2,
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY],
         additional_checks=[True]
     )
 
@@ -1022,56 +1022,56 @@ def ucdd_improved_automated_multiple_parameter_sets():
 
 
 def ucdd_improved_write_to_file():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths[:2],
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         true_drift_idx=2,
         result_file='ucdd_improved/results/first_result_numerical.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY],
         additional_checks=[True]
     )
 
 
 def ucdd_improved_write_to_file_all_numerical():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         true_drift_idx=2,
         result_file='ucdd_improved/results/all_numerical_results.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
 
 
 def ucdd_improved_write_to_file_all_numerical_small_max_iter():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         true_drift_idx=2,
         max_iters=[10],
         result_file='ucdd_improved/results/all_numerical_results_small_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
 
 
 def ucdd_improved_write_to_file_trainbatchstrategy_majority():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1081,13 +1081,13 @@ def ucdd_improved_write_to_file_trainbatchstrategy_majority():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_trainbatchstrat_majority/all_numerical_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1097,13 +1097,13 @@ def ucdd_improved_write_to_file_trainbatchstrategy_majority():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_trainbatchstrat_majority/mixed_exclude_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1113,13 +1113,13 @@ def ucdd_improved_write_to_file_trainbatchstrategy_majority():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_trainbatchstrat_majority/mixed_target_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1129,21 +1129,21 @@ def ucdd_improved_write_to_file_trainbatchstrategy_majority():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_trainbatchstrat_majority/mixed_onehot_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
 
 def ucdd_improved_eval_new_rand_state_change():
-    argument_results = ucdd_improved.ucdd_eval_local_datasets.eval_multiple_parameter_sets(
+    argument_results = ucdd.ucdd_eval_local_datasets.eval_multiple_parameter_sets(
         data_paths=only_numerical_data_paths[0:1],
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
         true_drift_idx=2,
         min_runs=10,
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY],
         additional_checks=[True]
     )
 
@@ -1151,9 +1151,9 @@ def ucdd_improved_eval_new_rand_state_change():
 
 
 def ucdd_improved_write_to_file_trainbatchstrategy_any():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1163,13 +1163,13 @@ def ucdd_improved_write_to_file_trainbatchstrategy_any():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_trainbatchstrat_any/all_numerical_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1179,13 +1179,13 @@ def ucdd_improved_write_to_file_trainbatchstrategy_any():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_trainbatchstrat_any/mixed_exclude_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1195,13 +1195,13 @@ def ucdd_improved_write_to_file_trainbatchstrategy_any():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_trainbatchstrat_any/mixed_target_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1211,15 +1211,15 @@ def ucdd_improved_write_to_file_trainbatchstrategy_any():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_trainbatchstrat_any/mixed_onehot_many_parameters.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ANY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ANY],
         additional_checks=[True, False]
     )
 
 
 def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1229,13 +1229,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/all_numerical_increasing_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1245,13 +1245,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_exclude_increasing_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1261,13 +1261,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_target_increasing_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1277,15 +1277,15 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_onehot_increasing_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
 
 def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1295,13 +1295,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols():
         tols=[1e-3, 1e-4, 5e-5, 1e-5],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/all_numerical_decreasing_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1311,13 +1311,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols():
         tols=[1e-3, 1e-4, 5e-5, 1e-5],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_exclude_decreasing_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1327,13 +1327,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols():
         tols=[1e-3, 1e-4, 5e-5, 1e-5],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_target_decreasing_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1343,15 +1343,15 @@ def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols():
         tols=[1e-3, 1e-4, 5e-5, 1e-5],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_onehot_decreasing_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
 
 def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1361,13 +1361,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/all_numerical_increasing_n_inits.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1377,13 +1377,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_exclude_increasing_n_inits.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1393,13 +1393,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_target_increasing_n_inits.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1409,15 +1409,15 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits():
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check/mixed_onehot_increasing_n_inits.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
 
 def ucdd_improved_write_to_file_some_numerical_play_with_n_init_max_iter_and_tol():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths[:2],
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1426,15 +1426,15 @@ def ucdd_improved_write_to_file_some_numerical_play_with_n_init_max_iter_and_tol
         max_iters=[100],
         tols=[100],
         result_file='ucdd_improved/results/all_numerical_results_very_high_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
 
 def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters_new():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1444,13 +1444,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters_new()
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check2/all_numerical_increasing_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1460,13 +1460,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters_new()
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check2/mixed_exclude_increasing_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1476,13 +1476,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters_new()
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check2/mixed_target_increasing_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1492,15 +1492,15 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_max_iters_new()
         tols=[1e-4],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check2/mixed_onehot_increasing_max_iter.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
 
 def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols_new():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1510,13 +1510,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols_new():
         tols=[10, 1e-2, 1e-4, 1e-6],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check2/all_numerical_decreasing_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1526,13 +1526,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols_new():
         tols=[10, 1e-2, 1e-4, 1e-6],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check2/mixed_exclude_decreasing_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1542,13 +1542,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols_new():
         tols=[10, 1e-2, 1e-4, 1e-6],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check2/mixed_target_decreasing_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1558,15 +1558,15 @@ def ucdd_improved_write_to_file_submajority_withcheck_decreasing_tols_new():
         tols=[10, 1e-2, 1e-4, 1e-6],
         min_runs=2,
         result_file='ucdd_improved/results_submajority_with_check2/mixed_onehot_decreasing_tol.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
 
 def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits_new():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1576,13 +1576,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits_new():
         tols=[1e-4],
         min_runs=10,  # min_runs are increased, because for very little n_inits, the results will be unstable
         result_file='ucdd_improved/results_submajority_with_check2/all_numerical_increasing_n_inits.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1592,13 +1592,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits_new():
         tols=[1e-4],
         min_runs=10,  # min_runs are increased, because for very little n_inits, the results will be unstable
         result_file='ucdd_improved/results_submajority_with_check2/mixed_exclude_increasing_n_inits.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1608,13 +1608,13 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits_new():
         tols=[1e-4],
         min_runs=10,  # min_runs are increased, because for very little n_inits, the results will be unstable
         result_file='ucdd_improved/results_submajority_with_check2/mixed_target_increasing_n_inits.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_mixed_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1624,15 +1624,15 @@ def ucdd_improved_write_to_file_submajority_withcheck_increasing_n_inits_new():
         tols=[1e-4],
         min_runs=10,  # min_runs are increased, because for very little n_inits, the results will be unstable
         result_file='ucdd_improved/results_submajority_with_check2/mixed_onehot_increasing_n_inits.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY],
         additional_checks=[True]
     )
 
 
 def ucdd_improved_write_to_file_sea_with_best_parameters():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=only_numerical_data_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1642,17 +1642,17 @@ def ucdd_improved_write_to_file_sea_with_best_parameters():
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/sea.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
 
 
 def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_never_all():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1662,14 +1662,14 @@ def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_never_a
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw1_exclude_trainbatches_never_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1679,14 +1679,14 @@ def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_never_a
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw1_onehot_trainbatches_never_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1696,16 +1696,16 @@ def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_never_a
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw1_target_trainbatches_never_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
 
 def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_never_all():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1715,14 +1715,14 @@ def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_never_a
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw2_exclude_trainbatches_never_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1732,14 +1732,14 @@ def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_never_a
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw2_onehot_trainbatches_never_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1749,16 +1749,16 @@ def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_never_a
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw2_target_trainbatches_never_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
-                                ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.SUBMAJORITY,
+                                ucdd.ucdd_supported_parameters.TrainBatchStrategies.MAJORITY],
         additional_checks=[True, False]
     )
 
 
 def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_always_all():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1768,13 +1768,13 @@ def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_always_
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw1_exclude_trainbatches_always_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1784,13 +1784,13 @@ def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_always_
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw1_onehot_trainbatches_always_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw1_path] + gradual_agraw1_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1800,15 +1800,15 @@ def ucdd_improved_write_to_file_agraw1_with_best_parameters_trainbatches_always_
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw1_target_trainbatches_always_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
 
 
 def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_always_all():
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.EXCLUDE],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.EXCLUDE],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1818,13 +1818,13 @@ def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_always_
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw2_exclude_trainbatches_always_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.ONEHOT],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.ONEHOT],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1834,13 +1834,13 @@ def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_always_
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw2_onehot_trainbatches_always_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )
 
-    ucdd_improved.ucdd_result_writer.eval_and_write_to_file(
+    ucdd.ucdd_result_writer.eval_and_write_to_file(
         data_paths=[abrupt_agraw2_path] + gradual_agraw2_paths,
-        encodings=[ucdd_improved.ucdd_supported_parameters.Encoders.TARGET],
+        encodings=[ucdd.ucdd_supported_parameters.Encoders.TARGET],
         test_fraction=0.7,
         num_ref_batches=3,
         num_test_batches=7,
@@ -1850,6 +1850,6 @@ def ucdd_improved_write_to_file_agraw2_with_best_parameters_trainbatches_always_
         tols=[0],
         min_runs=2,
         result_file='ucdd_improved/results_after_analysis/agraw2_target_trainbatches_always_all.csv',
-        train_batch_strategies=[ucdd_improved.ucdd_supported_parameters.TrainBatchStrategies.ALL],
+        train_batch_strategies=[ucdd.ucdd_supported_parameters.TrainBatchStrategies.ALL],
         additional_checks=[True, False]
     )

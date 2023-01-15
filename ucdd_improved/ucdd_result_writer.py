@@ -1,6 +1,6 @@
 import pandas as pd
 
-import ucdd_improved.ucdd_eval_local_datasets
+import ucdd.ucdd_eval_local_datasets
 
 
 def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,
@@ -10,7 +10,7 @@ def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches
                            n_inits=[10], max_iters=[300], tols=[1e-4], first_random_state=0,
                            min_runs=10, std_err_threshold=0.05
                            ):
-    argument_results = ucdd_improved.ucdd_eval_local_datasets.eval_multiple_parameter_sets(
+    argument_results = ucdd.ucdd_eval_local_datasets.eval_multiple_parameter_sets(
         data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,
         true_drift_idx,
         train_batch_strategies, additional_checks,

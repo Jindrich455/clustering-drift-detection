@@ -7,8 +7,8 @@ import sklearn
 from category_encoders import TargetEncoder
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 
-import ucdd_improved.ucdd_eval
-from ucdd_improved import ucdd_supported_parameters as spms
+import ucdd.ucdd_eval
+from ucdd import ucdd_supported_parameters as spms
 
 from mssw import accepting
 
@@ -64,7 +64,7 @@ def eval_one_parameter_set(data_path, encoding, test_fraction, num_ref_batches, 
     ref_batches = np.array_split(reference_data, num_ref_batches)
     test_batches = np.array_split(testing_data, num_test_batches)
 
-    return ucdd_improved.ucdd_eval.all_drifting_batches_randomness_robust(
+    return ucdd.ucdd_eval.all_drifting_batches_randomness_robust(
         ref_batches,
         test_batches,
         train_batch_strategy=train_batch_strategy,
