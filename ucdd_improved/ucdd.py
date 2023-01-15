@@ -16,7 +16,7 @@ import scipy
 from pyclustering.utils import distance_metric, type_metric
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
-from ucdd_improved import ucdd_supported_parameters as spms
+import ucdd_supported_parameters as spms
 
 
 def split_back_to_windows(window_union, labels, len_ref_window, len_test_window):

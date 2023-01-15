@@ -1,7 +1,6 @@
 import numpy as np
 
-import mssw.mssw
-import ucdd_improved.ucdd
+import ucdd
 
 
 def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift_idx):
@@ -54,7 +53,7 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     num_runs = 0
     random_state = first_random_state
     while num_runs < min_runs or max(fpr_std_err, latency_std_err) > std_err_threshold:
-        drifting_batches_bool = ucdd_improved.ucdd.all_drifting_batches(
+        drifting_batches_bool = ucdd.all_drifting_batches(
             reference_data_batches,
             testing_data_batches,
             train_batch_strategy=train_batch_strategy,
