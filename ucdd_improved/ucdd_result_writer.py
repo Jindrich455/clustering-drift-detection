@@ -1,6 +1,6 @@
 import pandas as pd
 
-import ucdd.ucdd_eval_local_datasets
+from ucdd_improved.core import ucdd
 
 
 def eval_and_write_to_file(data_paths, encodings, test_fraction, num_ref_batches, num_test_batches,

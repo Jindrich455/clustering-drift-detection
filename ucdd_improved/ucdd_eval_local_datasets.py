@@ -7,8 +7,8 @@ import sklearn
 from category_encoders import TargetEncoder
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 
-import ucdd.ucdd_eval
-from ucdd import ucdd_supported_parameters as spms
+from ucdd_improved.core import ucdd
+from ucdd_improved.core.ucdd import ucdd_supported_parameters as spms
 
 from mssw.eval_helpers import accepting
 
