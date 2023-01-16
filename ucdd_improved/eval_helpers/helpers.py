@@ -1,3 +1,27 @@
+import math
+import numpy as np
+
+
+def split_to_fixed_size_batches(X, y, batch_size):
+    """Split X and y to batches of the given batch_size"""
+    chunk_size = batch_size
+    print('chunk size', chunk_size)
+
+    num_chunks = math.ceil(X.shape[0] / chunk_size)
+    print('number of chunks', num_chunks)
+    print('number of data', X.shape[0])
+    X_batches = np.array_split(X, num_chunks)
+    y_batches = np.array_split(y, num_chunks)
+
+    print('number of resulting batches', len(X_batches))
+    print(X_batches[0])
+    print(X_batches[0].shape)
+    print(X_batches[1].shape)
+    print(X_batches[2].shape)
+
+    return X_batches, y_batches
+
+
 def synthetic_data_information(path_to_file):
     data_filename = path_to_file.split('/')[-1]
     type_of_data = path_to_file.split('/')[2].split('_')[0]  # synthetic or real-world

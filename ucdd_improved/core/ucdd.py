@@ -134,9 +134,16 @@ def concept_drift_detected(
     :param debug: flag for helpful print statements
     :return: true if drift is detected based on the two windows, false otherwise
     """
+    print('BEFORE SPLITTING TO CLUSTERS')
     ref_plus, ref_minus, test_plus, test_minus = \
         join_predict_split(ref_window, test_window,
                            n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)
+
+    print('CLUSTERS - numpy shapes:')
+    print('ref_plus', ref_plus.shape)
+    print('ref_minus', ref_minus.shape)
+    print('test_plus', test_plus.shape)
+    print('test_minus', test_minus.shape)
 
     if debug: print('BETA MINUS (ref+, ref-, test-)')
     beta_minus, beta_minus_additional = compute_beta(
