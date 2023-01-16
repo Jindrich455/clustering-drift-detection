@@ -1,6 +1,6 @@
 import numpy as np
 
-from mssw import all_drifting_batches
+from core.mssw import all_drifting_batches
 
 
 def real_world_metrics(drift_signaled_bool, true_drift_bool):
