@@ -99,13 +99,18 @@ def compute_beta(u, v0, v1, beta_x=0.5, debug=False):
     :return: (beta - the regular beta cdf value,
         beta_additional - the beta cdf value for exchanged numbers of neighbours as parameters)
     """
-    w0 = compute_neighbors(u, v0, 'v0')
-    w1 = compute_neighbors(u, v1, 'v1')
-    if debug: print('neighbors in W0', len(w0))
-    if debug: print('neighbors in W1', len(w1))
-    beta = scipy.stats.beta.cdf(beta_x, len(w0), len(w1))
-    beta_additional = scipy.stats.beta.cdf(beta_x, len(w1), len(w0))
-    if debug: print('beta', beta)
+    # if there is so much imbalance that at least one cluster is empty, report drift immediately
+    if min(len(u), len(v0), len(v1)) == 0:
+        beta = 0
+        beta_additional = 0
+    else:
+        w0 = compute_neighbors(u, v0, 'v0')
+        w1 = compute_neighbors(u, v1, 'v1')
+        if debug: print('neighbors in W0', len(w0))
+        if debug: print('neighbors in W1', len(w1))
+        beta = scipy.stats.beta.cdf(beta_x, len(w0), len(w1))
+        beta_additional = scipy.stats.beta.cdf(beta_x, len(w1), len(w0))
+        if debug: print('beta', beta)
     return beta, beta_additional
 
 
@@ -134,16 +139,9 @@ def concept_drift_detected(
     :param debug: flag for helpful print statements
     :return: true if drift is detected based on the two windows, false otherwise
     """
-    print('BEFORE SPLITTING TO CLUSTERS')
     ref_plus, ref_minus, test_plus, test_minus = \
         join_predict_split(ref_window, test_window,
                            n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)
-
-    print('CLUSTERS - numpy shapes:')
-    print('ref_plus', ref_plus.shape)
-    print('ref_minus', ref_minus.shape)
-    print('test_plus', test_plus.shape)
-    print('test_minus', test_minus.shape)
 
     if debug: print('BETA MINUS (ref+, ref-, test-)')
     beta_minus, beta_minus_additional = compute_beta(
@@ -190,7 +188,7 @@ def all_drifting_batches(
     print(random_state)
     drifts_detected = []
     for i, test_window in enumerate(testing_data_batches):
-        # print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
+        print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
         num_ref_drifts = 0 # how many training batches signal drift against this testing batch
         for j, ref_window in enumerate(reference_data_batches):
             drift_here = concept_drift_detected(
