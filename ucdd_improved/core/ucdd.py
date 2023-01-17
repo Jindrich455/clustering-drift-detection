@@ -17,6 +17,7 @@ from pyclustering.utils import distance_metric, type_metric
 from sklearn.cluster import KMeans
 from sklearn.neighbors import NearestNeighbors
 from . import ucdd_supported_parameters as spms
+from multiprocessing import Pool
 
 
 def split_back_to_windows(window_union, labels, len_ref_window, len_test_window):
@@ -165,6 +166,64 @@ def all_drifting_batches(
         n_init=10,
         max_iter=300,
         tol=1e-4,
+        random_state=None,
+        parallel=True
+):
+    """
+    Find all drift locations based on the given reference and testing batches
+
+    :param reference_data_batches: list of arrays of shape (n_r_r, #attributes), r_r=reference batch number,
+        n_r_r=#points in this batch
+    :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
+        n_r_t=#points in this batch
+    :param min_ref_batches_drift: the minimum fraction of reference batches that must signal drift for one test batch
+    :param additional_check: whether to use a two-fold test or not
+    :param n_init: default=10, see sklearn.cluster.KMeans n_init
+    :param max_iter: default=300, see sklearn.cluster.KMeans max_iter
+    :param tol: default=1e-4, see sklearn.cluster.KMeans tol
+    :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
+    :return: a boolean list, length=len(testing_data_batches),
+        an entry is True if drift was detected there and False otherwise
+    """
+
+    if parallel:
+        drifts_detected = all_drifting_batches_parallel(
+            reference_data_batches,
+            testing_data_batches,
+            min_ref_batches_drift,
+            additional_check,
+            n_init=n_init,
+            max_iter=max_iter,
+            tol=tol,
+            random_state=random_state
+        )
+    else:
+        print('random_state')
+        print(random_state)
+        drifts_detected = []
+        for i, test_window in enumerate(testing_data_batches):
+            print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
+            num_ref_drifts = 0 # how many training batches signal drift against this testing batch
+            for j, ref_window in enumerate(reference_data_batches):
+                drift_here = concept_drift_detected(
+                    ref_window, test_window, additional_check, n_init, max_iter, tol, random_state)
+                if drift_here:
+                    num_ref_drifts += 1
+
+            drift = (num_ref_drifts / len(reference_data_batches)) > min_ref_batches_drift
+            drifts_detected.append(drift)
+
+    return drifts_detected
+
+
+def all_drifting_batches_parallel(
+        reference_data_batches,
+        testing_data_batches,
+        min_ref_batches_drift,
+        additional_check,
+        n_init=10,
+        max_iter=300,
+        tol=1e-4,
         random_state=None
 ):
     """
@@ -186,18 +245,21 @@ def all_drifting_batches(
 
     print('random_state')
     print(random_state)
-    drifts_detected = []
-    for i, test_window in enumerate(testing_data_batches):
-        print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
-        num_ref_drifts = 0 # how many training batches signal drift against this testing batch
-        for j, ref_window in enumerate(reference_data_batches):
-            drift_here = concept_drift_detected(
-                ref_window, test_window, additional_check, n_init, max_iter, tol, random_state)
-            if drift_here:
-                num_ref_drifts += 1
 
-        drift = (num_ref_drifts / len(reference_data_batches)) > min_ref_batches_drift
-        drifts_detected.append(drift)
+    pool_iterables = [(ref_window, test_window, additional_check, n_init, max_iter, tol, random_state)
+                      for test_window in testing_data_batches
+                      for ref_window in reference_data_batches]
+
+
+    drifts_1d = []
+    with Pool() as pool:
+        drifts_1d = pool.starmap(concept_drift_detected, pool_iterables)
+
+    drifts_1d_arr = np.array(drifts_1d)
+    # each column of the 2d array represents results for one testing batch
+    drifts_2d_arr = drifts_1d_arr.reshape((len(testing_data_batches), len(reference_data_batches))).T
+    num_signals_each_testing_batch = np.sum(drifts_2d_arr, axis=0)
+    drifts_detected = (num_signals_each_testing_batch > min_ref_batches_drift).tolist()
 
     return drifts_detected
 
