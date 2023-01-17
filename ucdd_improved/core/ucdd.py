@@ -205,10 +205,12 @@ def all_drifting_batches(
             print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
             num_ref_drifts = 0 # how many training batches signal drift against this testing batch
             for j, ref_window in enumerate(reference_data_batches):
+                print('batch #', j, 'of', len(reference_data_batches))
                 drift_here = concept_drift_detected(
                     ref_window, test_window, additional_check, n_init, max_iter, tol, random_state)
                 if drift_here:
                     num_ref_drifts += 1
+                print('drift:', drift_here)
 
             drift = (num_ref_drifts / len(reference_data_batches)) > min_ref_batches_drift
             drifts_detected.append(drift)
@@ -259,7 +261,7 @@ def all_drifting_batches_parallel(
     # each column of the 2d array represents results for one testing batch
     drifts_2d_arr = drifts_1d_arr.reshape((len(testing_data_batches), len(reference_data_batches))).T
     num_signals_each_testing_batch = np.sum(drifts_2d_arr, axis=0)
-    drifts_detected = (num_signals_each_testing_batch > min_ref_batches_drift).tolist()
+    drifts_detected = ((num_signals_each_testing_batch / len(testing_data_batches)) > min_ref_batches_drift).tolist()
 
     return drifts_detected
 

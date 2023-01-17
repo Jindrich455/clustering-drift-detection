@@ -28,7 +28,8 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
                                            additional_check,
                                            n_init=10,
                                            max_iter=300, tol=1e-4, true_drift_idx=2, first_random_state=0,
-                                           min_runs=10, std_err_threshold=0.05):
+                                           min_runs=10, std_err_threshold=0.05,
+                                           parallel=True):
     """
     Repeat running ucdd_improved.ucdd.all_drifting_batches(...) until the s.e. of metrics from different runs is low enough
 
@@ -62,7 +63,8 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
             n_init=n_init,
             max_iter=max_iter,
             tol=tol,
-            random_state=random_state
+            random_state=random_state,
+            parallel=parallel
         )
         # print('drifting_batches_bool')
         # print(drifting_batches_bool)
