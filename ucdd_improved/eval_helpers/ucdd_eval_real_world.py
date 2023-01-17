@@ -25,7 +25,7 @@ def real_world_metrics(drift_signaled_bool, true_drift_bool):
 
 def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_batches,
                                            true_drift_bool,
-                                           train_batch_strategy,
+                                           min_ref_batches_drift,
                                            additional_check,
                                            n_init=10,
                                            max_iter=300, tol=1e-4, first_random_state=0,
@@ -59,7 +59,7 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
         signaled_batches_bool = all_drifting_batches(
             reference_data_batches,
             testing_data_batches,
-            train_batch_strategy=train_batch_strategy,
+            min_ref_batches_drift=min_ref_batches_drift,
             additional_check=additional_check,
             n_init=n_init,
             max_iter=max_iter,

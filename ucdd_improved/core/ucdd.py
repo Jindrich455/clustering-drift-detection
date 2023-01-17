@@ -57,7 +57,7 @@ def join_predict_split(ref_window, test_window,
     # join the points from two windows
     window_union = np.vstack((ref_window, test_window))
 
-    print('n_init', n_init, 'max_iter', max_iter, 'tol', tol)
+    # print('n_init', n_init, 'max_iter', max_iter, 'tol', tol)
 
     # predict their label values
     predicted_labels = KMeans(n_clusters=2, n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)\
@@ -160,7 +160,7 @@ def concept_drift_detected(
 def all_drifting_batches(
         reference_data_batches,
         testing_data_batches,
-        train_batch_strategy,
+        min_ref_batches_drift,
         additional_check,
         n_init=10,
         max_iter=300,
@@ -174,7 +174,7 @@ def all_drifting_batches(
         n_r_r=#points in this batch
     :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
         n_r_t=#points in this batch
-    :param train_batch_strategy: the reference batch strategy for drift detection
+    :param min_ref_batches_drift: the minimum fraction of reference batches that must signal drift for one test batch
     :param additional_check: whether to use a two-fold test or not
     :param n_init: default=10, see sklearn.cluster.KMeans n_init
     :param max_iter: default=300, see sklearn.cluster.KMeans max_iter
@@ -195,16 +195,8 @@ def all_drifting_batches(
                 ref_window, test_window, additional_check, n_init, max_iter, tol, random_state)
             if drift_here:
                 num_ref_drifts += 1
-        if train_batch_strategy == spms.TrainBatchStrategies.ANY:
-            drift = num_ref_drifts > 0
-        elif train_batch_strategy == spms.TrainBatchStrategies.SUBMAJORITY:
-            drift = num_ref_drifts >= (len(reference_data_batches) // 2)
-        elif train_batch_strategy == spms.TrainBatchStrategies.MAJORITY:
-            drift = num_ref_drifts > (len(reference_data_batches) / 2)
-        elif train_batch_strategy == spms.TrainBatchStrategies.ALL:
-            drift = num_ref_drifts == len(reference_data_batches)
-        else:
-            raise NameError('The train batch strategy', train_batch_strategy, 'is not supported')
+
+        drift = (num_ref_drifts / len(reference_data_batches)) > min_ref_batches_drift
         drifts_detected.append(drift)
 
     return drifts_detected

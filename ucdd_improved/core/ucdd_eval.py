@@ -24,7 +24,7 @@ def fpr_and_latency_when_averaging(drift_locations, num_test_batches, true_drift
     return fpr, latency, drift_detected
 
 
-def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_batches, train_batch_strategy,
+def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_batches, min_ref_batches_drift,
                                            additional_check,
                                            n_init=10,
                                            max_iter=300, tol=1e-4, true_drift_idx=2, first_random_state=0,
@@ -39,6 +39,7 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
         n_r_r=#points in this batch
     :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
         n_r_t=#points in this batch
+    :param min_ref_batches_drift: the minimum fraction of reference batches that must signal drift for one test batch
     :param n_clusters: desired number of clusters for kmeans
     :param first_random_state: random states used will be incremented from this one
     :param coeff: coeff used to detect drift, default=2.66
@@ -56,7 +57,7 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
         drifting_batches_bool = ucdd.all_drifting_batches(
             reference_data_batches,
             testing_data_batches,
-            train_batch_strategy=train_batch_strategy,
+            min_ref_batches_drift=min_ref_batches_drift,
             additional_check=additional_check,
             n_init=n_init,
             max_iter=max_iter,
