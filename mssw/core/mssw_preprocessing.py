@@ -21,7 +21,7 @@ def information_utilities_for_all(ptgs):
     :param ptgs: P_tgs as obtained from ptg_for_all(...)
     :return: array of shape (1, #attributes) of the information utility of each attribute
     """
-    entropies = np.divide(scipy.stats.entropy(ptgs, axis=0), ptgs.shape[0])
+    entropies = np.divide(scipy.stats.entropy(ptgs, axis=0), np.log(ptgs.shape[0]))
     information_utilities = np.subtract(1, entropies).reshape((1, entropies.shape[0]))
     return information_utilities
 
