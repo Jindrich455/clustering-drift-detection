@@ -20,7 +20,17 @@ from . import ucdd_supported_parameters as spms
 from multiprocessing import Pool
 
 
-def split_back_to_windows(window_union, labels, len_ref_window, len_test_window):
+def print_label_cluster_stats(actual_label_cluster, cluster_name):
+    cluster_size = np.shape(actual_label_cluster)[0]
+    print('number of points in the', cluster_name, 'cluster:', cluster_size)
+    class1_perc = 100 * np.sum(actual_label_cluster) / cluster_size
+    print('actual class 1 percentage in the', cluster_name, 'cluster:',
+          class1_perc)
+    print('actual class 0 percentage in the', cluster_name, 'cluster:',
+          100 - class1_perc)
+
+
+def split_back_to_windows(window_union, labels, len_ref_window, len_test_window, label_batch_union=None):
     """
     Separate predicted points back to original reference and testing windows (through boolean masks)
 
@@ -33,16 +43,34 @@ def split_back_to_windows(window_union, labels, len_ref_window, len_test_window)
     ref_mask = np.concatenate([np.repeat(True, len_ref_window), np.repeat(False, len_test_window)])
     plus_mask = np.where(labels == 1, True, False)
 
-    ref_plus = window_union[np.logical_and(ref_mask, plus_mask)]
-    ref_minus = window_union[np.logical_and(ref_mask, np.logical_not(plus_mask))]
-    test_plus = window_union[np.logical_and(np.logical_not(ref_mask), plus_mask)]
-    test_minus = window_union[np.logical_and(np.logical_not(ref_mask), np.logical_not(plus_mask))]
+    ref_plus_mask = np.logical_and(ref_mask, plus_mask)
+    ref_minus_mask = np.logical_and(ref_mask, np.logical_not(plus_mask))
+    test_plus_mask = np.logical_and(np.logical_not(ref_mask), plus_mask)
+    test_minus_mask = np.logical_and(np.logical_not(ref_mask), np.logical_not(plus_mask))
+
+    if label_batch_union is not None:
+        ref_plus_actual_labels = label_batch_union[ref_plus_mask]
+        ref_minus_actual_labels = label_batch_union[ref_minus_mask]
+        test_plus_actual_labels = label_batch_union[test_plus_mask]
+        test_minus_actual_labels = label_batch_union[test_minus_mask]
+
+        print_label_cluster_stats(ref_plus_actual_labels, 'ref plus')
+        print_label_cluster_stats(ref_minus_actual_labels, 'ref minus')
+        print_label_cluster_stats(test_plus_actual_labels, 'test plus')
+        print_label_cluster_stats(test_minus_actual_labels, 'test minus')
+
+    ref_plus = window_union[ref_plus_mask]
+    ref_minus = window_union[ref_minus_mask]
+    test_plus = window_union[test_plus_mask]
+    test_minus = window_union[test_minus_mask]
 
     return ref_plus, ref_minus, test_plus, test_minus
 
 
 def join_predict_split(ref_window, test_window,
-                       n_init, max_iter, tol, random_state):
+                       n_init, max_iter, tol, random_state,
+                       reference_label_batch=None,
+                       testing_label_batch=None):
     """
     Join points from two windows, predict their labels through kmeans, then separate them again
 
@@ -64,8 +92,13 @@ def join_predict_split(ref_window, test_window,
     predicted_labels = KMeans(n_clusters=2, n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)\
         .fit_predict(window_union)
 
+    label_batch_union = None
+    if reference_label_batch is not None and testing_label_batch is not None:
+        label_batch_union = np.vstack((reference_label_batch, testing_label_batch))
+
     # split values by predicted label and window
-    return split_back_to_windows(window_union, predicted_labels, ref_window.shape[0], test_window.shape[0])
+    return split_back_to_windows(window_union, predicted_labels, ref_window.shape[0], test_window.shape[0],
+                                 label_batch_union)
 
 
 def compute_neighbors(u, v, debug_string='v'):
@@ -112,6 +145,7 @@ def compute_beta(u, v0, v1, beta_x=0.5, debug=False):
         beta = scipy.stats.beta.cdf(beta_x, len(w0), len(w1))
         beta_additional = scipy.stats.beta.cdf(beta_x, len(w1), len(w0))
         if debug: print('beta', beta)
+        if debug: print('beta additional', beta_additional)
     return beta, beta_additional
 
 
@@ -125,6 +159,8 @@ def concept_drift_detected(
         random_state,
         threshold=0.05,
         debug=False,
+        reference_label_batch=None,
+        testing_label_batch=None
 ):
     """
     Detect whether a concept drift occurred based on one reference and one testing window
@@ -142,14 +178,15 @@ def concept_drift_detected(
     """
     ref_plus, ref_minus, test_plus, test_minus = \
         join_predict_split(ref_window, test_window,
-                           n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)
+                           n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state,
+                           reference_label_batch=reference_label_batch, testing_label_batch=testing_label_batch)
 
     if debug: print('BETA MINUS (ref+, ref-, test-)')
     beta_minus, beta_minus_additional = compute_beta(
-        ref_plus, ref_minus, test_minus)
+        ref_plus, ref_minus, test_minus, debug=debug)
     if debug: print('BETA PLUS (ref-, ref+, test+)')
     beta_plus, beta_plus_additional = compute_beta(
-        ref_minus, ref_plus, test_plus)
+        ref_minus, ref_plus, test_plus, debug=debug)
 
     drift = (beta_plus < threshold or beta_minus < threshold)
     if additional_check:
@@ -167,7 +204,10 @@ def all_drifting_batches(
         max_iter=300,
         tol=1e-4,
         random_state=None,
-        parallel=True
+        parallel=True,
+        reference_label_batches=None,
+        testing_label_batches=None,
+        debug=False
 ):
     """
     Find all drift locations based on the given reference and testing batches
@@ -202,12 +242,26 @@ def all_drifting_batches(
         print(random_state)
         drifts_detected = []
         for i, test_window in enumerate(testing_data_batches):
-            print('#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
+            print('\n\n#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
+            if testing_label_batches is not None:
+                current_test_label_batch = testing_label_batches[i]
+                print('number of points in this test window:', test_window.shape[0])
+                print('percentage of class 1 points in this test window:',
+                      100 * np.sum(current_test_label_batch) / test_window.shape[0])
             num_ref_drifts = 0 # how many training batches signal drift against this testing batch
             for j, ref_window in enumerate(reference_data_batches):
-                print('batch #', j, 'of', len(reference_data_batches))
+                print('\n REFERENCE BATCH #', j, 'of', len(reference_data_batches))
+                if reference_label_batches is not None:
+                    current_ref_label_batch = testing_label_batches[i]
+                    print('number of points in this ref window:', ref_window.shape[0])
+                    print('percentage of class 1 points in this ref window:',
+                          100 * np.sum(current_ref_label_batch) / ref_window.shape[0])
                 drift_here = concept_drift_detected(
-                    ref_window, test_window, additional_check, n_init, max_iter, tol, random_state)
+                    ref_window, test_window, additional_check, n_init, max_iter, tol, random_state,
+                    reference_label_batch=reference_label_batches[j],
+                    testing_label_batch=testing_label_batches[i],
+                    debug=debug
+                )
                 if drift_here:
                     num_ref_drifts += 1
                 print('drift:', drift_here)

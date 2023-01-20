@@ -7,7 +7,7 @@ def accept_data(file_path):
     """Accept an arff file and return its contents in a pandas dataframe"""
     data = arff.loadarff(file_path)
     df = pd.DataFrame(data[0])
-    print('df', df)
+    # print('df', df)
     return df
 
 
