@@ -5,18 +5,18 @@ import numpy as np
 def split_to_fixed_size_batches(X, y, batch_size):
     """Split X and y to batches of the given batch_size"""
     chunk_size = batch_size
-    print('chunk size', chunk_size)
+    # print('chunk size', chunk_size)
 
     num_chunks = (X.shape[0] - (X.shape[0] % chunk_size)) // chunk_size
-    print('number of chunks', num_chunks)
-    print('number of data', X.shape[0])
+    # print('number of chunks', num_chunks)
+    # print('number of data', X.shape[0])
     X_perfect_size = X[:-(X.shape[0] % chunk_size), :]
     y_perfect_size = y[:-(y.shape[0] % chunk_size)]
-    print('shape of X that can be split perfectly', X_perfect_size.shape)
+    # print('shape of X that can be split perfectly', X_perfect_size.shape)
     X_batches = np.array_split(X_perfect_size, num_chunks)
     y_batches = np.array_split(y_perfect_size, num_chunks)
 
-    print('number of resulting batches', len(X_batches))
+    # print('number of resulting batches', len(X_batches))
     print(X_batches[0])
     print(X_batches[0].shape)
 
