@@ -256,12 +256,17 @@ def all_drifting_batches(
                     print('number of points in this ref window:', ref_window.shape[0])
                     print('percentage of class 1 points in this ref window:',
                           100 * np.sum(current_ref_label_batch) / ref_window.shape[0])
-                drift_here = concept_drift_detected(
-                    ref_window, test_window, additional_check, n_init, max_iter, tol, random_state,
-                    reference_label_batch=reference_label_batches[j],
-                    testing_label_batch=testing_label_batches[i],
-                    debug=debug
-                )
+                    drift_here = concept_drift_detected(
+                        ref_window, test_window, additional_check, n_init, max_iter, tol, random_state,
+                        reference_label_batch=reference_label_batches[j],
+                        testing_label_batch=testing_label_batches[i],
+                        debug=debug
+                    )
+                else:
+                    drift_here = concept_drift_detected(
+                        ref_window, test_window, additional_check, n_init, max_iter, tol, random_state,
+                        debug=debug
+                    )
                 if drift_here:
                     num_ref_drifts += 1
                 print('drift:', drift_here)
