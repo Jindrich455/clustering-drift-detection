@@ -226,6 +226,8 @@ def all_drifting_batches(
         an entry is True if drift was detected there and False otherwise
     """
 
+    print('entered ucdd')
+
     if parallel:
         drifts_detected = all_drifting_batches_parallel(
             reference_data_batches,

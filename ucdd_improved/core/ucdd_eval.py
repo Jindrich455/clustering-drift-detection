@@ -47,6 +47,8 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     :param std_err_threshold: threshold to stop executing the mssw algorithm
     :return: a list of lists from all_drifting_batches(...), and the mean and s.e. of FPR and latency
     """
+    print('entered ucdd eval')
+
     fprs = []
     latencies = []
     runs_results_bool = []
@@ -55,6 +57,7 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     num_runs = 0
     random_state = first_random_state
     while num_runs < min_runs or max(fpr_std_err, latency_std_err) > std_err_threshold:
+        print('entered ucdd eval loop')
         drifting_batches_bool = ucdd.all_drifting_batches(
             reference_data_batches,
             testing_data_batches,

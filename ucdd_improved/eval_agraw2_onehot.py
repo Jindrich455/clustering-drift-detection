@@ -1,3 +1,6 @@
+print('plain prints work')
+
+
 from sklearn.preprocessing import MinMaxScaler
 from eval_helpers import helpers, accepting
 import pandas as pd
@@ -11,6 +14,9 @@ import sklearn
 import numpy as np
 
 
+print('imports work')
+
+
 agraw2_onehot_reference_batches = {}
 agraw2_onehot_testing_batches = {}
 
@@ -19,11 +25,17 @@ agraw2_abrupt_path = "../Datasets_concept_drift/synthetic_data/abrupt_drift/agra
 df_x, df_y = accepting.get_clean_df(agraw2_abrupt_path)
 df_y = pd.DataFrame(LabelEncoder().fit_transform(df_y))
 
+print('accepting a file works')
+
 df_x_ref, df_x_test, df_y_ref, df_y_test = sklearn.model_selection.train_test_split(
     df_x, df_y, test_size=0.7, shuffle=False)
 
+print('splitting to train test works')
+
 df_x_ref_num, df_x_ref_cat = accepting.divide_numeric_categorical(df_x_ref)
 df_x_test_num, df_x_test_cat = accepting.divide_numeric_categorical(df_x_test)
+
+print('dividing numeric categorical works')
 
 ref_index = df_x_ref_cat.index
 test_index = df_x_test_cat.index
@@ -34,12 +46,16 @@ df_x_test_cat_transformed = pd.DataFrame(encoder.transform(df_x_test_cat))
 df_x_ref_cat_transformed.set_index(ref_index, inplace=True)
 df_x_test_cat_transformed.set_index(test_index, inplace=True)
 
+print('onehot encoding works')
+
 reference_data = df_x_ref_num.join(df_x_ref_cat_transformed, lsuffix='_num').to_numpy()
 testing_data = df_x_test_num.join(df_x_test_cat_transformed, lsuffix='_num').to_numpy()
 scaler = MinMaxScaler()
 scaler.fit(reference_data)
 reference_data = scaler.transform(reference_data)
 testing_data = scaler.transform(testing_data)
+
+print('scaling data works')
 
 num_ref_batches = 3
 num_test_batches = 7
@@ -49,7 +65,11 @@ test_batches = np.array_split(testing_data, num_test_batches)
 agraw2_onehot_reference_batches[agraw2_abrupt_path] = ref_batches
 agraw2_onehot_testing_batches[agraw2_abrupt_path] = test_batches
 
+print('receiving batches works')
+
 agraw2_onehot_stats1 = {}
+
+print('before ucdd eval')
 
 start_time = time.time()
 
@@ -66,6 +86,9 @@ runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_
     min_runs=2,
     parallel=False
 )
+
+print('after ucdd eval')
+
 agraw2_onehot_stats1[agraw2_abrupt_path] = {
     'runs_results_bool': runs_results_bool,
     'final_fpr_mean': final_fpr_mean,
