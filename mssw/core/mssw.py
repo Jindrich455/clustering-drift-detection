@@ -63,6 +63,7 @@ def calculate_clustering_statistics(weighted_sub_window, fitted_kmeans, n_cluste
     JSEE = np.sum(centroid_distance_sums)
     # print('centroid distance sums', centroid_distance_sums)
     # print('num points in clusters', num_points_in_clusters)
+    num_points_in_clusters = np.where(num_points_in_clusters == 0, 1, num_points_in_clusters)
     Av_c = np.divide(centroid_distance_sums, num_points_in_clusters)
     Av_sr = JSEE / weighted_sub_window.shape[0]
     return JSEE, Av_c, Av_sr, num_points_in_clusters
