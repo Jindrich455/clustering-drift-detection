@@ -29,7 +29,9 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
                                            n_init=10,
                                            max_iter=300, tol=1e-4, true_drift_idx=2, first_random_state=0,
                                            min_runs=10, std_err_threshold=0.05,
-                                           parallel=True):
+                                           parallel=True,
+                                           reference_label_batches=None,
+                                           testing_label_batches=None):
     """
     Repeat running ucdd_improved.ucdd.all_drifting_batches(...) until the s.e. of metrics from different runs is low enough
 
@@ -51,6 +53,8 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
 
     fprs = []
     latencies = []
+    all_2d_drifts = []
+    all_2d_cluster_classif_accs = []
     runs_results_bool = []
     fpr_std_err = -1
     latency_std_err = -1
@@ -58,17 +62,33 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     random_state = first_random_state
     while num_runs < min_runs or max(fpr_std_err, latency_std_err) > std_err_threshold:
         print('entered ucdd eval loop')
-        drifting_batches_bool = ucdd.all_drifting_batches(
+        drifts_2d_arr, cluster_classif_accs_2d_arr = ucdd.all_drifting_batches_parallel_all_info(
             reference_data_batches,
             testing_data_batches,
-            min_ref_batches_drift=min_ref_batches_drift,
-            additional_check=additional_check,
-            n_init=n_init,
-            max_iter=max_iter,
-            tol=tol,
-            random_state=random_state,
-            parallel=parallel
+            additional_check,
+            n_init,
+            max_iter,
+            tol,
+            random_state,
+            reference_label_batches,
+            testing_label_batches
         )
+
+        drifting_batches_bool = ucdd.get_final_drifts_from_all_info(
+            drifts_2d_arr, len(reference_data_batches), min_ref_batches_drift)
+
+        # drifting_batches_bool = ucdd.all_drifting_batches(
+        #     reference_data_batches,
+        #     testing_data_batches,
+        #     min_ref_batches_drift=min_ref_batches_drift,
+        #     additional_check=additional_check,
+        #     n_init=n_init,
+        #     max_iter=max_iter,
+        #     tol=tol,
+        #     random_state=random_state,
+        #     parallel=parallel
+        # )
+
         # print('drifting_batches_bool')
         # print(drifting_batches_bool)
         drift_locations = np.arange(len(drifting_batches_bool))[drifting_batches_bool]
@@ -81,6 +101,8 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
         )
         fprs.append(fpr)
         latencies.append(latency)
+        all_2d_drifts.append(drifts_2d_arr)
+        all_2d_cluster_classif_accs.append(cluster_classif_accs_2d_arr)
         runs_results_bool.append(drifting_batches_bool)
         num_runs += 1
         random_state += n_init
@@ -98,4 +120,5 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     final_latency_mean = np.mean(latencies)
     print('final fpr mean', final_fpr_mean)
     print('final latency mean', final_latency_mean)
-    return runs_results_bool, final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err
+    return runs_results_bool, all_2d_drifts, all_2d_cluster_classif_accs,\
+           final_fpr_mean, fpr_std_err, final_latency_mean, latency_std_err

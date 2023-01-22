@@ -1,0 +1,1242 @@
+Initialization complete
+Iteration 0, inertia 3174.34966692038.
+Iteration 1, inertia 2488.460517437424.
+Iteration 2, inertia 2185.8895102703364.
+Iteration 3, inertia 2140.4610421613415.
+Iteration 4, inertia 2134.767648812334.
+Iteration 5, inertia 2134.388774580244.
+Iteration 6, inertia 2134.3582741572723.
+Iteration 7, inertia 2134.349962626185.
+Iteration 8, inertia 2134.3490017606578.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 3565.690742848437.
+Iteration 1, inertia 2212.927344109518.
+Iteration 2, inertia 2150.9751771282563.
+Iteration 3, inertia 2136.221631394599.
+Iteration 4, inertia 2134.456984498665.
+Iteration 5, inertia 2134.3682934082567.
+Iteration 6, inertia 2134.352279187772.
+Iteration 7, inertia 2134.349442913452.
+Iteration 8, inertia 2134.348884906239.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 3014.772308381235.
+Iteration 1, inertia 2321.677961002835.
+Iteration 2, inertia 2193.8007677089295.
+Iteration 3, inertia 2153.437221245433.
+Iteration 4, inertia 2137.7856552554476.
+Iteration 5, inertia 2134.544990184824.
+Iteration 6, inertia 2134.370661686103.
+Iteration 7, inertia 2134.352279187772.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 3144.6789796292005.
+Iteration 1, inertia 2165.7199458025634.
+Iteration 2, inertia 2136.6944588494434.
+Iteration 3, inertia 2134.5918332665033.
+Iteration 4, inertia 2134.3646840775186.
+Iteration 5, inertia 2134.3493351019656.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.348844883746.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 3692.083701450135.
+Iteration 1, inertia 3119.348350266878.
+Iteration 2, inertia 3038.184103716033.
+Iteration 3, inertia 2913.3738709997024.
+Iteration 4, inertia 2666.3548166401797.
+Iteration 5, inertia 2315.296521346265.
+Iteration 6, inertia 2183.9457495852007.
+Iteration 7, inertia 2145.737104321399.
+Iteration 8, inertia 2135.693760767753.
+Iteration 9, inertia 2134.4277763048926.
+Iteration 10, inertia 2134.366782251608.
+Iteration 11, inertia 2134.3516523541275.
+Iteration 12, inertia 2134.349442913452.
+Iteration 13, inertia 2134.348884906239.
+Iteration 14, inertia 2134.3488448837456.
+Converged at iteration 14: strict convergence.
+Initialization complete
+Iteration 0, inertia 3732.880711466831.
+Iteration 1, inertia 2771.9478095675113.
+Iteration 2, inertia 2413.7477183401147.
+Iteration 3, inertia 2208.9742718060297.
+Iteration 4, inertia 2154.5286017109515.
+Iteration 5, inertia 2137.1191786916434.
+Iteration 6, inertia 2134.4912280198882.
+Iteration 7, inertia 2134.369650866821.
+Iteration 8, inertia 2134.352279187772.
+Iteration 9, inertia 2134.349442913452.
+Iteration 10, inertia 2134.348884906239.
+Iteration 11, inertia 2134.348844883746.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 5497.716099568287.
+Iteration 1, inertia 2380.996570564297.
+Iteration 2, inertia 2205.7995108343625.
+Iteration 3, inertia 2155.514923720948.
+Iteration 4, inertia 2137.526109194315.
+Iteration 5, inertia 2134.5041608390948.
+Iteration 6, inertia 2134.371393548461.
+Iteration 7, inertia 2134.3530822807193.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.3488448837456.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 4132.848510874605.
+Iteration 1, inertia 3099.616689704189.
+Iteration 2, inertia 2917.306329834474.
+Iteration 3, inertia 2665.440061944437.
+Iteration 4, inertia 2326.40889490093.
+Iteration 5, inertia 2189.9459906611346.
+Iteration 6, inertia 2148.224108245902.
+Iteration 7, inertia 2136.113462037774.
+Iteration 8, inertia 2134.448000081399.
+Iteration 9, inertia 2134.366782251608.
+Iteration 10, inertia 2134.3516523541275.
+Iteration 11, inertia 2134.349442913452.
+Iteration 12, inertia 2134.348884906239.
+Iteration 13, inertia 2134.3488448837456.
+Converged at iteration 13: strict convergence.
+Initialization complete
+Iteration 0, inertia 6072.952806985899.
+Iteration 1, inertia 2190.404334643421.
+Iteration 2, inertia 2152.495377993069.
+Iteration 3, inertia 2137.639276021423.
+Iteration 4, inertia 2134.5400278158017.
+Iteration 5, inertia 2134.370661686103.
+Iteration 6, inertia 2134.352279187772.
+Iteration 7, inertia 2134.349442913452.
+Iteration 8, inertia 2134.348884906239.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 3078.951244650212.
+Iteration 1, inertia 2195.0470599286373.
+Iteration 2, inertia 2141.2791492849365.
+Iteration 3, inertia 2134.996000351596.
+Iteration 4, inertia 2134.4317028874993.
+Iteration 5, inertia 2134.354129826851.
+Iteration 6, inertia 2134.3491714598886.
+Iteration 7, inertia 2134.3488845033785.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3669.9693149057002.
+Iteration 1, inertia 2499.6325253752825.
+Iteration 2, inertia 2221.829020949572.
+Iteration 3, inertia 2155.3821230173967.
+Iteration 4, inertia 2138.066321298616.
+Iteration 5, inertia 2134.553741281251.
+Iteration 6, inertia 2134.370661686103.
+Iteration 7, inertia 2134.352279187772.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 4759.171397363789.
+Iteration 1, inertia 3070.2743025886516.
+Iteration 2, inertia 2981.3138471296115.
+Iteration 3, inertia 2789.239549068907.
+Iteration 4, inertia 2438.8218633622537.
+Iteration 5, inertia 2214.7292067465896.
+Iteration 6, inertia 2156.092305277104.
+Iteration 7, inertia 2137.418268965924.
+Iteration 8, inertia 2134.4964494930873.
+Iteration 9, inertia 2134.369650866821.
+Iteration 10, inertia 2134.352279187772.
+Iteration 11, inertia 2134.349442913452.
+Iteration 12, inertia 2134.348884906239.
+Iteration 13, inertia 2134.348844883746.
+Converged at iteration 13: strict convergence.
+Initialization complete
+Iteration 0, inertia 2214.6761116398548.
+Iteration 1, inertia 2135.792823123975.
+Iteration 2, inertia 2134.4011533595854.
+Iteration 3, inertia 2134.357633818351.
+Iteration 4, inertia 2134.349962626185.
+Iteration 5, inertia 2134.3490017606573.
+Iteration 6, inertia 2134.348844883746.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 3398.2246225342737.
+Iteration 1, inertia 2179.9721488423056.
+Iteration 2, inertia 2141.809794413854.
+Iteration 3, inertia 2134.913049827381.
+Iteration 4, inertia 2134.385156032366.
+Iteration 5, inertia 2134.354286957543.
+Iteration 6, inertia 2134.349962626185.
+Iteration 7, inertia 2134.3490017606578.
+Iteration 8, inertia 2134.3488448837456.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3280.163917392403.
+Iteration 1, inertia 2164.83371008199.
+Iteration 2, inertia 2136.4089651679187.
+Iteration 3, inertia 2134.4403150768408.
+Iteration 4, inertia 2134.3654303973753.
+Iteration 5, inertia 2134.3511741714833.
+Iteration 6, inertia 2134.349442913452.
+Iteration 7, inertia 2134.348884906239.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3187.5413052247345.
+Iteration 1, inertia 2314.6438781129814.
+Iteration 2, inertia 2161.0607538692243.
+Iteration 3, inertia 2136.2786755771745.
+Iteration 4, inertia 2134.6134944359856.
+Iteration 5, inertia 2134.3749753967345.
+Iteration 6, inertia 2134.3493351019656.
+Iteration 7, inertia 2134.348884503379.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3887.6477403613994.
+Iteration 1, inertia 2694.653835419297.
+Iteration 2, inertia 2344.42875813728.
+Iteration 3, inertia 2197.080951909471.
+Iteration 4, inertia 2154.3501402672346.
+Iteration 5, inertia 2138.0895334515176.
+Iteration 6, inertia 2134.5936371580665.
+Iteration 7, inertia 2134.3723017152847.
+Iteration 8, inertia 2134.3530822807193.
+Iteration 9, inertia 2134.349442913452.
+Iteration 10, inertia 2134.348884906239.
+Iteration 11, inertia 2134.348844883746.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 2818.3515146886457.
+Iteration 1, inertia 2137.3683984601294.
+Iteration 2, inertia 2134.691173273804.
+Iteration 3, inertia 2134.379173985754.
+Iteration 4, inertia 2134.3493351019656.
+Iteration 5, inertia 2134.348884503379.
+Iteration 6, inertia 2134.3488448837456.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 6306.859630473316.
+Iteration 1, inertia 3404.6877000573036.
+Iteration 2, inertia 2931.7722605902595.
+Iteration 3, inertia 2509.842060970069.
+Iteration 4, inertia 2255.938304968776.
+Iteration 5, inertia 2176.7050638440733.
+Iteration 6, inertia 2145.212505074479.
+Iteration 7, inertia 2135.831018856706.
+Iteration 8, inertia 2134.4319931049567.
+Iteration 9, inertia 2134.366782251608.
+Iteration 10, inertia 2134.351652354127.
+Iteration 11, inertia 2134.349442913452.
+Iteration 12, inertia 2134.348884906239.
+Iteration 13, inertia 2134.348844883746.
+Converged at iteration 13: strict convergence.
+Initialization complete
+Iteration 0, inertia 2439.9760532283153.
+Iteration 1, inertia 2145.313700115328.
+Iteration 2, inertia 2134.991118915998.
+Iteration 3, inertia 2134.395177988788.
+Iteration 4, inertia 2134.362894225293.
+Iteration 5, inertia 2134.3499626261855.
+Iteration 6, inertia 2134.3490017606578.
+Iteration 7, inertia 2134.348844883746.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 3792.5736419828386.
+Iteration 1, inertia 2138.1471476956904.
+Iteration 2, inertia 2134.7246157332656.
+Iteration 3, inertia 2134.382508802255.
+Iteration 4, inertia 2134.3495964204844.
+Iteration 5, inertia 2134.348884503379.
+Iteration 6, inertia 2134.348844883746.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 5156.343796904154.
+Iteration 1, inertia 2480.554641046524.
+Iteration 2, inertia 2247.5929325466723.
+Iteration 3, inertia 2179.483187748265.
+Iteration 4, inertia 2147.2978778786637.
+Iteration 5, inertia 2136.226272062305.
+Iteration 6, inertia 2134.4357911621087.
+Iteration 7, inertia 2134.366782251608.
+Iteration 8, inertia 2134.351652354127.
+Iteration 9, inertia 2134.349442913452.
+Iteration 10, inertia 2134.348884906239.
+Iteration 11, inertia 2134.348844883746.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 3574.2910108502997.
+Iteration 1, inertia 2174.002321646312.
+Iteration 2, inertia 2136.995938581499.
+Iteration 3, inertia 2134.6504442014475.
+Iteration 4, inertia 2134.375912150424.
+Iteration 5, inertia 2134.3493351019656.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 2940.5380797869434.
+Iteration 1, inertia 2220.7994725696194.
+Iteration 2, inertia 2156.2348773805757.
+Iteration 3, inertia 2138.340820446806.
+Iteration 4, inertia 2134.586299394618.
+Iteration 5, inertia 2134.370661686103.
+Iteration 6, inertia 2134.352279187772.
+Iteration 7, inertia 2134.349442913452.
+Iteration 8, inertia 2134.348884906239.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 3047.137484961699.
+Iteration 1, inertia 2208.306178041256.
+Iteration 2, inertia 2142.702109454883.
+Iteration 3, inertia 2135.1827997284668.
+Iteration 4, inertia 2134.456554911778.
+Iteration 5, inertia 2134.356590126726.
+Iteration 6, inertia 2134.3491714598886.
+Iteration 7, inertia 2134.3488845033785.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3536.9006816480437.
+Iteration 1, inertia 2434.188390362722.
+Iteration 2, inertia 2198.121186095871.
+Iteration 3, inertia 2149.034725971839.
+Iteration 4, inertia 2136.297895197039.
+Iteration 5, inertia 2134.4202536988314.
+Iteration 6, inertia 2134.365013343281.
+Iteration 7, inertia 2134.3502565195017.
+Iteration 8, inertia 2134.3492121085396.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 2593.3565963847705.
+Iteration 1, inertia 2154.307441685099.
+Iteration 2, inertia 2136.020633603763.
+Iteration 3, inertia 2134.5543868152427.
+Iteration 4, inertia 2134.363279933383.
+Iteration 5, inertia 2134.3493351019656.
+Iteration 6, inertia 2134.3488845033785.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 4546.469393396184.
+Iteration 1, inertia 3104.2103324458835.
+Iteration 2, inertia 2965.413638126235.
+Iteration 3, inertia 2672.1836737529597.
+Iteration 4, inertia 2312.263040927627.
+Iteration 5, inertia 2175.594166715238.
+Iteration 6, inertia 2144.2600148666556.
+Iteration 7, inertia 2135.4177732327785.
+Iteration 8, inertia 2134.4042293021616.
+Iteration 9, inertia 2134.361611401956.
+Iteration 10, inertia 2134.3502565195017.
+Iteration 11, inertia 2134.3492121085396.
+Iteration 12, inertia 2134.348844883746.
+Converged at iteration 12: strict convergence.
+Initialization complete
+Iteration 0, inertia 3096.4313970138264.
+Iteration 1, inertia 2140.2025378225076.
+Iteration 2, inertia 2134.709832499125.
+Iteration 3, inertia 2134.382987512353.
+Iteration 4, inertia 2134.356177201774.
+Iteration 5, inertia 2134.349962626185.
+Iteration 6, inertia 2134.3490017606573.
+Iteration 7, inertia 2134.348844883746.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 3568.597723907066.
+Iteration 1, inertia 2150.7198322595605.
+Iteration 2, inertia 2135.328365637744.
+Iteration 3, inertia 2134.40179963216.
+Iteration 4, inertia 2134.3628942252926.
+Iteration 5, inertia 2134.349962626185.
+Iteration 6, inertia 2134.3490017606578.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 3773.3171375400398.
+Iteration 1, inertia 2611.523041048123.
+Iteration 2, inertia 2302.5057089156626.
+Iteration 3, inertia 2186.627407682428.
+Iteration 4, inertia 2150.5295649919594.
+Iteration 5, inertia 2136.9928529555805.
+Iteration 6, inertia 2134.4746637459166.
+Iteration 7, inertia 2134.368077100516.
+Iteration 8, inertia 2134.352279187772.
+Iteration 9, inertia 2134.349442913452.
+Iteration 10, inertia 2134.348884906239.
+Iteration 11, inertia 2134.348844883746.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 3127.569456063303.
+Iteration 1, inertia 2308.901012368188.
+Iteration 2, inertia 2181.177025399386.
+Iteration 3, inertia 2145.037149026882.
+Iteration 4, inertia 2135.6219717069457.
+Iteration 5, inertia 2134.4277763048926.
+Iteration 6, inertia 2134.366782251608.
+Iteration 7, inertia 2134.351652354127.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.3488448837456.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 4930.110528947835.
+Iteration 1, inertia 3299.90200145776.
+Iteration 2, inertia 2980.5023926161575.
+Iteration 3, inertia 2530.278177590929.
+Iteration 4, inertia 2217.1769229290794.
+Iteration 5, inertia 2150.722948406552.
+Iteration 6, inertia 2136.4406284128186.
+Iteration 7, inertia 2134.425799390253.
+Iteration 8, inertia 2134.365013343281.
+Iteration 9, inertia 2134.3502565195017.
+Iteration 10, inertia 2134.3492121085396.
+Iteration 11, inertia 2134.348844883746.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 3324.6385653435736.
+Iteration 1, inertia 2205.311708560932.
+Iteration 2, inertia 2155.2183167694216.
+Iteration 3, inertia 2137.445619368179.
+Iteration 4, inertia 2134.500296629398.
+Iteration 5, inertia 2134.369650866821.
+Iteration 6, inertia 2134.352279187772.
+Iteration 7, inertia 2134.349442913452.
+Iteration 8, inertia 2134.348884906239.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 3455.535879027836.
+Iteration 1, inertia 2953.027858626964.
+Iteration 2, inertia 2720.1354388824575.
+Iteration 3, inertia 2395.2720930912974.
+Iteration 4, inertia 2210.3806615520025.
+Iteration 5, inertia 2158.5375271459156.
+Iteration 6, inertia 2139.4889673921266.
+Iteration 7, inertia 2134.73860883466.
+Iteration 8, inertia 2134.3856613331022.
+Iteration 9, inertia 2134.356177201774.
+Iteration 10, inertia 2134.349962626185.
+Iteration 11, inertia 2134.3490017606578.
+Iteration 12, inertia 2134.3488448837456.
+Converged at iteration 12: strict convergence.
+Initialization complete
+Iteration 0, inertia 2770.690890844894.
+Iteration 1, inertia 2147.182625420689.
+Iteration 2, inertia 2135.264042232597.
+Iteration 3, inertia 2134.4634447791727.
+Iteration 4, inertia 2134.357304037646.
+Iteration 5, inertia 2134.3491714598886.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.348844883746.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 4052.911680426647.
+Iteration 1, inertia 2168.391936101236.
+Iteration 2, inertia 2135.4538616722243.
+Iteration 3, inertia 2134.3880930495.
+Iteration 4, inertia 2134.3491329546046.
+Iteration 5, inertia 2134.348884503379.
+Iteration 6, inertia 2134.3488448837456.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 3814.9948926733377.
+Iteration 1, inertia 2817.252187314328.
+Iteration 2, inertia 2529.8778788298823.
+Iteration 3, inertia 2255.7437115455105.
+Iteration 4, inertia 2169.4796865884377.
+Iteration 5, inertia 2142.9358431927426.
+Iteration 6, inertia 2135.1935793547223.
+Iteration 7, inertia 2134.4002953150375.
+Iteration 8, inertia 2134.361611401956.
+Iteration 9, inertia 2134.3502565195017.
+Iteration 10, inertia 2134.3492121085396.
+Iteration 11, inertia 2134.3488448837456.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 4273.315247388386.
+Iteration 1, inertia 2145.707762199015.
+Iteration 2, inertia 2135.072114059589.
+Iteration 3, inertia 2134.43878103262.
+Iteration 4, inertia 2134.354530690422.
+Iteration 5, inertia 2134.3489660415403.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 5117.713170853467.
+Iteration 1, inertia 2264.562166970742.
+Iteration 2, inertia 2181.1932989815064.
+Iteration 3, inertia 2147.7995364300855.
+Iteration 4, inertia 2136.3057853426403.
+Iteration 5, inertia 2134.4486284285904.
+Iteration 6, inertia 2134.366782251608.
+Iteration 7, inertia 2134.3516523541275.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 2984.89221058738.
+Iteration 1, inertia 2213.3935028669025.
+Iteration 2, inertia 2156.347416293894.
+Iteration 3, inertia 2137.5130570451875.
+Iteration 4, inertia 2134.502618659643.
+Iteration 5, inertia 2134.371393548461.
+Iteration 6, inertia 2134.3530822807193.
+Iteration 7, inertia 2134.349442913452.
+Iteration 8, inertia 2134.348884906239.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 3816.726343611573.
+Iteration 1, inertia 3123.1124029259145.
+Iteration 2, inertia 3106.1971568557515.
+Iteration 3, inertia 3086.0471940451207.
+Iteration 4, inertia 3038.922340787205.
+Iteration 5, inertia 2922.024494360207.
+Iteration 6, inertia 2676.434481484007.
+Iteration 7, inertia 2335.2400810779613.
+Iteration 8, inertia 2186.166607388164.
+Iteration 9, inertia 2148.620288319001.
+Iteration 10, inertia 2136.3807398706927.
+Iteration 11, inertia 2134.427389879002.
+Iteration 12, inertia 2134.366782251608.
+Iteration 13, inertia 2134.3516523541275.
+Iteration 14, inertia 2134.349442913452.
+Iteration 15, inertia 2134.348884906239.
+Iteration 16, inertia 2134.348844883746.
+Converged at iteration 16: strict convergence.
+Initialization complete
+Iteration 0, inertia 3198.315360931781.
+Iteration 1, inertia 2976.6514399556436.
+Iteration 2, inertia 2759.9625559993765.
+Iteration 3, inertia 2420.850582551338.
+Iteration 4, inertia 2207.1358956285258.
+Iteration 5, inertia 2154.9288651285187.
+Iteration 6, inertia 2138.140733022416.
+Iteration 7, inertia 2134.5717530504558.
+Iteration 8, inertia 2134.370661686103.
+Iteration 9, inertia 2134.352279187772.
+Iteration 10, inertia 2134.349442913452.
+Iteration 11, inertia 2134.348884906239.
+Iteration 12, inertia 2134.348844883746.
+Converged at iteration 12: strict convergence.
+Initialization complete
+Iteration 0, inertia 4076.043604766339.
+Iteration 1, inertia 2163.5932119529307.
+Iteration 2, inertia 2135.6286467362024.
+Iteration 3, inertia 2134.358110264963.
+Iteration 4, inertia 2134.349498742886.
+Iteration 5, inertia 2134.348884906239.
+Iteration 6, inertia 2134.3488448837456.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 3222.360121282159.
+Iteration 1, inertia 2391.8798702607837.
+Iteration 2, inertia 2192.8745710121584.
+Iteration 3, inertia 2148.91537370353.
+Iteration 4, inertia 2136.3634396243206.
+Iteration 5, inertia 2134.427389879002.
+Iteration 6, inertia 2134.366782251608.
+Iteration 7, inertia 2134.3516523541275.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 7149.762616265194.
+Iteration 1, inertia 2146.132242614083.
+Iteration 2, inertia 2134.971399246547.
+Iteration 3, inertia 2134.409524734138.
+Iteration 4, inertia 2134.3499668280924.
+Iteration 5, inertia 2134.348884503379.
+Iteration 6, inertia 2134.3488448837456.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 3593.103777752882.
+Iteration 1, inertia 3153.305844245399.
+Iteration 2, inertia 3119.4990965758875.
+Iteration 3, inertia 3098.8073039855153.
+Iteration 4, inertia 3065.066574178859.
+Iteration 5, inertia 2984.4005935855835.
+Iteration 6, inertia 2792.0833175194084.
+Iteration 7, inertia 2471.766061336051.
+Iteration 8, inertia 2224.92992152127.
+Iteration 9, inertia 2160.051093451057.
+Iteration 10, inertia 2139.8376109779083.
+Iteration 11, inertia 2134.7837011332526.
+Iteration 12, inertia 2134.3906119075796.
+Iteration 13, inertia 2134.3582741572727.
+Iteration 14, inertia 2134.349962626185.
+Iteration 15, inertia 2134.3490017606578.
+Iteration 16, inertia 2134.348844883746.
+Converged at iteration 16: strict convergence.
+Initialization complete
+Iteration 0, inertia 3255.5973444515166.
+Iteration 1, inertia 2151.355729445886.
+Iteration 2, inertia 2135.660236975871.
+Iteration 3, inertia 2134.5016168105794.
+Iteration 4, inertia 2134.360274307622.
+Iteration 5, inertia 2134.3491714598886.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 3513.772767113834.
+Iteration 1, inertia 2801.732004286231.
+Iteration 2, inertia 2457.8995067435685.
+Iteration 3, inertia 2220.9842827498333.
+Iteration 4, inertia 2158.616377861353.
+Iteration 5, inertia 2137.9765869226862.
+Iteration 6, inertia 2134.5400250979774.
+Iteration 7, inertia 2134.3766662043395.
+Iteration 8, inertia 2134.3530822807193.
+Iteration 9, inertia 2134.349442913452.
+Iteration 10, inertia 2134.348884906239.
+Iteration 11, inertia 2134.348844883746.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 3619.476989988601.
+Iteration 1, inertia 2245.4967771255433.
+Iteration 2, inertia 2149.592409853166.
+Iteration 3, inertia 2135.5869830962542.
+Iteration 4, inertia 2134.512671332135.
+Iteration 5, inertia 2134.3609813013295.
+Iteration 6, inertia 2134.3491714598886.
+Iteration 7, inertia 2134.348884503379.
+Iteration 8, inertia 2134.3488448837456.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 2573.568701857548.
+Iteration 1, inertia 2154.549150037606.
+Iteration 2, inertia 2138.0962406203053.
+Iteration 3, inertia 2134.5876441584733.
+Iteration 4, inertia 2134.370661686103.
+Iteration 5, inertia 2134.352279187772.
+Iteration 6, inertia 2134.349442913452.
+Iteration 7, inertia 2134.348884906239.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3347.1670499781167.
+Iteration 1, inertia 2569.3237837409692.
+Iteration 2, inertia 2277.597628363006.
+Iteration 3, inertia 2185.642816180951.
+Iteration 4, inertia 2150.725859018003.
+Iteration 5, inertia 2137.098616792001.
+Iteration 6, inertia 2134.486745428896.
+Iteration 7, inertia 2134.369650866821.
+Iteration 8, inertia 2134.352279187772.
+Iteration 9, inertia 2134.349442913452.
+Iteration 10, inertia 2134.348884906239.
+Iteration 11, inertia 2134.3488448837456.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 3015.4852845737714.
+Iteration 1, inertia 2472.756338326722.
+Iteration 2, inertia 2233.545944226239.
+Iteration 3, inertia 2165.049843813308.
+Iteration 4, inertia 2140.036791320082.
+Iteration 5, inertia 2134.8031084637705.
+Iteration 6, inertia 2134.388030987984.
+Iteration 7, inertia 2134.3582741572723.
+Iteration 8, inertia 2134.349962626185.
+Iteration 9, inertia 2134.3490017606573.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 3511.008389220698.
+Iteration 1, inertia 3121.1402443511747.
+Iteration 2, inertia 3116.902928878206.
+Iteration 3, inertia 3111.609429827471.
+Iteration 4, inertia 3101.217762849004.
+Iteration 5, inertia 3077.67703613703.
+Iteration 6, inertia 3021.5265986309423.
+Iteration 7, inertia 2876.618645706739.
+Iteration 8, inertia 2599.4187285896.
+Iteration 9, inertia 2279.0839850618504.
+Iteration 10, inertia 2172.243195086297.
+Iteration 11, inertia 2143.5818268933267.
+Iteration 12, inertia 2135.3105855329013.
+Iteration 13, inertia 2134.4042293021616.
+Iteration 14, inertia 2134.3616114019565.
+Iteration 15, inertia 2134.3502565195017.
+Iteration 16, inertia 2134.3492121085396.
+Iteration 17, inertia 2134.348844883746.
+Converged at iteration 17: strict convergence.
+Initialization complete
+Iteration 0, inertia 2867.5690608836544.
+Iteration 1, inertia 2148.1402210904002.
+Iteration 2, inertia 2135.370550091531.
+Iteration 3, inertia 2134.4731478493163.
+Iteration 4, inertia 2134.357304037646.
+Iteration 5, inertia 2134.3491714598886.
+Iteration 6, inertia 2134.3488845033785.
+Iteration 7, inertia 2134.348844883746.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 2680.4610399865815.
+Iteration 1, inertia 2301.769765301566.
+Iteration 2, inertia 2186.845093585818.
+Iteration 3, inertia 2148.1712858571086.
+Iteration 4, inertia 2136.2228416839334.
+Iteration 5, inertia 2134.451714174142.
+Iteration 6, inertia 2134.366782251608.
+Iteration 7, inertia 2134.3516523541275.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 3390.3039839907656.
+Iteration 1, inertia 2508.234295429815.
+Iteration 2, inertia 2257.7728234512497.
+Iteration 3, inertia 2176.737500283692.
+Iteration 4, inertia 2146.3782172850847.
+Iteration 5, inertia 2135.9380845394467.
+Iteration 6, inertia 2134.4273446747798.
+Iteration 7, inertia 2134.366782251608.
+Iteration 8, inertia 2134.3516523541275.
+Iteration 9, inertia 2134.349442913452.
+Iteration 10, inertia 2134.348884906239.
+Iteration 11, inertia 2134.3488448837456.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 8673.080383545612.
+Iteration 1, inertia 2667.6527532485034.
+Iteration 2, inertia 2182.1215331567023.
+Iteration 3, inertia 2136.786063136231.
+Iteration 4, inertia 2134.5681387443383.
+Iteration 5, inertia 2134.366104487786.
+Iteration 6, inertia 2134.3491714598886.
+Iteration 7, inertia 2134.348884503379.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3756.412857668323.
+Iteration 1, inertia 2251.4817762108764.
+Iteration 2, inertia 2169.9285053030517.
+Iteration 3, inertia 2143.2697562610156.
+Iteration 4, inertia 2135.2502868645106.
+Iteration 5, inertia 2134.402216674011.
+Iteration 6, inertia 2134.361611401956.
+Iteration 7, inertia 2134.3502565195017.
+Iteration 8, inertia 2134.3492121085396.
+Iteration 9, inertia 2134.3488448837456.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 3428.5685350239573.
+Iteration 1, inertia 2518.746448566348.
+Iteration 2, inertia 2259.192371458267.
+Iteration 3, inertia 2174.714842700451.
+Iteration 4, inertia 2145.335458813609.
+Iteration 5, inertia 2135.727838484782.
+Iteration 6, inertia 2134.411103970886.
+Iteration 7, inertia 2134.364130124662.
+Iteration 8, inertia 2134.3502565195017.
+Iteration 9, inertia 2134.3492121085396.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 3505.313195932815.
+Iteration 1, inertia 2185.0820817814533.
+Iteration 2, inertia 2136.07603586736.
+Iteration 3, inertia 2134.424612215839.
+Iteration 4, inertia 2134.3506741647425.
+Iteration 5, inertia 2134.348844883746.
+Converged at iteration 5: strict convergence.
+Initialization complete
+Iteration 0, inertia 4546.914091110443.
+Iteration 1, inertia 2154.859842067578.
+Iteration 2, inertia 2136.2397226211483.
+Iteration 3, inertia 2134.400464619681.
+Iteration 4, inertia 2134.355403069557.
+Iteration 5, inertia 2134.349962626185.
+Iteration 6, inertia 2134.3490017606578.
+Iteration 7, inertia 2134.348844883746.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 4910.612408078844.
+Iteration 1, inertia 3098.453251301029.
+Iteration 2, inertia 3066.94090881945.
+Iteration 3, inertia 2980.4320408556882.
+Iteration 4, inertia 2777.3663956780074.
+Iteration 5, inertia 2413.8950292121594.
+Iteration 6, inertia 2206.9529606551496.
+Iteration 7, inertia 2153.5123550645726.
+Iteration 8, inertia 2136.8965904893817.
+Iteration 9, inertia 2134.4912280198882.
+Iteration 10, inertia 2134.3696508668204.
+Iteration 11, inertia 2134.352279187772.
+Iteration 12, inertia 2134.349442913452.
+Iteration 13, inertia 2134.348884906239.
+Iteration 14, inertia 2134.348844883746.
+Converged at iteration 14: strict convergence.
+Initialization complete
+Iteration 0, inertia 3062.654165434649.
+Iteration 1, inertia 2307.0254912328023.
+Iteration 2, inertia 2183.8207085110753.
+Iteration 3, inertia 2148.7237775476897.
+Iteration 4, inertia 2136.4478185604166.
+Iteration 5, inertia 2134.441161344871.
+Iteration 6, inertia 2134.366782251608.
+Iteration 7, inertia 2134.3516523541275.
+Iteration 8, inertia 2134.3494429134525.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.3488448837456.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 2933.9772780549924.
+Iteration 1, inertia 2165.35682734373.
+Iteration 2, inertia 2140.548467102588.
+Iteration 3, inertia 2134.8257799895773.
+Iteration 4, inertia 2134.3904321487316.
+Iteration 5, inertia 2134.3582741572723.
+Iteration 6, inertia 2134.349962626185.
+Iteration 7, inertia 2134.3490017606573.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 2888.8251388829626.
+Iteration 1, inertia 2167.6968043693973.
+Iteration 2, inertia 2136.42845299424.
+Iteration 3, inertia 2134.5834703049395.
+Iteration 4, inertia 2134.37371092638.
+Iteration 5, inertia 2134.3493351019656.
+Iteration 6, inertia 2134.3488845033785.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 3375.3142839429393.
+Iteration 1, inertia 2244.2523747213827.
+Iteration 2, inertia 2149.4335911698386.
+Iteration 3, inertia 2135.6097498327676.
+Iteration 4, inertia 2134.529323479015.
+Iteration 5, inertia 2134.362094136807.
+Iteration 6, inertia 2134.3491714598886.
+Iteration 7, inertia 2134.348884503379.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 4687.571587277601.
+Iteration 1, inertia 3190.366158206592.
+Iteration 2, inertia 3138.0293060063955.
+Iteration 3, inertia 3126.1400508042934.
+Iteration 4, inertia 3122.5131376978.
+Iteration 5, inertia 3120.337842476651.
+Iteration 6, inertia 3117.8394806791694.
+Iteration 7, inertia 3113.4085363418035.
+Iteration 8, inertia 3105.439166989072.
+Iteration 9, inertia 3086.7509575749023.
+Iteration 10, inertia 3040.8593498066616.
+Iteration 11, inertia 2925.9616462912236.
+Iteration 12, inertia 2679.2537797766818.
+Iteration 13, inertia 2337.3332149282883.
+Iteration 14, inertia 2186.4711704669508.
+Iteration 15, inertia 2148.7249235843137.
+Iteration 16, inertia 2136.4464447988107.
+Iteration 17, inertia 2134.4298221935715.
+Iteration 18, inertia 2134.366782251608.
+Iteration 19, inertia 2134.3516523541275.
+Iteration 20, inertia 2134.349442913452.
+Iteration 21, inertia 2134.348884906239.
+Iteration 22, inertia 2134.3488448837456.
+Converged at iteration 22: strict convergence.
+Initialization complete
+Iteration 0, inertia 3540.8147071070925.
+Iteration 1, inertia 2170.175957868454.
+Iteration 2, inertia 2136.3810071683006.
+Iteration 3, inertia 2134.5637061266157.
+Iteration 4, inertia 2134.3688320237165.
+Iteration 5, inertia 2134.349171459889.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 3677.592806082447.
+Iteration 1, inertia 2304.608402900052.
+Iteration 2, inertia 2156.0337501713334.
+Iteration 3, inertia 2135.9509036342142.
+Iteration 4, inertia 2134.531505667626.
+Iteration 5, inertia 2134.363279933383.
+Iteration 6, inertia 2134.3493351019656.
+Iteration 7, inertia 2134.3488845033785.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 4319.690169134768.
+Iteration 1, inertia 2909.320784721677.
+Iteration 2, inertia 2686.425420630106.
+Iteration 3, inertia 2359.001255763161.
+Iteration 4, inertia 2196.1960784237785.
+Iteration 5, inertia 2152.5790218834054.
+Iteration 6, inertia 2137.5028533693007.
+Iteration 7, inertia 2134.504462554464.
+Iteration 8, inertia 2134.369053431438.
+Iteration 9, inertia 2134.352279187772.
+Iteration 10, inertia 2134.349442913452.
+Iteration 11, inertia 2134.348884906239.
+Iteration 12, inertia 2134.3488448837456.
+Converged at iteration 12: strict convergence.
+Initialization complete
+Iteration 0, inertia 5703.192229528942.
+Iteration 1, inertia 3191.5023165501025.
+Iteration 2, inertia 3135.9108951608855.
+Iteration 3, inertia 3123.940263160267.
+Iteration 4, inertia 3119.8225604220793.
+Iteration 5, inertia 3115.6069281386162.
+Iteration 6, inertia 3109.018943775254.
+Iteration 7, inertia 3095.5155237450717.
+Iteration 8, inertia 3060.476589462313.
+Iteration 9, inertia 2963.0967582208327.
+Iteration 10, inertia 2739.5007843289754.
+Iteration 11, inertia 2371.419496098654.
+Iteration 12, inertia 2195.915623028137.
+Iteration 13, inertia 2149.389651870016.
+Iteration 14, inertia 2136.1729907545196.
+Iteration 15, inertia 2134.454769818276.
+Iteration 16, inertia 2134.366782251608.
+Iteration 17, inertia 2134.351652354127.
+Iteration 18, inertia 2134.349442913452.
+Iteration 19, inertia 2134.348884906239.
+Iteration 20, inertia 2134.348844883746.
+Converged at iteration 20: strict convergence.
+Initialization complete
+Iteration 0, inertia 4667.493096968468.
+Iteration 1, inertia 2356.2473435898332.
+Iteration 2, inertia 2162.7913503807513.
+Iteration 3, inertia 2136.4906222912937.
+Iteration 4, inertia 2134.574858587625.
+Iteration 5, inertia 2134.3646840775186.
+Iteration 6, inertia 2134.3493351019656.
+Iteration 7, inertia 2134.348884503379.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3582.3060207739754.
+Iteration 1, inertia 2140.16629962689.
+Iteration 2, inertia 2134.8265547189512.
+Iteration 3, inertia 2134.4051616696966.
+Iteration 4, inertia 2134.3499668280924.
+Iteration 5, inertia 2134.3488845033785.
+Iteration 6, inertia 2134.3488448837456.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 4716.053379141291.
+Iteration 1, inertia 2822.1321066359405.
+Iteration 2, inertia 2406.854690812885.
+Iteration 3, inertia 2216.798461550143.
+Iteration 4, inertia 2161.5424171233253.
+Iteration 5, inertia 2140.5040459953675.
+Iteration 6, inertia 2134.86074450245.
+Iteration 7, inertia 2134.392315316905.
+Iteration 8, inertia 2134.3582741572723.
+Iteration 9, inertia 2134.349962626185.
+Iteration 10, inertia 2134.3490017606578.
+Iteration 11, inertia 2134.348844883746.
+Converged at iteration 11: strict convergence.
+Initialization complete
+Iteration 0, inertia 3306.1159928426596.
+Iteration 1, inertia 2209.466667498161.
+Iteration 2, inertia 2143.510084241568.
+Iteration 3, inertia 2135.2360715326536.
+Iteration 4, inertia 2134.4638937669943.
+Iteration 5, inertia 2134.356590126726.
+Iteration 6, inertia 2134.3491714598886.
+Iteration 7, inertia 2134.348884503379.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 4648.876110698225.
+Iteration 1, inertia 2238.63036376474.
+Iteration 2, inertia 2174.6489294307157.
+Iteration 3, inertia 2145.255494070973.
+Iteration 4, inertia 2135.9048221124317.
+Iteration 5, inertia 2134.42731943169.
+Iteration 6, inertia 2134.366782251608.
+Iteration 7, inertia 2134.3516523541275.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.3488448837456.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 3627.2371863360067.
+Iteration 1, inertia 2138.378554145085.
+Iteration 2, inertia 2134.411579157829.
+Iteration 3, inertia 2134.3517987385617.
+Iteration 4, inertia 2134.3492121085396.
+Iteration 5, inertia 2134.348844883746.
+Converged at iteration 5: strict convergence.
+Initialization complete
+Iteration 0, inertia 3581.7368452252995.
+Iteration 1, inertia 2186.811096893034.
+Iteration 2, inertia 2145.580320728115.
+Iteration 3, inertia 2135.7005995250465.
+Iteration 4, inertia 2134.4277763048926.
+Iteration 5, inertia 2134.366782251608.
+Iteration 6, inertia 2134.3516523541275.
+Iteration 7, inertia 2134.349442913452.
+Iteration 8, inertia 2134.348884906239.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 2894.2855926214006.
+Iteration 1, inertia 2497.3475702331384.
+Iteration 2, inertia 2245.4455795865856.
+Iteration 3, inertia 2169.3212996606258.
+Iteration 4, inertia 2141.641740115025.
+Iteration 5, inertia 2135.07202037357.
+Iteration 6, inertia 2134.4054863532965.
+Iteration 7, inertia 2134.3628942252926.
+Iteration 8, inertia 2134.3499626261855.
+Iteration 9, inertia 2134.3490017606573.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 3034.2020097714144.
+Iteration 1, inertia 2396.607235210931.
+Iteration 2, inertia 2216.459535389857.
+Iteration 3, inertia 2161.3385394657007.
+Iteration 4, inertia 2139.052514815544.
+Iteration 5, inertia 2134.6829581248203.
+Iteration 6, inertia 2134.3860148002777.
+Iteration 7, inertia 2134.356177201774.
+Iteration 8, inertia 2134.349962626185.
+Iteration 9, inertia 2134.3490017606578.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 3279.2869050329487.
+Iteration 1, inertia 2206.3194200820535.
+Iteration 2, inertia 2143.475313452824.
+Iteration 3, inertia 2135.21073912585.
+Iteration 4, inertia 2134.469013602844.
+Iteration 5, inertia 2134.358071588811.
+Iteration 6, inertia 2134.349171459889.
+Iteration 7, inertia 2134.3488845033785.
+Iteration 8, inertia 2134.3488448837456.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 2539.696370050556.
+Iteration 1, inertia 2134.56310535223.
+Iteration 2, inertia 2134.350993356226.
+Iteration 3, inertia 2134.348844883746.
+Converged at iteration 3: strict convergence.
+Initialization complete
+Iteration 0, inertia 4796.220597772363.
+Iteration 1, inertia 2146.679250667383.
+Iteration 2, inertia 2135.1451586896374.
+Iteration 3, inertia 2134.432116872388.
+Iteration 4, inertia 2134.3565751862207.
+Iteration 5, inertia 2134.3491714598886.
+Iteration 6, inertia 2134.3488845033785.
+Iteration 7, inertia 2134.348844883746.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 4275.988996277067.
+Iteration 1, inertia 2311.10037076784.
+Iteration 2, inertia 2161.0963801925654.
+Iteration 3, inertia 2136.4863057515404.
+Iteration 4, inertia 2134.585266851472.
+Iteration 5, inertia 2134.3662781379476.
+Iteration 6, inertia 2134.3493351019656.
+Iteration 7, inertia 2134.3488845033785.
+Iteration 8, inertia 2134.3488448837456.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 2681.2732541499977.
+Iteration 1, inertia 2192.830408269224.
+Iteration 2, inertia 2140.5037597343007.
+Iteration 3, inertia 2134.993951562048.
+Iteration 4, inertia 2134.4341873044314.
+Iteration 5, inertia 2134.3546901778973.
+Iteration 6, inertia 2134.3491714598886.
+Iteration 7, inertia 2134.348884503379.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 3687.319527907418.
+Iteration 1, inertia 2168.161452611136.
+Iteration 2, inertia 2135.473902702351.
+Iteration 3, inertia 2134.3976505074947.
+Iteration 4, inertia 2134.3491329546046.
+Iteration 5, inertia 2134.348884503379.
+Iteration 6, inertia 2134.348844883746.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 3388.9831344289096.
+Iteration 1, inertia 2171.7822918986244.
+Iteration 2, inertia 2136.9823981628206.
+Iteration 3, inertia 2134.668235148616.
+Iteration 4, inertia 2134.379173985754.
+Iteration 5, inertia 2134.3493351019656.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.348844883746.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 3185.368280442053.
+Iteration 1, inertia 3051.750751979391.
+Iteration 2, inertia 2935.6887091214776.
+Iteration 3, inertia 2702.1489197890796.
+Iteration 4, inertia 2341.6784472598874.
+Iteration 5, inertia 2189.9283798220818.
+Iteration 6, inertia 2147.4594573682625.
+Iteration 7, inertia 2135.9414424611555.
+Iteration 8, inertia 2134.4420367985545.
+Iteration 9, inertia 2134.366782251608.
+Iteration 10, inertia 2134.3516523541275.
+Iteration 11, inertia 2134.349442913452.
+Iteration 12, inertia 2134.348884906239.
+Iteration 13, inertia 2134.348844883746.
+Converged at iteration 13: strict convergence.
+Initialization complete
+Iteration 0, inertia 3701.8035901767544.
+Iteration 1, inertia 3124.3460499652992.
+Iteration 2, inertia 3122.7585710452754.
+Iteration 3, inertia 3122.255353350727.
+Iteration 4, inertia 3122.0148860922827.
+Iteration 5, inertia 3121.78557029529.
+Iteration 6, inertia 3121.4074095970086.
+Iteration 7, inertia 3120.4429045341694.
+Iteration 8, inertia 3118.126167295513.
+Iteration 9, inertia 3113.9085317192266.
+Iteration 10, inertia 3105.627876906315.
+Iteration 11, inertia 3086.856861494404.
+Iteration 12, inertia 3033.4792998855055.
+Iteration 13, inertia 2894.653954169556.
+Iteration 14, inertia 2613.207583995926.
+Iteration 15, inertia 2278.1673158006033.
+Iteration 16, inertia 2173.068838369044.
+Iteration 17, inertia 2142.3352833615754.
+Iteration 18, inertia 2135.2416867347565.
+Iteration 19, inertia 2134.4161970916634.
+Iteration 20, inertia 2134.3633925446156.
+Iteration 21, inertia 2134.3502565195017.
+Iteration 22, inertia 2134.34921210854.
+Iteration 23, inertia 2134.348844883746.
+Converged at iteration 23: strict convergence.
+Initialization complete
+Iteration 0, inertia 3608.5321069300217.
+Iteration 1, inertia 2948.818287549523.
+Iteration 2, inertia 2753.1406053002315.
+Iteration 3, inertia 2434.187437503444.
+Iteration 4, inertia 2217.897442182966.
+Iteration 5, inertia 2159.5063559313367.
+Iteration 6, inertia 2139.7153106937053.
+Iteration 7, inertia 2134.7602817894217.
+Iteration 8, inertia 2134.3856613331022.
+Iteration 9, inertia 2134.356177201774.
+Iteration 10, inertia 2134.349962626185.
+Iteration 11, inertia 2134.3490017606573.
+Iteration 12, inertia 2134.348844883746.
+Converged at iteration 12: strict convergence.
+Initialization complete
+Iteration 0, inertia 4268.976467436135.
+Iteration 1, inertia 2260.182060878333.
+Iteration 2, inertia 2172.6145260879985.
+Iteration 3, inertia 2142.7369264083723.
+Iteration 4, inertia 2135.345307635029.
+Iteration 5, inertia 2134.4161970916634.
+Iteration 6, inertia 2134.3633925446156.
+Iteration 7, inertia 2134.3502565195017.
+Iteration 8, inertia 2134.3492121085396.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 2757.651872552661.
+Iteration 1, inertia 2209.9545810714644.
+Iteration 2, inertia 2157.63130757646.
+Iteration 3, inertia 2138.1899727741916.
+Iteration 4, inertia 2134.56245331298.
+Iteration 5, inertia 2134.377807724484.
+Iteration 6, inertia 2134.3530822807193.
+Iteration 7, inertia 2134.349442913452.
+Iteration 8, inertia 2134.348884906239.
+Iteration 9, inertia 2134.348844883746.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 3293.0996726865187.
+Iteration 1, inertia 2154.4851176442353.
+Iteration 2, inertia 2135.6951641218257.
+Iteration 3, inertia 2134.534706112889.
+Iteration 4, inertia 2134.364364431356.
+Iteration 5, inertia 2134.3491714598886.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 2906.545816231309.
+Iteration 1, inertia 2276.239403783877.
+Iteration 2, inertia 2182.2215195432254.
+Iteration 3, inertia 2147.655412454732.
+Iteration 4, inertia 2136.201563498538.
+Iteration 5, inertia 2134.440223116609.
+Iteration 6, inertia 2134.366782251608.
+Iteration 7, inertia 2134.3516523541275.
+Iteration 8, inertia 2134.349442913452.
+Iteration 9, inertia 2134.348884906239.
+Iteration 10, inertia 2134.348844883746.
+Converged at iteration 10: strict convergence.
+Initialization complete
+Iteration 0, inertia 3070.040012481387.
+Iteration 1, inertia 2138.326982034096.
+Iteration 2, inertia 2134.730494313682.
+Iteration 3, inertia 2134.3845610065505.
+Iteration 4, inertia 2134.3495964204844.
+Iteration 5, inertia 2134.348884503379.
+Iteration 6, inertia 2134.3488448837456.
+Converged at iteration 6: strict convergence.
+Initialization complete
+Iteration 0, inertia 2793.170221229682.
+Iteration 1, inertia 2223.106862918269.
+Iteration 2, inertia 2143.344064034829.
+Iteration 3, inertia 2135.237888663461.
+Iteration 4, inertia 2134.4580468409586.
+Iteration 5, inertia 2134.357304037646.
+Iteration 6, inertia 2134.3491714598886.
+Iteration 7, inertia 2134.3488845033785.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.
+Initialization complete
+Iteration 0, inertia 2903.5686420872107.
+Iteration 1, inertia 2184.2603388673847.
+Iteration 2, inertia 2148.25801245185.
+Iteration 3, inertia 2136.323477601951.
+Iteration 4, inertia 2134.42982970765.
+Iteration 5, inertia 2134.366782251608.
+Iteration 6, inertia 2134.3516523541275.
+Iteration 7, inertia 2134.349442913452.
+Iteration 8, inertia 2134.348884906239.
+Iteration 9, inertia 2134.3488448837456.
+Converged at iteration 9: strict convergence.
+Initialization complete
+Iteration 0, inertia 2775.9350962479934.
+Iteration 1, inertia 2150.4852934799264.
+Iteration 2, inertia 2135.5813837598976.
+Iteration 3, inertia 2134.5016168105794.
+Iteration 4, inertia 2134.360274307622.
+Iteration 5, inertia 2134.3491714598886.
+Iteration 6, inertia 2134.348884503379.
+Iteration 7, inertia 2134.3488448837456.
+Converged at iteration 7: strict convergence.
+Initialization complete
+Iteration 0, inertia 2772.008690172684.
+Iteration 1, inertia 2194.199953137819.
+Iteration 2, inertia 2145.856173205401.
+Iteration 3, inertia 2135.480789868793.
+Iteration 4, inertia 2134.4030831927225.
+Iteration 5, inertia 2134.362347244544.
+Iteration 6, inertia 2134.3502565195017.
+Iteration 7, inertia 2134.3492121085396.
+Iteration 8, inertia 2134.348844883746.
+Converged at iteration 8: strict convergence.

@@ -6,6 +6,29 @@ import sys
 from sklearn.cluster import KMeans
 
 
+def write_kmeans_results_ucdd_helper(output_filename_no_extension, ref_batches, n_init, max_iter, tol, random_state,
+                                     show_all=False):
+    # dummy = [np.asarray(1), np.asarray(2), np.asarray(3)]
+    combinations = []
+    for i in range(len(ref_batches)):
+    #     combinations.append(np.vstack((dummy[i], dummy[(i + 1) % 3])))
+        combinations.append(np.vstack((ref_batches[i], ref_batches[(i + 1) % 3])))
+
+    all_results_from_combinations = []
+    for i, combination in enumerate(combinations):
+        filename = output_filename_no_extension + str(i) + '.txt'
+        print('filename', filename)
+        write_verbose_kmeans_to_file(result_filename=output_filename_no_extension + str(i) + '.txt',
+                                     data_to_cluster=combination,
+                                     n_clusters=2, n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)
+        output_dicts = convert_kmeans_output_file_to_dicts(filename, n_init=n_init)
+        all_results_from_combinations.append(output_dicts)
+        if show_all:
+            print_stats_from_kmeans_output_dicts(output_dicts)
+
+    print_stats_from_all_combinations(all_results_from_combinations)
+
+
 def write_verbose_kmeans_to_file(result_filename, data_to_cluster, n_clusters, n_init, max_iter, tol, random_state):
     print('random state:', random_state)
     orig_stdout = sys.stdout

@@ -8,6 +8,8 @@ Cologne, Germany, Oct. 2020, pp. 133–140. doi: 10.1142/9789811223334_0017.
 - Unless specified otherwise, functions in this file work with numpy arrays
 - The terms "batch" and "window" mean the same thing
 """
+import itertools
+
 import numpy as np
 import pandas as pd
 from pyclustering.cluster.kmeans import kmeans
@@ -48,23 +50,41 @@ def split_back_to_windows(window_union, labels, len_ref_window, len_test_window,
     test_plus_mask = np.logical_and(np.logical_not(ref_mask), plus_mask)
     test_minus_mask = np.logical_and(np.logical_not(ref_mask), np.logical_not(plus_mask))
 
+    cluster_classif_acc = None
+
     if label_batch_union is not None:
+        total_points = len_ref_window + len_test_window
+        print('label batch union shape')
+        print(label_batch_union.shape)
+        print('plus mask shape')
+        print(plus_mask.shape)
+        num_class1_in_plus = np.count_nonzero(label_batch_union[plus_mask])
+        num_class0_in_minus = np.count_nonzero(label_batch_union[~plus_mask] == 0)
+        perc_correctly_classified_points_v1 = (num_class1_in_plus + num_class0_in_minus) / total_points
+
+        num_class0_in_plus = np.count_nonzero(label_batch_union[plus_mask] == 0)
+        num_class1_in_minus = np.count_nonzero(label_batch_union[~plus_mask])
+        perc_correctly_classified_points_v2 = (num_class0_in_plus + num_class1_in_minus) / total_points
+
+        cluster_classif_acc = max(perc_correctly_classified_points_v1,
+                                  perc_correctly_classified_points_v2)
+
         ref_plus_actual_labels = label_batch_union[ref_plus_mask]
         ref_minus_actual_labels = label_batch_union[ref_minus_mask]
         test_plus_actual_labels = label_batch_union[test_plus_mask]
         test_minus_actual_labels = label_batch_union[test_minus_mask]
 
-        print_label_cluster_stats(ref_plus_actual_labels, 'ref plus')
-        print_label_cluster_stats(ref_minus_actual_labels, 'ref minus')
-        print_label_cluster_stats(test_plus_actual_labels, 'test plus')
-        print_label_cluster_stats(test_minus_actual_labels, 'test minus')
+        # print_label_cluster_stats(ref_plus_actual_labels, 'ref plus')
+        # print_label_cluster_stats(ref_minus_actual_labels, 'ref minus')
+        # print_label_cluster_stats(test_plus_actual_labels, 'test plus')
+        # print_label_cluster_stats(test_minus_actual_labels, 'test minus')
 
     ref_plus = window_union[ref_plus_mask]
     ref_minus = window_union[ref_minus_mask]
     test_plus = window_union[test_plus_mask]
     test_minus = window_union[test_minus_mask]
 
-    return ref_plus, ref_minus, test_plus, test_minus
+    return ref_plus, ref_minus, test_plus, test_minus, cluster_classif_acc
 
 
 def join_predict_split(ref_window, test_window,
@@ -176,7 +196,7 @@ def concept_drift_detected(
     :param debug: flag for helpful print statements
     :return: true if drift is detected based on the two windows, false otherwise
     """
-    ref_plus, ref_minus, test_plus, test_minus = \
+    ref_plus, ref_minus, test_plus, test_minus, cluster_classif_acc = \
         join_predict_split(ref_window, test_window,
                            n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state,
                            reference_label_batch=reference_label_batch, testing_label_batch=testing_label_batch)
@@ -192,7 +212,7 @@ def concept_drift_detected(
     if additional_check:
         drift = drift | (beta_plus_additional < threshold or beta_minus_additional < threshold)
 
-    return drift
+    return drift, cluster_classif_acc
 
 
 def all_drifting_batches(
@@ -226,8 +246,6 @@ def all_drifting_batches(
         an entry is True if drift was detected there and False otherwise
     """
 
-    print('entered ucdd')
-
     if parallel:
         drifts_detected = all_drifting_batches_parallel(
             reference_data_batches,
@@ -254,18 +272,20 @@ def all_drifting_batches(
             for j, ref_window in enumerate(reference_data_batches):
                 print('\n REFERENCE BATCH #', j, 'of', len(reference_data_batches))
                 if reference_label_batches is not None:
-                    current_ref_label_batch = testing_label_batches[i]
+                    current_ref_label_batch = reference_label_batches[j]
                     print('number of points in this ref window:', ref_window.shape[0])
                     print('percentage of class 1 points in this ref window:',
                           100 * np.sum(current_ref_label_batch) / ref_window.shape[0])
-                    drift_here = concept_drift_detected(
+                    drift_here, cluster_predict_acc = concept_drift_detected(
                         ref_window, test_window, additional_check, n_init, max_iter, tol, random_state,
                         reference_label_batch=reference_label_batches[j],
                         testing_label_batch=testing_label_batches[i],
                         debug=debug
                     )
+                    print('drift_here')
+                    print(drift_here)
                 else:
-                    drift_here = concept_drift_detected(
+                    drift_here, cluster_predict_acc = concept_drift_detected(
                         ref_window, test_window, additional_check, n_init, max_iter, tol, random_state,
                         debug=debug
                     )
@@ -279,6 +299,12 @@ def all_drifting_batches(
     return drifts_detected
 
 
+def get_final_drifts_from_all_info(drifts_2d_arr, len_ref_data_batches, min_ref_batches_drift):
+    num_signals_each_testing_batch = np.sum(drifts_2d_arr, axis=0)
+    drifts_detected = ((num_signals_each_testing_batch / len_ref_data_batches) > min_ref_batches_drift).tolist()
+    return drifts_detected
+
+
 def all_drifting_batches_parallel(
         reference_data_batches,
         testing_data_batches,
@@ -287,7 +313,9 @@ def all_drifting_batches_parallel(
         n_init=10,
         max_iter=300,
         tol=1e-4,
-        random_state=None
+        random_state=None,
+        reference_label_batches=None,
+        testing_label_batches=None
 ):
     """
     Find all drift locations based on the given reference and testing batches
@@ -308,21 +336,97 @@ def all_drifting_batches_parallel(
 
     print('random_state')
     print(random_state)
-
-    pool_iterables = [(ref_window, test_window, additional_check, n_init, max_iter, tol, random_state)
-                      for test_window in testing_data_batches
-                      for ref_window in reference_data_batches]
-
-
-    drifts_1d = []
-    with Pool() as pool:
-        drifts_1d = pool.starmap(concept_drift_detected, pool_iterables)
-
-    drifts_1d_arr = np.array(drifts_1d)
-    # each column of the 2d array represents results for one testing batch
-    drifts_2d_arr = drifts_1d_arr.reshape((len(testing_data_batches), len(reference_data_batches))).T
-    num_signals_each_testing_batch = np.sum(drifts_2d_arr, axis=0)
-    drifts_detected = ((num_signals_each_testing_batch / len(testing_data_batches)) > min_ref_batches_drift).tolist()
-
+    drifts_2d_arr, cluster_classif_accs_2d_arr = all_drifting_batches_parallel_all_info(
+        reference_data_batches,
+        testing_data_batches,
+        additional_check,
+        n_init,
+        max_iter,
+        tol,
+        random_state,
+        reference_label_batches,
+        testing_label_batches
+    )
+    drifts_detected = get_final_drifts_from_all_info(drifts_2d_arr, len(reference_data_batches), min_ref_batches_drift)
     return drifts_detected
+
+
+def all_drifting_batches_parallel_all_info(
+        reference_data_batches,
+        testing_data_batches,
+        additional_check,
+        n_init=10,
+        max_iter=300,
+        tol=1e-4,
+        random_state=None,
+        reference_label_batches=None,
+        testing_label_batches=None
+):
+    """
+    Find all drift locations based on the given reference and testing batches
+
+    :param reference_data_batches: list of arrays of shape (n_r_r, #attributes), r_r=reference batch number,
+        n_r_r=#points in this batch
+    :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
+        n_r_t=#points in this batch
+    :param min_ref_batches_drift: the minimum fraction of reference batches that must signal drift for one test batch
+    :param additional_check: whether to use a two-fold test or not
+    :param n_init: default=10, see sklearn.cluster.KMeans n_init
+    :param max_iter: default=300, see sklearn.cluster.KMeans max_iter
+    :param tol: default=1e-4, see sklearn.cluster.KMeans tol
+    :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
+    :return: a boolean list, length=len(testing_data_batches),
+        an entry is True if drift was detected there and False otherwise
+    """
+
+    print('random_state')
+    print(random_state)
+    threshold = 0.05
+    debug = False
+
+    pool_iterables = []
+
+    for i, test_window in enumerate(testing_data_batches):
+        testing_label_batch = None
+        if testing_label_batches is not None:
+            testing_label_batch = testing_label_batches[i]
+        for j, ref_window in enumerate(reference_data_batches):
+            reference_label_batch = None
+            if reference_label_batches is not None:
+                reference_label_batch = reference_label_batches[j]
+            entry = (ref_window, test_window,
+                     additional_check,
+                     n_init, max_iter, tol,
+                     random_state,
+                     threshold,
+                     debug,
+                     reference_label_batch,
+                     testing_label_batch)
+            pool_iterables.append(entry)
+
+    # drifts_and_cluster_classif_acc_1d = []
+
+    # drifts_and_cluster_classif_acc_1d = itertools.starmap(concept_drift_detected, pool_iterables)
+
+    with Pool() as pool:
+        print('pool opened')
+        drifts_and_cluster_classif_acc_1d = pool.starmap(concept_drift_detected, pool_iterables)
+
+    drifts_1d_tuple, cluster_classif_accs_1d_tuple = tuple(zip(*drifts_and_cluster_classif_acc_1d))
+    drifts_1d_arr = np.asarray(drifts_1d_tuple)
+    cluster_classif_accs_1d_arr = np.asarray(cluster_classif_accs_1d_tuple)
+
+    # print('drifts_1d_arr')
+    # print(drifts_1d_arr)
+    # print('cluster_classif_accs_1d_arr')
+    # print(cluster_classif_accs_1d_arr)
+
+    drifts_2d_arr = drifts_1d_arr.reshape((len(testing_data_batches), len(reference_data_batches))).T
+    cluster_classif_accs_2d_arr = cluster_classif_accs_1d_arr.reshape(
+        (len(testing_data_batches), len(reference_data_batches))).T
+
+    # num_signals_each_testing_batch = np.sum(drifts_2d_arr, axis=0)
+    # drifts_detected = ((num_signals_each_testing_batch / len(testing_data_batches)) > min_ref_batches_drift).tolist()
+
+    return drifts_2d_arr, cluster_classif_accs_2d_arr
 
