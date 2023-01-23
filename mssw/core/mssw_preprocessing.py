@@ -46,17 +46,17 @@ def get_attribute_weights_from(reference_data):
     :return: array of shape (1, #attributes) of the attribute weights of each attribute
     """
     ptgs = ptg_for_all(reference_data)
-    print('# zero values in ptgs', np.count_nonzero(ptgs == 0))
-    print('# negative values in ptgs', np.count_nonzero(ptgs < 0))
-    print('# nan values in ptgs', np.count_nonzero(np.isnan(ptgs)))
+    # print('# zero values in ptgs', np.count_nonzero(ptgs == 0))
+    # print('# negative values in ptgs', np.count_nonzero(ptgs < 0))
+    # print('# nan values in ptgs', np.count_nonzero(np.isnan(ptgs)))
     information_utilities = information_utilities_for_all(ptgs)
-    print('# zero values in information utilities', np.count_nonzero(information_utilities == 0))
-    print('# negative values in information utilities', np.count_nonzero(information_utilities < 0))
-    print('# nan values in information utilities', np.count_nonzero(np.isnan(information_utilities)))
+    # print('# zero values in information utilities', np.count_nonzero(information_utilities == 0))
+    # print('# negative values in information utilities', np.count_nonzero(information_utilities < 0))
+    # print('# nan values in information utilities', np.count_nonzero(np.isnan(information_utilities)))
     attribute_weights = attribute_weights_for_all(information_utilities)
-    print('# zero values in attribute weights', np.count_nonzero(attribute_weights == 0))
-    print('# negative values in attribute weights', np.count_nonzero(attribute_weights < 0))
-    print('# nan values in attribute weights', np.count_nonzero(np.isnan(attribute_weights)))
+    # print('# zero values in attribute weights', np.count_nonzero(attribute_weights == 0))
+    # print('# negative values in attribute weights', np.count_nonzero(attribute_weights < 0))
+    # print('# nan values in attribute weights', np.count_nonzero(np.isnan(attribute_weights)))
     return attribute_weights
 
 
@@ -109,21 +109,21 @@ def mssw_preprocess(reference_data_batches, testing_data_batches):
     reference_data_batches = [scaler.transform(batch) for batch in reference_data_batches]
     testing_data_batches = [scaler.transform(batch) for batch in testing_data_batches]
 
-    print('# zero values in scaled data', np.count_nonzero(joined_reference_data == 0))
-    print('# negative values in scaled data', np.count_nonzero(joined_reference_data < 0))
-    print('# nan values in scaled data', np.count_nonzero(np.isnan(joined_reference_data)))
+    # print('# zero values in scaled data', np.count_nonzero(joined_reference_data == 0))
+    # print('# negative values in scaled data', np.count_nonzero(joined_reference_data < 0))
+    # print('# nan values in scaled data', np.count_nonzero(np.isnan(joined_reference_data)))
     small_float = np.finfo(dtype=float).eps * (10 ** 6)
     joined_reference_data = np.where(joined_reference_data == 0, small_float, joined_reference_data)
     reference_data_batches = [np.where(batch == 0, small_float, batch) for batch in reference_data_batches]
     testing_data_batches = [np.where(batch == 0, small_float, batch) for batch in testing_data_batches]
-    print('after transformation')
-    print('# zero values in scaled data', np.count_nonzero(joined_reference_data == 0))
-    print('# negative values in scaled data', np.count_nonzero(joined_reference_data < 0))
-    print('# nan values in scaled data', np.count_nonzero(np.isnan(joined_reference_data)))
+    # print('after transformation')
+    # print('# zero values in scaled data', np.count_nonzero(joined_reference_data == 0))
+    # print('# negative values in scaled data', np.count_nonzero(joined_reference_data < 0))
+    # print('# nan values in scaled data', np.count_nonzero(np.isnan(joined_reference_data)))
 
     attribute_weights = get_attribute_weights_from(joined_reference_data)
-    print('# negative values in attribute weights', np.count_nonzero(attribute_weights < 0))
-    print('# nan values in attribute weights', np.count_nonzero(np.isnan(attribute_weights)))
+    # print('# negative values in attribute weights', np.count_nonzero(attribute_weights < 0))
+    # print('# nan values in attribute weights', np.count_nonzero(np.isnan(attribute_weights)))
     weighted_joined_reference_data = transform_data_by_attribute_weights(joined_reference_data, attribute_weights)
     weighted_reference_batches =\
         [transform_data_by_attribute_weights(batch, attribute_weights) for batch in reference_data_batches]
