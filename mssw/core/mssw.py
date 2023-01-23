@@ -230,6 +230,8 @@ def all_drifting_batches_return_plot_data(
 
     mean_av_s, mean_mr, s_s, all_av_c, all_cluster_num_points_ref =\
         get_mean_s_s_and_mean_moving_ranges(weighted_reference_batches, fitted_kmeans, n_clusters)
+    print('mean_av_s', mean_av_s)
+    print('mean_mr', mean_mr)
     # print('all_av_sr[:, :len(reference_data_batches)]')
     # print(all_av_sr[:, :len(reference_data_batches)])
     all_av_sr[:, :len(reference_data_batches)] = s_s
