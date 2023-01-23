@@ -10,9 +10,7 @@ def ptg_for_all(reference_data):
     :param reference_data: array of shape (#points, #attributes) of reference data
     :return: array of shape (#points, #attribute) of corresponding P_tgs
     """
-    print('first few reference data points', reference_data[:20, :])
     column_sum = np.sum(reference_data, axis=0)
-    print('column sum', column_sum)
     return np.divide(reference_data, column_sum)
 
 
@@ -100,14 +98,6 @@ def mssw_preprocess(reference_data_batches, testing_data_batches):
     joined_reference_data = scaler.transform(joined_reference_data)
     reference_data_batches = [scaler.transform(batch) for batch in reference_data_batches]
     testing_data_batches = [scaler.transform(batch) for batch in testing_data_batches]
-
-    small_float = np.finfo(np.float).eps * 10**3
-    joined_reference_data = np.where(joined_reference_data == 0, small_float, joined_reference_data)
-    reference_data_batches = [np.where(batch == 0, small_float, batch) for batch in reference_data_batches]
-    testing_data_batches = [np.where(batch == 0, small_float, batch) for batch in testing_data_batches]
-
-    print('first few reference data points after scaling')
-    print(joined_reference_data[:20, :])
 
     attribute_weights = get_attribute_weights_from(joined_reference_data)
     weighted_joined_reference_data = transform_data_by_attribute_weights(joined_reference_data, attribute_weights)
