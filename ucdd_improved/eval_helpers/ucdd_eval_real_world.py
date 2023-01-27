@@ -90,3 +90,17 @@ def all_drifting_batches_randomness_robust(reference_data_batches, testing_data_
     final_fpr_mean = np.mean(fprs)
     final_detection_accuracy_mean = np.mean(detection_accuracies)
     return runs_results_bool, final_fpr_mean, fpr_std_err, final_detection_accuracy_mean, detection_accuracy_std_err
+
+
+def results_multiple_min_ref_batches_drift(mrbd_vals, one_run_all_2d_drifts, true_drift_bool):
+    fprs = []
+    accs = []
+    for mrbd in mrbd_vals:
+        drifts_signaled_ref_batches_perc = np.mean(one_run_all_2d_drifts, axis=0)
+        test_batch_drift_signals = drifts_signaled_ref_batches_perc > mrbd
+        fpr, acc = real_world_metrics(test_batch_drift_signals, true_drift_bool)
+        print('fpr:', fpr, 'acc:', acc)
+        fprs.append(fpr)
+        accs.append(acc)
+
+    return fprs, accs
