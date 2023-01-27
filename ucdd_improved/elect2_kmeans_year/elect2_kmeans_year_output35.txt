@@ -144,7 +144,7 @@ Iteration 1, inertia 780.2369859642921.
 Converged at iteration 1: strict convergence.
 Initialization complete
 Iteration 0, inertia 1969.7288139142051.
-Iteration 1, inertia 957.4151928711342.
+Iteration 1, inertia 957.4151928711343.
 Iteration 2, inertia 792.2569206085402.
 Converged at iteration 2: strict convergence.
 Initialization complete
@@ -204,7 +204,7 @@ Iteration 2, inertia 780.2369859642921.
 Converged at iteration 2: strict convergence.
 Initialization complete
 Iteration 0, inertia 1339.510534028531.
-Iteration 1, inertia 794.4774094118678.
+Iteration 1, inertia 794.4774094118677.
 Iteration 2, inertia 780.2369859642921.
 Converged at iteration 2: strict convergence.
 Initialization complete
@@ -355,7 +355,7 @@ Iteration 2, inertia 792.2569206085402.
 Converged at iteration 2: strict convergence.
 Initialization complete
 Iteration 0, inertia 1972.2887514770487.
-Iteration 1, inertia 957.4151928711343.
+Iteration 1, inertia 957.4151928711342.
 Iteration 2, inertia 792.2569206085402.
 Converged at iteration 2: strict convergence.
 Initialization complete
@@ -391,7 +391,7 @@ Iteration 1, inertia 792.2569206085402.
 Converged at iteration 1: strict convergence.
 Initialization complete
 Iteration 0, inertia 1330.9190940334631.
-Iteration 1, inertia 808.5038923651829.
+Iteration 1, inertia 808.503892365183.
 Iteration 2, inertia 792.2569206085402.
 Converged at iteration 2: strict convergence.
 Initialization complete
@@ -418,12 +418,12 @@ Iteration 2, inertia 792.2569206085402.
 Converged at iteration 2: strict convergence.
 Initialization complete
 Iteration 0, inertia 980.6896815983292.
-Iteration 1, inertia 804.9077720523895.
+Iteration 1, inertia 804.9077720523894.
 Iteration 2, inertia 780.2369859642921.
 Converged at iteration 2: strict convergence.
 Initialization complete
 Iteration 0, inertia 1923.7061028880348.
-Iteration 1, inertia 957.4151928711342.
+Iteration 1, inertia 957.4151928711343.
 Iteration 2, inertia 792.2569206085402.
 Converged at iteration 2: strict convergence.
 Initialization complete
