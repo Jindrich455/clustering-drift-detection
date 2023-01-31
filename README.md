@@ -1,5 +1,8 @@
 # TU Delft CSE3000 Research Project Repository
 This is a repository for the CSE Bachelor end project at Delft University of Technology.
+
+Author: Jindřich POHL
+
 ## Research question: "How well do clustering similarities-based concept drift detectors identify concept drift in case of synthetic/real-world data?"
 This repository was used to answer this research question. We implemented two existing clustering similarities-based drift detection algorithms, MSSW[1] and UCDD[2]. The algorithms and common functions are organised in .py files, and the evaluation was made through separate jupyter notebooks.
 ```
@@ -7,15 +10,23 @@ This repository was used to answer this research question. We implemented two ex
 [2] Y. Yuan, Z. Wang, and W. Wang, “Unsupervised concept drift detection based on multi-scale slide windows,” Ad Hoc Networks, vol. 111, p. 102325, Feb. 2021, doi: 10.1016/j.adhoc.2020.102325.
 ```
 
+## Organization of files and folders/packages
+* ```Datasets_concept_drift```: folder with all datasets used for the evaluation of drift detectors and batches defined
+as drifting
+* ```mssw```: package containing all MSSW functionality and evaluation files
+  * ```core```: package with the MSSW algorithm itself
+* ```ucdd_improved```: package containing all UCDD functionality and evaluation files
+  * ```core```: package with the UCDD algorithm itself
+
+## Locations of functions of interest - drift detection functions
+* mssw > core > mssw.py > all_drifting_batches(...)
+* ucdd_improved > core > ucdd.py > all_drifting_batches(...)
+
 ## Technology used
 * OS: ```Windows 11 Home, 64-bit, x64-based processor```
 * Python: ```Python 3.9.0```
 * Pip: ```pip 21.1.1```
 * Conda: ```conda 22.11.1```
-
-## Locations of functions of interest - drift detection functions
-* mssw > core > mssw.py > all_drifting_batches(...)
-* ucdd_improved > core > ucdd.py > all_drifting_batches(...)
 
 ## To run the .py files
 ### High-level instructions
