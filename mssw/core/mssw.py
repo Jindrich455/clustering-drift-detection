@@ -1,6 +1,6 @@
 """
 Drift detection algorithm from
-[1] Y. Yuan, Z. Wang, and W. Wang,
+[2] Y. Yuan, Z. Wang, and W. Wang,
 “Unsupervised concept drift detection based on multi-scale slide windows,”
 Ad Hoc Networks, vol. 111, p. 102325, Feb. 2021, doi: 10.1016/j.adhoc.2020.102325.
 
