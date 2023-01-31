@@ -12,7 +12,7 @@ This repository was used to answer this research question. We implemented two ex
 
 ## Organization of files and folders/packages
 * ```Datasets_concept_drift```: folder with all datasets used for the evaluation of drift detectors and batches defined
-as drifting
+as drifting in real-world datasets - see also ```https://github.com/konstaka/drift-definitions```
 * ```mssw```: package containing all MSSW functionality and evaluation files
   * ```core```: package with the MSSW algorithm itself
 * ```ucdd_improved```: package containing all UCDD functionality and evaluation files
