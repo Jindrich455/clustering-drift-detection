@@ -5,6 +5,8 @@ Drift detection algorithm from
 in Developments of Artificial Intelligence Technologies in Computation and Robotics,
 Cologne, Germany, Oct. 2020, pp. 133–140. doi: 10.1142/9789811223334_0017.
 
+@author: Jindrich POHL
+
 - Unless specified otherwise, functions in this file work with numpy arrays
 - The terms "batch" and "window" mean the same thing
 """

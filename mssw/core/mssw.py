@@ -4,6 +4,8 @@ Drift detection algorithm from
 “Unsupervised concept drift detection based on multi-scale slide windows,”
 Ad Hoc Networks, vol. 111, p. 102325, Feb. 2021, doi: 10.1016/j.adhoc.2020.102325.
 
+@author: Jindrich POHL
+
 MSSW is an abbreviation for Multi-Scale Sliding Windows
 
 - Unless specified otherwise, functions in this file work with numpy arrays
@@ -54,15 +56,14 @@ def calculate_clustering_statistics(weighted_sub_window, fitted_kmeans, n_cluste
     :param weighted_sub_window: array of shape (#points, #attributes) of weighted data
     :param fitted_kmeans: fitted sklearn kmeans object to use for clustering of the weighted_sub_window
     :param n_clusters: number of clusters used to fit the kmeans object
-    :return: (JSEE float, Av_ci array of shape (1, n_clusters), Av_sr float)
+    :return: (JSEE float, Av_ci array of shape (1, n_clusters), Av_sr float,
+    num_points_in_clusters array of shape (1, n_clusters) of sizes of clusters)
     """
     centroid_distance_sums, num_points_in_clusters = obtain_cluster_distances_and_sizes(
         weighted_sub_window, fitted_kmeans, n_clusters
     )
 
     JSEE = np.sum(centroid_distance_sums)
-    # print('centroid distance sums', centroid_distance_sums)
-    # print('num points in clusters', num_points_in_clusters)
     num_points_in_clusters = np.where(num_points_in_clusters == 0, 1, num_points_in_clusters)
     Av_c = np.divide(centroid_distance_sums, num_points_in_clusters)
     Av_sr = JSEE / weighted_sub_window.shape[0]
@@ -77,28 +78,21 @@ def get_s_s(weighted_reference_sub_windows, fitted_kmeans, n_clusters):
         r is the sub-window number, n_r=#points in this sub-window
     :param fitted_kmeans: sklearn kmeans object previously fitted to weighted reference (benchmark) data
     :param n_clusters: number of clusters used to fit the kmeans object
-    :return: array of shape (1, len(weighted_reference_sub_windows))
+    :return: (s_s array of shape (1, #reference sub-windows)),
+    all_av_c array of shape (n_clusters, len(weighted_reference_sub_windows) of Av_ci in each sub-window,
+    all_cluster_num_points array of shape (n_clusters, #reference sub-windows)
+    of #points in each cluster and sub-window)
     """
     num_sub_windows = len(weighted_reference_sub_windows)
     s_s = np.zeros(num_sub_windows).reshape((1, num_sub_windows))
     all_av_c = np.zeros(num_sub_windows * n_clusters).reshape((n_clusters, num_sub_windows))
-    # print('all_av_c')
-    # print(all_av_c)
     all_cluster_num_points = np.zeros(num_sub_windows * n_clusters).reshape((n_clusters, num_sub_windows))
     for i, weighted_reference_sub_window in enumerate(weighted_reference_sub_windows):
         _, Av_c, Av_sr, num_points_in_clusters =\
             calculate_clustering_statistics(weighted_reference_sub_window, fitted_kmeans, n_clusters)
         s_s[0, i] = Av_sr
-        # print('all_av_c[:, i:(i + 1)]')
-        # print(all_av_c[:, i:(i + 1)])
-        # print('Av_c.T')
-        # print(Av_c.T)
         all_av_c[:, i:(i + 1)] = Av_c.T
         all_cluster_num_points[:, i:(i + 1)] = num_points_in_clusters.T
-    # print('all_av_c')
-    # print(all_av_c)
-    # print('all_cluster_num_points')
-    # print(all_cluster_num_points)
     return s_s, all_av_c, all_cluster_num_points
 
 
@@ -107,7 +101,7 @@ def get_moving_ranges(s_s):
     Get moving ranges (MR_i) for each sub-window from S_s
 
     :param s_s: s_s as obtained from get_s_s(...)
-    :return: array of shape (1, len(s_s)-1)
+    :return: moving_ranges array of shape (1, len(s_s)-1)
     """
     moving_ranges = np.abs(np.subtract(s_s[:, 1:], s_s[:, :-1]))
     return moving_ranges
@@ -115,13 +109,13 @@ def get_moving_ranges(s_s):
 
 def get_mean_s_s_and_mean_moving_ranges(weighted_reference_sub_windows, fitted_kmeans, n_clusters):
     """
-    Find the S_s and MR sequences and return their mean
+    Find the S_s and MR sequences and return all their information
 
     :param weighted_reference_sub_windows: list of arrays of shape (n_r, #attributes) of weighted reference data,
         r is the sub-window number, n_r=#points in this sub-window
     :param fitted_kmeans: sklearn kmeans object previously fitted to weighted reference (benchmark) data
     :param n_clusters: number of clusters used to fit the kmeans object
-    :return: (mean of S_s as float, mean of MR as float)
+    :return: (mean of S_s as float, mean of MR as float, s_s, all_av_c, all_cluster_num_points)
     """
     s_s, all_av_c, all_cluster_num_points = get_s_s(weighted_reference_sub_windows, fitted_kmeans, n_clusters)
     moving_ranges = get_moving_ranges(s_s)
@@ -131,7 +125,7 @@ def get_mean_s_s_and_mean_moving_ranges(weighted_reference_sub_windows, fitted_k
 # - function to test for concept drift based on the total average distance from one testing (slide) sub-window
 def concept_drift_detected(mean_av_s, mean_mr, weighted_testing_sub_window, fitted_kmeans, n_clusters, coeff):
     """
-    Test for concept drift in one weighted testing sub-window
+    Test for concept drift in one weighted testing sub-window and return all associated information
 
     :param mean_av_s: mean_s_s as obtained from get_mean_s_s_and_mean_moving_ranges(...)
     :param mean_mr: mean_mr as obtained from get_mean_s_s_and_mean_moving_ranges(...)
@@ -139,7 +133,12 @@ def concept_drift_detected(mean_av_s, mean_mr, weighted_testing_sub_window, fitt
     :param fitted_kmeans: sklearn kmeans object previously fitted to weighted reference (benchmark) data
     :param n_clusters: number of clusters used to fit the kmeans object
     :param coeff: drift detection coefficient
-    :return: True if drift is detected, False otherwise
+    :return: (True if drift is detected and False otherwise,
+    LCL_Av_s float of average centroid distance lower bound,
+    UCL_Av_s float of average centroid distance upper bound,
+    test_all_av_c array of all Av_ci in each testing batch,
+    test_Av_sr array of Av_sr of each testing batch,
+    num_points_in_clusters array of numbers of points in clusters in each testing window
     """
     UCL_Av_s = mean_av_s + coeff * mean_mr
     LCL_Av_s = mean_av_s - coeff * mean_mr
@@ -167,6 +166,9 @@ def all_drifting_batches(
     :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
         n_r_t=#points in this batch
     :param n_clusters: desired number of clusters for kmeans
+    :param n_init: desired n_init for scikit-learn's k-means
+    :param max_iter: desired max_iter for scikit-learn's k-means
+    :param tol: desired tol for scikit-learn's k-means
     :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
     :param coeff: coeff used to detect drift, default=2.66
     :return: a boolean list, length=len(testing_data_batches),
@@ -198,17 +200,24 @@ def all_drifting_batches_return_plot_data(
         coeff=2.66
 ):
     """
-    Find all drift locations based on the given reference and testing batches
+    Find all drift locations based on the given reference and testing batches, return all associated information
 
     :param reference_data_batches: list of arrays of shape (n_r_r, #attributes), r_r=reference batch number,
         n_r_r=#points in this batch
     :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
         n_r_t=#points in this batch
-    :param n_clusters: desired number of clusters for kmeans
+    :param n_clusters: desired number of clusters for k-means
+    :param n_init: desired n_init for scikit-learn's k-means
+    :param max_iter: desired max_iter for scikit-learn's k-means
+    :param tol: desired tol for scikit-learn's k-means
     :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
     :param coeff: coeff used to detect drift, default=2.66
-    :return: a boolean list, length=len(testing_data_batches),
-        an entry is True if drift was detected there and False otherwise
+    :return: (drifts_detected boolean list where each entry corresponds to a drift decision in one testing batch,
+    LCL_Av_s float of average centroid distance lower bound,
+    UCL_Av_s float of average centroid distance upper bound,
+    all_av_c array of all Av_ci in each batch,
+    Av_sr array of Av_sr of each batch,
+    num_points_in_clusters array of numbers of points in clusters in each batch
     """
     weighted_joined_reference_data, weighted_reference_batches, weighted_testing_batches =\
         mssw_preprocessing.mssw_preprocess(reference_data_batches, testing_data_batches)
@@ -230,10 +239,6 @@ def all_drifting_batches_return_plot_data(
 
     mean_av_s, mean_mr, s_s, all_av_c, all_cluster_num_points_ref =\
         get_mean_s_s_and_mean_moving_ranges(weighted_reference_batches, fitted_kmeans, n_clusters)
-    print('mean_av_s', mean_av_s)
-    print('mean_mr', mean_mr)
-    # print('all_av_sr[:, :len(reference_data_batches)]')
-    # print(all_av_sr[:, :len(reference_data_batches)])
     all_av_sr[:, :len(reference_data_batches)] = s_s
     all_cluster_num_points[:, :len(reference_data_batches)] = all_cluster_num_points_ref
 
@@ -242,21 +247,8 @@ def all_drifting_batches_return_plot_data(
         drift_detected, LCL_Av_s, UCL_Av_s, test_all_av_c, test_av_sr, num_points_in_clusters_test =\
             concept_drift_detected(mean_av_s, mean_mr, weighted_testing_batch, fitted_kmeans, n_clusters, coeff)
         drifts_detected.append(drift_detected)
-        # print('all_av_c')
-        # print(all_av_c)
-        # print('test_all_av_c')
-        # print(test_all_av_c)
-        # print('test_av_sr')
-        # print(test_av_sr)
         all_av_c = np.hstack((all_av_c, test_all_av_c.T))
         all_av_sr[0, len(reference_data_batches) + i] = test_av_sr
         all_cluster_num_points[:, i + len(reference_data_batches)] = num_points_in_clusters_test
-
-    # print('all_av_c')
-    # print(all_av_c)
-    # print('all_av_sr')
-    # print(all_av_sr)
-    # print('all_cluster_num_points')
-    # print(all_cluster_num_points)
 
     return drifts_detected, LCL_Av_s, UCL_Av_s, all_av_c, all_av_sr, all_cluster_num_points
