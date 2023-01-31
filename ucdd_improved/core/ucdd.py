@@ -25,6 +25,13 @@ from multiprocessing import Pool
 
 
 def print_label_cluster_stats(actual_label_cluster, cluster_name):
+    """
+    Print out how well k-means predicted classes by one cluster
+
+    :param actual_label_cluster: actual labels of points in this cluster
+    :param cluster_name: the name of this cluster - "plus" or "minus"
+    :return:
+    """
     cluster_size = np.shape(actual_label_cluster)[0]
     print('number of points in the', cluster_name, 'cluster:', cluster_size)
     class1_perc = 100 * np.sum(actual_label_cluster) / cluster_size
@@ -42,7 +49,7 @@ def split_back_to_windows(window_union, labels, len_ref_window, len_test_window,
     :param labels: list of cluster predictions of points in window_union
     :param len_ref_window: #points in the reference window
     :param len_test_window: #points in the testing window
-    :return: 2d arrays of X0+, X0-, X1+, X1-
+    :return: 2d arrays of X0+, X0-, X1+, X1-, and the k-means class estimate accuracies
     """
     ref_mask = np.concatenate([np.repeat(True, len_ref_window), np.repeat(False, len_test_window)])
     plus_mask = np.where(labels == 1, True, False)
@@ -71,16 +78,6 @@ def split_back_to_windows(window_union, labels, len_ref_window, len_test_window,
         cluster_classif_acc = max(perc_correctly_classified_points_v1,
                                   perc_correctly_classified_points_v2)
 
-        ref_plus_actual_labels = label_batch_union[ref_plus_mask]
-        ref_minus_actual_labels = label_batch_union[ref_minus_mask]
-        test_plus_actual_labels = label_batch_union[test_plus_mask]
-        test_minus_actual_labels = label_batch_union[test_minus_mask]
-
-        # print_label_cluster_stats(ref_plus_actual_labels, 'ref plus')
-        # print_label_cluster_stats(ref_minus_actual_labels, 'ref minus')
-        # print_label_cluster_stats(test_plus_actual_labels, 'test plus')
-        # print_label_cluster_stats(test_minus_actual_labels, 'test minus')
-
     ref_plus = window_union[ref_plus_mask]
     ref_minus = window_union[ref_minus_mask]
     test_plus = window_union[test_plus_mask]
@@ -102,13 +99,10 @@ def join_predict_split(ref_window, test_window,
     :param max_iter: see sklearn.cluster.KMeans max_iter
     :param tol: see sklearn.cluster.KMeans tol
     :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
-    :return: 2d arrays of X0+, X0-, X1+, X1-
+    :return: 2d arrays of X0+, X0-, X1+, X1-, and the k-means class estimate accuracies
     """
-    """Join points from two windows, predict their labels through kmeans, then separate them again"""
     # join the points from two windows
     window_union = np.vstack((ref_window, test_window))
-
-    # print('n_init', n_init, 'max_iter', max_iter, 'tol', tol)
 
     # predict their label values
     predicted_labels = KMeans(n_clusters=2, n_init=n_init, max_iter=max_iter, tol=tol, random_state=random_state)\
@@ -136,9 +130,7 @@ def compute_neighbors(u, v, debug_string='v'):
     neigh.fit(v)
 
     neigh_ind_v = neigh.kneighbors(u, return_distance=False)
-    # print('neigh_ind_' + debug_string, neigh_ind_v)
     unique_v_neighbor_indices = np.unique(neigh_ind_v)
-    # print('unique neigh_ind_' + debug_string, unique_v_neighbor_indices)
     w = v[unique_v_neighbor_indices]
     return w
 
@@ -185,7 +177,7 @@ def concept_drift_detected(
         testing_label_batch=None
 ):
     """
-    Detect whether a concept drift occurred based on one reference and one testing window
+    Detect whether a concept drift occurred based on one reference and one testing window of same sizes
 
     :param ref_window: array of shape (#points in this reference window, #attributes)
     :param test_window: array of shape (#points in this testing window, #attributes)
@@ -196,7 +188,9 @@ def concept_drift_detected(
     :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
     :param threshold: default=0.05, statistical threshold to detect drift
     :param debug: flag for helpful print statements
-    :return: true if drift is detected based on the two windows, false otherwise
+    :return: (true if drift is detected based on the two windows and false otherwise,
+    k-means class estimate accuracies)
+
     """
     ref_plus, ref_minus, test_plus, test_minus, cluster_classif_acc = \
         join_predict_split(ref_window, test_window,
@@ -244,6 +238,13 @@ def all_drifting_batches(
     :param max_iter: default=300, see sklearn.cluster.KMeans max_iter
     :param tol: default=1e-4, see sklearn.cluster.KMeans tol
     :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
+    :param parallel: whether drift detections should happen on all cores - warning, very computationally heavy!
+    :param reference_label_batches: used for class estimate accuracy, only applicable if parallel=False,
+        list of arrays of shape (n_r_r, 1), r_r=reference batch number,
+        n_r_r=#points in this batch
+    :param testing_label_batches: used for class estimate accuracy, only applicable if parallel=False,
+        list of arrays of shape (n_r_t, 1), r_t=testing batch number,
+        n_r_t=#points in this batch
     :return: a boolean list, length=len(testing_data_batches),
         an entry is True if drift was detected there and False otherwise
     """
@@ -260,32 +261,20 @@ def all_drifting_batches(
             random_state=random_state
         )
     else:
-        print('random_state')
-        print(random_state)
         drifts_detected = []
         for i, test_window in enumerate(testing_data_batches):
-            print('\n\n#### TEST BATCH', i, 'of', len(testing_data_batches), '####')
             if testing_label_batches is not None:
                 current_test_label_batch = testing_label_batches[i]
-                print('number of points in this test window:', test_window.shape[0])
-                print('percentage of class 1 points in this test window:',
-                      100 * np.sum(current_test_label_batch) / test_window.shape[0])
             num_ref_drifts = 0 # how many training batches signal drift against this testing batch
             for j, ref_window in enumerate(reference_data_batches):
-                print('\n REFERENCE BATCH #', j, 'of', len(reference_data_batches))
                 if reference_label_batches is not None:
                     current_ref_label_batch = reference_label_batches[j]
-                    print('number of points in this ref window:', ref_window.shape[0])
-                    print('percentage of class 1 points in this ref window:',
-                          100 * np.sum(current_ref_label_batch) / ref_window.shape[0])
                     drift_here, cluster_predict_acc = concept_drift_detected(
                         ref_window, test_window, additional_check, n_init, max_iter, tol, random_state,
                         reference_label_batch=reference_label_batches[j],
                         testing_label_batch=testing_label_batches[i],
                         debug=debug
                     )
-                    print('drift_here')
-                    print(drift_here)
                 else:
                     drift_here, cluster_predict_acc = concept_drift_detected(
                         ref_window, test_window, additional_check, n_init, max_iter, tol, random_state,
@@ -293,7 +282,6 @@ def all_drifting_batches(
                     )
                 if drift_here:
                     num_ref_drifts += 1
-                print('drift:', drift_here)
 
             drift = (num_ref_drifts / len(reference_data_batches)) > min_ref_batches_drift
             drifts_detected.append(drift)
@@ -302,6 +290,17 @@ def all_drifting_batches(
 
 
 def get_final_drifts_from_all_info(drifts_2d_arr, len_ref_data_batches, min_ref_batches_drift):
+    """
+    Convert outputs of all_drifting_batches_parallel_all_info to a list of drift detections
+
+    :param drifts_2d_arr: array of shape (len_ref_data_batches, #testing batches) with drift detection results for each
+    batch combination
+    :param len_ref_data_batches: #reference batches
+    :param min_ref_batches_drift: minimum fraction of reference batches detected as drifting for the corresponding
+    testing batch to be drifting
+    :return: a boolean list, length=#testing batches,
+        an entry is True if drift was detected there and False otherwise
+    """
     num_signals_each_testing_batch = np.sum(drifts_2d_arr, axis=0)
     drifts_detected = ((num_signals_each_testing_batch / len_ref_data_batches) > min_ref_batches_drift).tolist()
     return drifts_detected
@@ -320,7 +319,7 @@ def all_drifting_batches_parallel(
         testing_label_batches=None
 ):
     """
-    Find all drift locations based on the given reference and testing batches
+    Find all drift locations based on the given reference and testing batches in parallel
 
     :param reference_data_batches: list of arrays of shape (n_r_r, #attributes), r_r=reference batch number,
         n_r_r=#points in this batch
@@ -332,12 +331,15 @@ def all_drifting_batches_parallel(
     :param max_iter: default=300, see sklearn.cluster.KMeans max_iter
     :param tol: default=1e-4, see sklearn.cluster.KMeans tol
     :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
+    :param reference_label_batches: used for class estimate accuracy,
+        list of arrays of shape (n_r_r, 1), r_r=reference batch number,
+        n_r_r=#points in this batch
+    :param testing_label_batches: used for class estimate accuracy,
+        list of arrays of shape (n_r_t, 1), r_t=testing batch number,
+        n_r_t=#points in this batch
     :return: a boolean list, length=len(testing_data_batches),
         an entry is True if drift was detected there and False otherwise
     """
-
-    print('random_state')
-    print(random_state)
     drifts_2d_arr, cluster_classif_accs_2d_arr = all_drifting_batches_parallel_all_info(
         reference_data_batches,
         testing_data_batches,
@@ -365,24 +367,29 @@ def all_drifting_batches_parallel_all_info(
         testing_label_batches=None
 ):
     """
-    Find all drift locations based on the given reference and testing batches
+    Find all drift locations and all classification accuracies for each combination of reference and testing batches,
+    in parallel
 
     :param reference_data_batches: list of arrays of shape (n_r_r, #attributes), r_r=reference batch number,
         n_r_r=#points in this batch
     :param testing_data_batches: list of arrays of shape (n_r_t, #attributes), r_t=testing batch number,
         n_r_t=#points in this batch
-    :param min_ref_batches_drift: the minimum fraction of reference batches that must signal drift for one test batch
     :param additional_check: whether to use a two-fold test or not
     :param n_init: default=10, see sklearn.cluster.KMeans n_init
     :param max_iter: default=300, see sklearn.cluster.KMeans max_iter
     :param tol: default=1e-4, see sklearn.cluster.KMeans tol
     :param random_state: used to potentially control randomness - see sklearn.cluster.KMeans random_state
-    :return: a boolean list, length=len(testing_data_batches),
-        an entry is True if drift was detected there and False otherwise
+    :param reference_label_batches: used for class estimate accuracy,
+        list of arrays of shape (n_r_r, 1), r_r=reference batch number,
+        n_r_r=#points in this batch
+    :param testing_label_batches: used for class estimate accuracy,
+        list of arrays of shape (n_r_t, 1), r_t=testing batch number,
+        n_r_t=#points in this batch
+    :return: (drifts_2d_arr array of shape (len(reference_data_batches), len(testing_data_batches)) with boolean values
+    indicating for which combination of reference and testing batch a drift was detected,
+    cluster_classif_accs_2d_arr array of shape (len(reference_data_batches), len(testing_data_batches) with float
+    accuracies of class estimates by k-means clustering)
     """
-
-    print('random_state')
-    print(random_state)
     threshold = 0.05
     debug = False
 
@@ -406,29 +413,16 @@ def all_drifting_batches_parallel_all_info(
                      testing_label_batch)
             pool_iterables.append(entry)
 
-    # drifts_and_cluster_classif_acc_1d = []
-
-    # drifts_and_cluster_classif_acc_1d = itertools.starmap(concept_drift_detected, pool_iterables)
-
     with Pool() as pool:
-        print('pool opened')
         drifts_and_cluster_classif_acc_1d = pool.starmap(concept_drift_detected, pool_iterables)
 
     drifts_1d_tuple, cluster_classif_accs_1d_tuple = tuple(zip(*drifts_and_cluster_classif_acc_1d))
     drifts_1d_arr = np.asarray(drifts_1d_tuple)
     cluster_classif_accs_1d_arr = np.asarray(cluster_classif_accs_1d_tuple)
 
-    # print('drifts_1d_arr')
-    # print(drifts_1d_arr)
-    # print('cluster_classif_accs_1d_arr')
-    # print(cluster_classif_accs_1d_arr)
-
     drifts_2d_arr = drifts_1d_arr.reshape((len(testing_data_batches), len(reference_data_batches))).T
     cluster_classif_accs_2d_arr = cluster_classif_accs_1d_arr.reshape(
         (len(testing_data_batches), len(reference_data_batches))).T
-
-    # num_signals_each_testing_batch = np.sum(drifts_2d_arr, axis=0)
-    # drifts_detected = ((num_signals_each_testing_batch / len(testing_data_batches)) > min_ref_batches_drift).tolist()
 
     return drifts_2d_arr, cluster_classif_accs_2d_arr
 
